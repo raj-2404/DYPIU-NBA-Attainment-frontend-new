@@ -15,6 +15,9 @@ export const recoveryApi = {
 
   restoreItem: (resourceType, id, reason) =>
     apiClient.post(`/recovery/${resourceType}/${id}/restore`, { reason }),
+
+  permanentlyDeleteItem: (resourceType, id, reason) =>
+    apiClient.delete(`/recovery/${resourceType}/${id}/permanent`, { data: { reason } }),
 };
 
 export default recoveryApi;

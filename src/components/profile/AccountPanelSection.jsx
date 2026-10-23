@@ -1,6 +1,7 @@
 import { memo, useEffect, useMemo, useState } from 'react';
-import { Bell, Building2, Check, ChevronRight, Clock3, Eye, LockKeyhole, MessageSquare, Monitor, Moon, ShieldCheck, SlidersHorizontal, Sparkles, UserRound, X } from 'lucide-react';
+import { AlertCircle, Bell, Building2, Check, ChevronRight, Clock3, Edit3, Eye, LockKeyhole, MessageSquare, Monitor, Moon, Save, ShieldCheck, SlidersHorizontal, Sparkles, UserRound, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { usersApi } from '../../api/users';
 
 export const tabs = [
   { id: 'profile', label: 'Info', icon: UserRound },
@@ -169,6 +170,60 @@ function AccountPanelSection({
     }
     return Array.from(map.values());
   }, [user?.schools, user?.assignments, user?.schoolId, user?.schoolName, user?.school, availableProfiles]);
+
+  // Chosen school resolution: if user has multiple schools assigned, show the chosen one
+  const chosenSchoolName = useMemo(() => {
+    if (user?.schoolId) {
+      const match = schoolList.find((s) => String(s.id) === String(user.schoolId));
+      if (match && match.name) return match.name;
+    }
+    if (user?.schoolName) return user.schoolName;
+    if (typeof user?.school === 'object' && user.school?.name) return user.school.name;
+    if (schoolList.length === 1) return schoolList[0].name;
+    return 'Not assigned';
+  }, [user?.schoolId, user?.schoolName, user?.school, schoolList]);
+
+  // Profile self-edit state (Full name & Employee ID)
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profileName, setProfileName] = useState(user?.name || user?.username || '');
+  const [profileEmployeeId, setProfileEmployeeId] = useState(user?.employeeId || '');
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [profileMsg, setProfileMsg] = useState({ text: '', type: '' });
+
+  useEffect(() => {
+    setProfileName(user?.name || user?.username || '');
+    setProfileEmployeeId(user?.employeeId || '');
+  }, [user?.name, user?.username, user?.employeeId]);
+
+  const handleSaveProfile = async (e) => {
+    e?.preventDefault();
+    if (!profileName.trim()) {
+      setProfileMsg({ text: 'Full name cannot be empty', type: 'error' });
+      return;
+    }
+    setSavingProfile(true);
+    setProfileMsg({ text: '', type: '' });
+    try {
+      await usersApi.updateMe({
+        name: profileName.trim(),
+        employeeId: profileEmployeeId.trim() || null,
+      });
+      setProfileMsg({ text: 'Profile updated successfully!', type: 'success' });
+      setIsEditingProfile(false);
+      if (user) {
+        user.name = profileName.trim();
+        user.employeeId = profileEmployeeId.trim() || null;
+      }
+      setTimeout(() => setProfileMsg({ text: '', type: '' }), 3500);
+    } catch (err) {
+      setProfileMsg({
+        text: err?.response?.data?.message || err?.message || 'Failed to update profile.',
+        type: 'error',
+      });
+    } finally {
+      setSavingProfile(false);
+    }
+  };
 
   const rolesForCurrentSchool = useMemo(() => {
     if (!Array.isArray(availableProfiles) || availableProfiles.length === 0) return [];
@@ -531,15 +586,188 @@ function AccountPanelSection({
               )}
             </aside>
             <div>
-              <h3 style={{ margin: '0 0 11px', fontSize: 15, color: '#172033' }}>Personal information</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
-                <Detail label="Full name" value={userName} />
-                <Detail label="Role" value={roleLabel} />
-                <Detail label="Email address" value={user?.email} />
-                <Detail label="Department" value={department} />
-                <Detail label="School" value={school} />
-                <Detail label="Employee ID" value={user?.employeeId || user?.id} />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 11 }}>
+                <h3 style={{ margin: 0, fontSize: 15, color: '#172033' }}>Personal information</h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsEditingProfile((prev) => !prev);
+                    setProfileMsg({ text: '', type: '' });
+                  }}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    padding: '4px 10px',
+                    borderRadius: 7,
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    background: isEditingProfile ? '#f1f5f9' : '#eef2ff',
+                    color: isEditingProfile ? '#475569' : '#4f46e5',
+                    border: '1px solid ' + (isEditingProfile ? '#cbd5e1' : '#c7d2fe'),
+                    transition: 'all .15s',
+                  }}
+                >
+                  <Edit3 size={13} />
+                  <span>{isEditingProfile ? 'Cancel' : 'Edit profile'}</span>
+                </button>
               </div>
+
+              {profileMsg.text && (
+                <div
+                  style={{
+                    marginBottom: 12,
+                    padding: '8px 12px',
+                    borderRadius: 8,
+                    fontSize: 12,
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 7,
+                    background: profileMsg.type === 'error' ? '#fef2f2' : '#ecfdf5',
+                    color: profileMsg.type === 'error' ? '#b91c1c' : '#047857',
+                    border: '1px solid ' + (profileMsg.type === 'error' ? '#fecaca' : '#a7f3d0'),
+                  }}
+                >
+                  {profileMsg.type === 'error' ? <AlertCircle size={14} /> : <Check size={14} />}
+                  <span>{profileMsg.text}</span>
+                </div>
+              )}
+
+              {isEditingProfile ? (
+                <form onSubmit={handleSaveProfile} style={{ display: 'grid', gap: 12 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+                    <div style={cardStyle}>
+                      <label style={{ display: 'block', color: '#64748b', fontSize: 11, fontWeight: 700, marginBottom: 5 }}>
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        value={profileName}
+                        onChange={(e) => setProfileName(e.target.value)}
+                        placeholder="Enter full name"
+                        required
+                        style={{
+                          width: '100%',
+                          padding: '7px 10px',
+                          border: '1px solid #cbd5e1',
+                          borderRadius: 8,
+                          fontSize: 13,
+                          fontWeight: 700,
+                          color: '#0f172a',
+                          boxSizing: 'border-box',
+                          outline: 'none',
+                        }}
+                      />
+                    </div>
+
+                    <div style={cardStyle}>
+                      <label style={{ display: 'block', color: '#64748b', fontSize: 11, fontWeight: 700, marginBottom: 5 }}>
+                        Employee ID
+                      </label>
+                      <input
+                        type="text"
+                        value={profileEmployeeId}
+                        onChange={(e) => setProfileEmployeeId(e.target.value)}
+                        placeholder="e.g. EMP1024"
+                        style={{
+                          width: '100%',
+                          padding: '7px 10px',
+                          border: '1px solid #cbd5e1',
+                          borderRadius: 8,
+                          fontSize: 13,
+                          fontWeight: 700,
+                          color: '#0f172a',
+                          boxSizing: 'border-box',
+                          outline: 'none',
+                        }}
+                      />
+                    </div>
+
+                    <Detail label="Role (Managed by Admin)" value={roleLabel} />
+                    <Detail label="Email address (Managed by Admin)" value={user?.email} />
+                    <Detail label="Department" value={department} />
+
+                    <div style={cardStyle}>
+                      <div style={{ color: '#64748b', fontSize: 11, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span>School</span>
+                        {schoolList.length > 1 && (
+                          <span style={{ fontSize: 9.5, background: '#e0e7ff', color: '#4338ca', padding: '1px 6px', borderRadius: 99, fontWeight: 800 }}>
+                            Active School
+                          </span>
+                        )}
+                      </div>
+                      <div style={{ marginTop: 5, color: '#172033', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
+                        {chosenSchoolName}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 4 }}>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingProfile(false)}
+                      style={{
+                        padding: '7px 14px',
+                        background: '#f8fafc',
+                        border: '1px solid #cbd5e1',
+                        borderRadius: 8,
+                        fontSize: 12.5,
+                        fontWeight: 700,
+                        color: '#475569',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={savingProfile}
+                      style={{
+                        padding: '7px 16px',
+                        background: '#4f46e5',
+                        border: 'none',
+                        borderRadius: 8,
+                        fontSize: 12.5,
+                        fontWeight: 750,
+                        color: '#fff',
+                        cursor: savingProfile ? 'wait' : 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        boxShadow: '0 2px 6px rgba(79, 70, 229, 0.28)',
+                      }}
+                    >
+                      <Save size={14} />
+                      <span>{savingProfile ? 'Saving…' : 'Save Changes'}</span>
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+                  <Detail label="Full name" value={user?.name || userName} />
+                  <Detail label="Role" value={roleLabel} />
+                  <Detail label="Email address" value={user?.email} />
+                  <Detail label="Department" value={department} />
+
+                  <div style={cardStyle}>
+                    <div style={{ color: '#64748b', fontSize: 11, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span>School</span>
+                      {schoolList.length > 1 && (
+                        <span style={{ fontSize: 9.5, background: '#e0e7ff', color: '#4338ca', padding: '1px 6px', borderRadius: 99, fontWeight: 800 }}>
+                          Active School
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ marginTop: 5, color: '#172033', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
+                      {chosenSchoolName}
+                    </div>
+                  </div>
+
+                  <Detail label="Employee ID" value={user?.employeeId || user?.id || 'Not set'} />
+                </div>
+              )}
               <h3 style={{ margin: '22px 0 9px', fontSize: 15, color: '#172033' }}>About</h3>
               <p style={{ margin: 0, color: '#475569', lineHeight: 1.65, fontSize: 13 }}>{about}</p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 10, marginTop: 20 }}>

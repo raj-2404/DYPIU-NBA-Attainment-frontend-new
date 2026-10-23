@@ -97,6 +97,12 @@ export default function IqacRecoveryPage() {
   const [restoring, setRestoring] = useState(false);
   const [restoreError, setRestoreError] = useState(null);
 
+  // Selected item for permanent deletion modal
+  const [deleteModalItem, setDeleteModalItem] = useState(null);
+  const [deleteReason, setDeleteReason] = useState('');
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
+
   // ── Fetch Summary ──────────────────────────────────────────────────────────
   const fetchSummary = useCallback(async () => {
     try {
@@ -183,6 +189,34 @@ export default function IqacRecoveryPage() {
       setRestoreError(err?.response?.data?.message || err?.message || 'Failed to restore item.');
     } finally {
       setRestoring(false);
+    }
+  };
+
+  // ── Permanent Deletion Action ──────────────────────────────────────────────
+  const handleConfirmPermanentDelete = async () => {
+    if (!deleteModalItem) return;
+    try {
+      setDeleting(true);
+      setDeleteError(null);
+
+      await recoveryApi.permanentlyDeleteItem(
+        deleteModalItem.resourceType,
+        deleteModalItem.id,
+        deleteReason.trim() || 'Permanently purged by IQAC administrator'
+      );
+
+      setSuccessToast(`Successfully deleted ${deleteModalItem.category} "${deleteModalItem.name}" permanently.`);
+      setDeleteModalItem(null);
+      setDeleteReason('');
+
+      // Refresh items and summary
+      fetchDeletedItems();
+      fetchSummary();
+    } catch (err) {
+      console.error('Failed to permanently delete item:', err);
+      setDeleteError(err?.response?.data?.message || err?.message || 'Failed to delete item permanently.');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -796,6 +830,40 @@ export default function IqacRecoveryPage() {
                                 <RotateCcw size={13} />
                                 Restore
                               </button>
+
+                              <button
+                                onClick={() => {
+                                  setDeleteModalItem(item);
+                                  setDeleteReason('');
+                                  setDeleteError(null);
+                                }}
+                                title="Permanently delete this item from database"
+                                style={{
+                                  padding: '6px 11px',
+                                  background: '#fff',
+                                  border: '1px solid #fecaca',
+                                  borderRadius: '6px',
+                                  color: '#dc2626',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '5px',
+                                  fontSize: '12px',
+                                  fontWeight: 600,
+                                  transition: 'all 0.15s',
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.background = '#fef2f2';
+                                  e.currentTarget.style.borderColor = '#f87171';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.background = '#fff';
+                                  e.currentTarget.style.borderColor = '#fecaca';
+                                }}
+                              >
+                                <Trash2 size={13} />
+                                Delete
+                              </button>
                             </div>
                           </td>
                         </tr>
@@ -1047,6 +1115,196 @@ export default function IqacRecoveryPage() {
                 >
                   {restoring && <RefreshCw size={14} className="animate-spin" />}
                   Confirm & Restore
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Permanent Deletion Confirmation Modal ──────────────────────────── */}
+        {deleteModalItem && (
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(15, 23, 42, 0.65)',
+              backdropFilter: 'blur(4px)',
+              zIndex: 9999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '16px',
+            }}
+          >
+            <div
+              style={{
+                ...surfaceCard,
+                width: '100%',
+                maxWidth: '520px',
+                padding: '24px',
+                borderRadius: '14px',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                border: '1px solid #fecaca',
+              }}
+            >
+              {/* Modal Header */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                <div
+                  style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '10px',
+                    background: '#fee2e2',
+                    color: '#dc2626',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Trash2 size={22} />
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#991b1b' }}>
+                    Permanently Delete {deleteModalItem.category}
+                  </h3>
+                  <span style={{ fontSize: '12px', color: '#64748b' }}>
+                    Irreversible action: This item will be permanently wiped from the database.
+                  </span>
+                </div>
+              </div>
+
+              {/* Warning Banner */}
+              <div
+                style={{
+                  padding: '10px 13px',
+                  background: '#fef2f2',
+                  border: '1px solid #fecaca',
+                  borderRadius: '8px',
+                  marginBottom: '14px',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '8px',
+                }}
+              >
+                <AlertTriangle size={16} color="#dc2626" style={{ marginTop: '2px', flexShrink: 0 }} />
+                <div style={{ fontSize: '12px', color: '#991b1b', lineHeight: 1.45 }}>
+                  <strong>Warning:</strong> Purging this item will permanently delete it along with any linked cascading records (marks, mappings, outcomes, or assignments). This action cannot be recovered from the recycle bin.
+                </div>
+              </div>
+
+              {/* Item Details Box */}
+              <div
+                style={{
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '12px 14px',
+                  marginBottom: '16px',
+                  fontSize: '12.5px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '6px',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#64748b' }}>Item Name:</span>
+                  <span style={{ fontWeight: 700, color: '#0f172a' }}>{deleteModalItem.name}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#64748b' }}>Type & Code:</span>
+                  <span style={{ fontWeight: 600, color: '#334155' }}>
+                    {deleteModalItem.category} ({deleteModalItem.code || deleteModalItem.id})
+                  </span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: '#64748b' }}>Context / Parent:</span>
+                  <span style={{ fontWeight: 500, color: '#334155' }}>{deleteModalItem.parentInfo || '—'}</span>
+                </div>
+              </div>
+
+              {/* Reason / Justification Input */}
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 600, color: '#334155', marginBottom: '5px' }}>
+                  Purge Reason / Justification (Audited)
+                </label>
+                <textarea
+                  rows={2}
+                  placeholder="e.g. Cleared by IQAC Super Admin per faculty board approval..."
+                  value={deleteReason}
+                  onChange={(e) => setDeleteReason(e.target.value)}
+                  style={{
+                    ...inputBase,
+                    height: 'auto',
+                    padding: '8px 11px',
+                    fontSize: '12.5px',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              {/* Modal Error */}
+              {deleteError && (
+                <div
+                  style={{
+                    padding: '10px 14px',
+                    background: '#fef2f2',
+                    border: '1px solid #fecaca',
+                    borderRadius: '8px',
+                    color: '#b91c1c',
+                    fontSize: '12.5px',
+                    marginBottom: '14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <AlertTriangle size={15} />
+                  <span>{deleteError}</span>
+                </div>
+              )}
+
+              {/* Modal Actions */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button
+                  onClick={() => setDeleteModalItem(null)}
+                  disabled={deleting}
+                  style={{
+                    padding: '8px 16px',
+                    background: '#ffffff',
+                    border: '1px solid #cbd5e1',
+                    borderRadius: '8px',
+                    color: '#475569',
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    cursor: deleting ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleConfirmPermanentDelete}
+                  disabled={deleting}
+                  style={{
+                    padding: '8px 18px',
+                    background: '#dc2626',
+                    border: '1px solid #b91c1c',
+                    borderRadius: '8px',
+                    color: '#ffffff',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: deleting ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    boxShadow: '0 2px 4px rgba(220, 38, 38, 0.2)',
+                  }}
+                >
+                  {deleting && <RefreshCw size={14} className="animate-spin" />}
+                  <Trash2 size={14} />
+                  Permanently Delete
                 </button>
               </div>
             </div>

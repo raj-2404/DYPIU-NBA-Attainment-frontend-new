@@ -34,6 +34,12 @@ export const usersApi = {
       `/users/${id}`
     ),
 
+  updateMe: (userData) =>
+    apiClient.put(
+      '/users/me',
+      userData
+    ),
+
   getUserAssignments: (userId) =>
     apiClient.get(
       `/users/${userId}/assignments`

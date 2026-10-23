@@ -13,6 +13,8 @@ import {
   AlertCircle,
   Shield,
   Layers,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUser } from '../../context/user';
@@ -162,6 +164,17 @@ export default function AdminDashboardPage() {
     roles: ['FACULTY'],
   });
 
+  // Edit User Credentials state
+  const [editUserData, setEditUserData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    employeeId: '',
+  });
+  const [showEditPassword, setShowEditPassword] = useState(false);
+  const [isUpdatingCredentials, setIsUpdatingCredentials] = useState(false);
+  const [credentialSuccessMsg, setCredentialSuccessMsg] = useState('');
+
   // Add User Modal state
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [addUserForm, setAddUserForm] = useState({
@@ -201,6 +214,14 @@ export default function AdminDashboardPage() {
   // ---------------------------------------------------------------------------
   const openEditAccess = async (target) => {
     setEditingUser(target);
+    setEditUserData({
+      name: target.name || target.username || '',
+      email: target.email || '',
+      password: '',
+      employeeId: target.employeeId || '',
+    });
+    setShowEditPassword(false);
+    setCredentialSuccessMsg('');
     setIsAddingAssignment(false);
     setEditingAssignment(null);
     setEditAccessStagedRows([]);
@@ -358,6 +379,48 @@ export default function AdminDashboardPage() {
     });
     setFormDepartments([]);
     setFormProgrammes([]);
+  };
+
+  const handleSaveUserCredentials = async () => {
+    if (!editingUser) return;
+    const targetUserId = editingUser.id ?? editingUser.userId;
+    if (!targetUserId) return;
+
+    if (!editUserData.name.trim()) {
+      setError('Full Name is required.');
+      return;
+    }
+    if (!editUserData.email.trim()) {
+      setError('Email address is required.');
+      return;
+    }
+
+    setIsUpdatingCredentials(true);
+    setError('');
+    setCredentialSuccessMsg('');
+    try {
+      const payload = {
+        name: editUserData.name.trim(),
+        email: editUserData.email.trim(),
+        employeeId: editUserData.employeeId.trim() || null,
+      };
+      if (editUserData.password.trim()) {
+        payload.password = editUserData.password.trim();
+      }
+      await updateUser(targetUserId, payload);
+      setCredentialSuccessMsg('User name, email, and credentials updated successfully!');
+      setEditUserData((prev) => ({ ...prev, password: '' }));
+      const refreshed = await refreshUsers();
+      const updatedUser = refreshed?.find?.((u) => String(u.id ?? u.userId) === String(targetUserId));
+      if (updatedUser) {
+        setEditingUser((prev) => ({ ...prev, ...updatedUser }));
+      }
+      setTimeout(() => setCredentialSuccessMsg(''), 4000);
+    } catch (err) {
+      setError(err?.response?.data?.message || err?.message || 'Failed to update user credentials.');
+    } finally {
+      setIsUpdatingCredentials(false);
+    }
   };
 
   const saveAssignmentAction = async (e) => {
@@ -1152,15 +1215,161 @@ export default function AdminDashboardPage() {
               </div>
             )}
 
-            {/* User identity */}
-            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 9, padding: '12px 14px' }}>
-              <div style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', color: '#64748b', letterSpacing: '.04em' }}>
-                User Identity
+            {/* User Identity & Credentials */}
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '14px', display: 'grid', gap: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', color: '#475569', letterSpacing: '.05em' }}>
+                  User Identity & Credentials
+                </span>
+                {credentialSuccessMsg && (
+                  <span style={{ fontSize: 11, fontWeight: 700, color: '#059669', background: '#ecfdf5', padding: '2px 8px', borderRadius: 6, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                    <Check size={12} /> {credentialSuccessMsg}
+                  </span>
+                )}
               </div>
-              <div style={{ fontSize: 15, fontWeight: 800, color: '#0f172a', marginTop: 3 }}>
-                {editingUser.name || editingUser.username}
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#475569', marginBottom: 4 }}>
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={editUserData.name}
+                    onChange={(e) => setEditUserData((prev) => ({ ...prev, name: e.target.value }))}
+                    placeholder="Enter full name"
+                    style={{
+                      width: '100%',
+                      height: 35,
+                      padding: '0 10px',
+                      borderRadius: 7,
+                      border: '1px solid #cbd5e1',
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      color: '#0f172a',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#475569', marginBottom: 4 }}>
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    value={editUserData.email}
+                    onChange={(e) => setEditUserData((prev) => ({ ...prev, email: e.target.value }))}
+                    placeholder="name@dypiu.ac.in"
+                    style={{
+                      width: '100%',
+                      height: 35,
+                      padding: '0 10px',
+                      borderRadius: 7,
+                      border: '1px solid #cbd5e1',
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      color: '#0f172a',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <label style={{ fontSize: 11, fontWeight: 700, color: '#475569' }}>
+                      Reset Password
+                    </label>
+                    <span style={{ fontSize: 10, color: '#64748b' }}>(Leave blank to keep)</span>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showEditPassword ? 'text' : 'password'}
+                      value={editUserData.password}
+                      onChange={(e) => setEditUserData((prev) => ({ ...prev, password: e.target.value }))}
+                      placeholder="Enter new password"
+                      style={{
+                        width: '100%',
+                        height: 35,
+                        padding: '0 32px 0 10px',
+                        borderRadius: 7,
+                        border: '1px solid #cbd5e1',
+                        fontSize: 12.5,
+                        fontWeight: 600,
+                        color: '#0f172a',
+                        boxSizing: 'border-box',
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowEditPassword((prev) => !prev)}
+                      style={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#64748b',
+                        cursor: 'pointer',
+                        padding: 2,
+                        display: 'grid',
+                        placeItems: 'center',
+                      }}
+                    >
+                      {showEditPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#475569', marginBottom: 4 }}>
+                    Employee ID
+                  </label>
+                  <input
+                    type="text"
+                    value={editUserData.employeeId}
+                    onChange={(e) => setEditUserData((prev) => ({ ...prev, employeeId: e.target.value }))}
+                    placeholder="e.g. EMP1024"
+                    style={{
+                      width: '100%',
+                      height: 35,
+                      padding: '0 10px',
+                      borderRadius: 7,
+                      border: '1px solid #cbd5e1',
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      color: '#0f172a',
+                      boxSizing: 'border-box',
+                    }}
+                  />
+                </div>
               </div>
-              <div style={{ fontSize: 12.5, color: '#475569', marginTop: 1 }}>{editingUser.email}</div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
+                <button
+                  type="button"
+                  onClick={handleSaveUserCredentials}
+                  disabled={isUpdatingCredentials}
+                  style={{
+                    padding: '6px 13px',
+                    borderRadius: 7,
+                    fontSize: 12,
+                    fontWeight: 700,
+                    cursor: isUpdatingCredentials ? 'wait' : 'pointer',
+                    background: '#2563eb',
+                    color: '#fff',
+                    border: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    boxShadow: '0 1px 3px rgba(37, 99, 235, 0.25)',
+                  }}
+                >
+                  <Save size={13} />
+                  <span>{isUpdatingCredentials ? 'Saving User Info…' : 'Save User Info & Password'}</span>
+                </button>
+              </div>
             </div>
 
             {/* Current Active Organizational Access */}
