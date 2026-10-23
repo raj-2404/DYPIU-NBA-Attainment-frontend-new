@@ -146,6 +146,7 @@ export default function IqacEmmuAssistant() {
         academicContext={academicContext}
         setEmmuState={setEmmuState}
         onBadgeCountsChange={setBadgeCounts}
+        initialBadges={badgeCounts}
       />
 
       {/* THREE.JS WEBGL 3D GENIE ANIMATION LAYER */}

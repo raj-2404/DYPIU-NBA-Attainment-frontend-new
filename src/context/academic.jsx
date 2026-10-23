@@ -360,6 +360,7 @@ export function AcademicProvider({ children }) {
   const [hodCoordinatorAssignments, setHodCoordinatorAssignments] = useState([]);
   const [students, setStudents] = useState([]);
   const masterProgrammeRequestsRef = useRef(new Map());
+  const schoolsRequestRef = useRef(null);
 
   useEffect(() => {
     const handleSchoolChanged = (event) => {
@@ -556,36 +557,46 @@ export function AcademicProvider({ children }) {
       setSchools(academicCache.schools.data);
       return academicCache.schools.data;
     }
-    try {
-      const response = await apiClient.get('/academic/schools');
-      let data = unwrapList(response).map(normalizeSchool);
-      
-      if (role === 'DIRECTOR' || role === 'SCHOOL_PROGRAMME_COORDINATOR') {
-         data = data.filter(s => s.id === user?.schoolId);
-      }
-      
-      academicCache.schools = { data, timestamp: now };
-      setSchools(data);
-
-      if (data.length > 0) {
-        const scopedSchool = data.find((school) => school.id === user?.schoolId);
-        if (scopedSchool) {
-          setSelectedSchoolId(scopedSchool.id);
-        } else if (role === 'IQAC' || role === 'TRUSTEE') {
-           // IQAC and TRUSTEE can select anything, but we shouldn't fallback to schools[0] automatically
-           // Wait, prompt says: "Never fall back to schools[0]... when the authenticated scope is absent"
-           // So just do nothing if no scope. IQAC and TRUSTEE users typically have no schoolId, so leave the selection empty.
-           // Actually, let's just not set it to data[0].id
-        }
-      } else {
-        setSelectedSchoolId(null);
-      }
-
-      return data;
-    } catch (err) {
-      console.warn('loadSchools failed:', err);
-      return [];
+    if (!forceRefresh && schoolsRequestRef.current) {
+      return schoolsRequestRef.current;
     }
+    const request = (async () => {
+      try {
+        const response = await apiClient.get('/academic/schools');
+        let data = unwrapList(response).map(normalizeSchool);
+        
+        if (role === 'DIRECTOR' || role === 'SCHOOL_PROGRAMME_COORDINATOR') {
+           data = data.filter(s => s.id === user?.schoolId);
+        }
+        
+        academicCache.schools = { data, timestamp: now };
+        setSchools(data);
+
+        if (data.length > 0) {
+          const scopedSchool = data.find((school) => school.id === user?.schoolId);
+          if (scopedSchool) {
+            setSelectedSchoolId(scopedSchool.id);
+          } else if (role === 'IQAC' || role === 'TRUSTEE') {
+             // IQAC and TRUSTEE can select anything, but we shouldn't fallback to schools[0] automatically
+             // Wait, prompt says: "Never fall back to schools[0]... when the authenticated scope is absent"
+             // So just do nothing if no scope. IQAC and TRUSTEE users typically have no schoolId, so leave the selection empty.
+             // Actually, let's just not set it to data[0].id
+          }
+        } else {
+          setSelectedSchoolId(null);
+        }
+
+        return data;
+      } catch (err) {
+        console.warn('loadSchools failed:', err);
+        return [];
+      } finally {
+        schoolsRequestRef.current = null;
+      }
+    })();
+
+    schoolsRequestRef.current = request;
+    return request;
   }, [user?.schoolId, role]);
 
   /* --- Departments --- */

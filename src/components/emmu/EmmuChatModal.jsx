@@ -19,6 +19,7 @@ export default function EmmuChatModal({
   academicContext = null,
   setEmmuState,
   onBadgeCountsChange,
+  initialBadges = null,
 }) {
   const { user, role: currentRole } = useAuth();
   const currentUserId = user?.id || null;
@@ -27,12 +28,20 @@ export default function EmmuChatModal({
   const [activeTab, setActiveTab] = useState('chats');
 
   // Badge counts
-  const [badges, setBadges] = useState({
-    unreadChats: 0,
-    unreadSuggestions: 0,
-    unreadNotifications: 0,
-    totalUnread: 0,
-  });
+  const [badges, setBadges] = useState(
+    initialBadges || {
+      unreadChats: 0,
+      unreadSuggestions: 0,
+      unreadNotifications: 0,
+      totalUnread: 0,
+    }
+  );
+
+  useEffect(() => {
+    if (initialBadges) {
+      setBadges(initialBadges);
+    }
+  }, [initialBadges]);
 
   // Resizable card dimensions (restored from localStorage with dynamic defaults)
   const [cardSize, setCardSize] = useState(() => {
@@ -78,12 +87,13 @@ export default function EmmuChatModal({
     }
   }, [onBadgeCountsChange]);
 
-  // Initial & periodic badge load
+  // Periodic badge load only when modal is actively open
   useEffect(() => {
+    if (!isOpen) return;
     refreshBadges();
-    const interval = setInterval(refreshBadges, 25000);
+    const interval = setInterval(refreshBadges, 30000);
     return () => clearInterval(interval);
-  }, [refreshBadges]);
+  }, [isOpen, refreshBadges]);
 
   // Load conversations when on 'chats' tab or modal opens
   const loadConversations = useCallback(async () => {
