@@ -5,7 +5,6 @@ import { useAcademic } from '../../../context/AcademicContext';
 import { analyticsApi, academicApi } from '../../../api';
 import { compareOutcomeCodes } from '../../../utils/outcomeOrder';
 import { toPng } from 'html-to-image';
-import { jsPDF } from 'jspdf';
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -681,6 +680,7 @@ export default function QuickAnalysisDashboard() {
       const pdfWidth = 210;
       const pdfHeight = Number(((imgHeight * pdfWidth) / imgWidth).toFixed(2));
 
+      const { jsPDF } = await import('jspdf');
       const pdf = new jsPDF({
         orientation: pdfHeight > pdfWidth ? 'portrait' : 'landscape',
         unit: 'mm',

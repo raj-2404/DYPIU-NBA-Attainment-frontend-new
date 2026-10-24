@@ -51,6 +51,12 @@ export default defineConfig({
             if (id.includes('axios')) {
               return 'vendor-axios';
             }
+            if (id.includes('jspdf') || id.includes('html2canvas') || id.includes('canvg') || id.includes('fflate')) {
+              return 'vendor-pdf';
+            }
+            if (id.includes('recharts') || id.includes('d3-') || id.includes('victory-vendor')) {
+              return 'vendor-charts';
+            }
             return 'vendor-common';
           }
         },
