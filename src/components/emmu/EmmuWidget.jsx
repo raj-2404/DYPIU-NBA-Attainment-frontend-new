@@ -12,6 +12,9 @@ const EmmuWidget = forwardRef(function EmmuWidget(
     isChatOpen = false,
     launcherStyle = 'emmu', // 'emmu' | 'messenger'
     transparentBg = false,
+    showSuggestionPrompt = false,
+    suggestionPromptContext = null,
+    onOpenSuggestionsComposer = null,
   },
   ref
 ) {
@@ -167,10 +170,61 @@ const EmmuWidget = forwardRef(function EmmuWidget(
     .filter(Boolean)
     .join(' ');
 
+  const renderSuggestionBubble = () => {
+    if (!showSuggestionPrompt || isChatOpen) return null;
+
+    const isCourse = suggestionPromptContext?.type === 'COURSE' || Boolean(suggestionPromptContext?.programmeBatchCourseId || suggestionPromptContext?.courseName);
+    const targetTitle = isCourse ? 'Course Coordinator' : 'Programme Coordinator';
+    const targetName = suggestionPromptContext?.coordinatorName || targetTitle;
+
+    return (
+      <div
+        className="emmu-suggestion-bubble"
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpenSuggestionsComposer?.();
+        }}
+        role="button"
+        tabIndex={0}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 13, lineHeight: 1 }}>💡</span>
+            <span style={{ fontWeight: 800, fontSize: 12.5, color: 'var(--text-primary, #1e293b)' }}>
+              Have suggestions?
+            </span>
+          </div>
+          <span style={{ fontSize: 10, fontWeight: 700, color: '#4f46e5', background: 'rgba(79, 70, 229, 0.1)', padding: '1px 5px', borderRadius: 4 }}>
+            Drop ➜
+          </span>
+        </div>
+        <div
+          style={{
+            fontSize: 11,
+            color: 'var(--text-secondary, #64748b)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            marginTop: 2,
+          }}
+        >
+          <span style={{ color: '#4f46e5', fontWeight: 700 }}>To:</span>
+          <span style={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {targetName}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   if (launcherStyle === 'messenger') {
     return (
       <div
         ref={widgetRef}
+        className="messenger-launcher"
         style={{
           ...widgetStyle,
           position: 'fixed',
@@ -182,6 +236,7 @@ const EmmuWidget = forwardRef(function EmmuWidget(
         tabIndex={0}
         aria-label="Open Institutional Messenger"
       >
+        {renderSuggestionBubble()}
         <div
           style={{
             width: 58,
@@ -244,6 +299,9 @@ const EmmuWidget = forwardRef(function EmmuWidget(
       tabIndex={0}
       aria-label="Open Emmu Chatbot"
     >
+      {/* CONTEXTUAL ANALYTICS SUGGESTION BUBBLE */}
+      {renderSuggestionBubble()}
+
       {/* SPEECH BUBBLE */}
       {speechMessage && <div className="speech">{speechMessage}</div>}
 

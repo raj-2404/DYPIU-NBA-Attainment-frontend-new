@@ -302,6 +302,34 @@ export default function CoAnalyticsView() {
     });
   };
 
+  // Broadcast active course analytics context to Emmu Assistant for contextual suggestions
+  useEffect(() => {
+    const activeCourse = coData || courseData;
+    if (!activeCourse) return;
+    const ctx = {
+      type: 'COURSE',
+      programmeBatchId,
+      programmeBatchCourseId,
+      masterProgrammeId: activeCourse.masterProgrammeId || null,
+      programmeName: activeCourse.programmeName || 'Programme',
+      batchName: activeCourse.batchName || 'Batch',
+      courseName: activeCourse.courseName || '',
+      courseCode: activeCourse.courseCode || '',
+      coordinatorName: activeCourse.courseCoordinator || null,
+      coordinatorEmail: activeCourse.courseCoordinatorEmail || null,
+      coordinatorRole: 'COURSE_COORDINATOR',
+      schoolId: activeCourse.schoolId || null,
+      schoolName: activeCourse.schoolName || null,
+      departmentId: activeCourse.departmentId || null,
+      departmentName: activeCourse.departmentName || null,
+    };
+    window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: ctx }));
+
+    return () => {
+      window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: null }));
+    };
+  }, [coData, courseData, programmeBatchId, programmeBatchCourseId]);
+
   if (loading) {
     return <CoAnalyticsSkeleton />;
   }

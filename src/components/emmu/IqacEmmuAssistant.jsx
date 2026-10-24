@@ -7,6 +7,7 @@ import EmmuWidget from './EmmuWidget';
 import EmmuChatModal from './EmmuChatModal';
 import GenieAnimation from './GenieAnimation';
 import OffscreenChatPanel from './OffscreenChatPanel';
+import AnalyticsSuggestionComposer from './suggestions/AnalyticsSuggestionComposer';
 
 /**
  * IqacEmmuAssistant
@@ -35,6 +36,10 @@ export default function IqacEmmuAssistant() {
   const [chatState, setChatState] = useState('closed');
   const [emmuState, setEmmuState] = useState('normal');
 
+  // Contextual Analytics Suggestion state
+  const [activeAnalyticsContext, setActiveAnalyticsContext] = useState(null);
+  const [isSuggestionComposerOpen, setIsSuggestionComposerOpen] = useState(false);
+
   const chatStateRef = useRef(chatState);
   chatStateRef.current = chatState;
 
@@ -56,6 +61,23 @@ export default function IqacEmmuAssistant() {
       window.removeEventListener('storage', handleSettingsChange);
     };
   }, []);
+
+  // Listen to active analytics context broadcasts from analytics screens
+  useEffect(() => {
+    const handleContextEvent = (e) => {
+      setActiveAnalyticsContext(e.detail || null);
+    };
+    window.addEventListener('nba-analytics-context', handleContextEvent);
+    return () => window.removeEventListener('nba-analytics-context', handleContextEvent);
+  }, []);
+
+  // Clear analytics context when leaving analytics routes
+  useEffect(() => {
+    if (!location.pathname.includes('/analytics')) {
+      setActiveAnalyticsContext(null);
+      setIsSuggestionComposerOpen(false);
+    }
+  }, [location.pathname]);
 
   // Periodically sync unread badge counts
   useEffect(() => {
@@ -98,6 +120,64 @@ export default function IqacEmmuAssistant() {
     };
   }, [academic, location.pathname, role, user]);
 
+  // Derive rich analytics context with route fallback
+  const effectiveAnalyticsContext = useMemo(() => {
+    const isAnalyticsRoute = location.pathname.includes('/analytics');
+    if (!isAnalyticsRoute) return null;
+
+    const courseMatch = location.pathname.match(/(?:\/admin)?\/analytics\/batch\/([^/]+)\/course\/([^/]+)/);
+    const batchMatch = location.pathname.match(/(?:\/admin)?\/analytics\/batch\/([^/]+)/);
+
+    const routeLevel = courseMatch ? 'COURSE' : (batchMatch ? 'PROGRAMME_BATCH' : null);
+    const routeBatchId = courseMatch ? courseMatch[1] : (batchMatch ? batchMatch[1] : null);
+    const routeCourseId = courseMatch ? courseMatch[2] : null;
+
+    if (!activeAnalyticsContext && !routeLevel) return null;
+
+    return {
+      role: role || user?.role || 'USER',
+      username: user?.username || null,
+      pathname: location.pathname,
+      type: activeAnalyticsContext?.type || routeLevel || 'PROGRAMME_BATCH',
+      schoolId: activeAnalyticsContext?.schoolId || academic?.selectedSchoolId || user?.schoolId || null,
+      schoolName: activeAnalyticsContext?.schoolName || academic?.selectedSchool?.name || user?.schoolName || null,
+      departmentId: activeAnalyticsContext?.departmentId || academic?.selectedDepartmentId || null,
+      departmentName: activeAnalyticsContext?.departmentName || academic?.selectedDepartment?.name || null,
+      masterProgrammeId: activeAnalyticsContext?.masterProgrammeId || activeAnalyticsContext?.programmeId || academic?.selectedProgramme?.id || null,
+      programmeId: activeAnalyticsContext?.masterProgrammeId || activeAnalyticsContext?.programmeId || academic?.selectedProgramme?.id || null,
+      programmeName: activeAnalyticsContext?.programmeName || academic?.selectedProgramme?.name || null,
+      programmeBatchId: activeAnalyticsContext?.programmeBatchId || routeBatchId || academic?.selectedBatch?.id || null,
+      batchId: activeAnalyticsContext?.programmeBatchId || routeBatchId || academic?.selectedBatch?.id || null,
+      batchName: activeAnalyticsContext?.batchName || academic?.selectedBatch?.name || null,
+      programmeBatchCourseId: activeAnalyticsContext?.programmeBatchCourseId || routeCourseId || academic?.selectedCourse?.id || null,
+      courseId: activeAnalyticsContext?.programmeBatchCourseId || routeCourseId || academic?.selectedCourse?.id || null,
+      courseName: activeAnalyticsContext?.courseName || academic?.selectedCourse?.name || null,
+      courseCode: activeAnalyticsContext?.courseCode || null,
+      coordinatorName: activeAnalyticsContext?.coordinatorName || null,
+      coordinatorEmail: activeAnalyticsContext?.coordinatorEmail || null,
+      coordinatorRole: activeAnalyticsContext?.coordinatorRole || (courseMatch ? 'COURSE_COORDINATOR' : 'PROGRAMME_COORDINATOR'),
+    };
+  }, [activeAnalyticsContext, location.pathname, role, user, academic]);
+
+  // Determine if suggestion prompt should pop up
+  const currentRole = (role || user?.role || '').toUpperCase();
+  const canSendSuggestions = [
+    'IQAC',
+    'SUPER_ADMIN',
+    'ADMIN',
+    'TRUSTEE',
+    'DIRECTOR',
+    'SCHOOL_PROGRAMME_COORDINATOR',
+    'HOD',
+    'PROGRAMME_COORDINATOR'
+  ].includes(currentRole);
+
+  const showSuggestionPrompt = Boolean(
+    canSendSuggestions &&
+    effectiveAnalyticsContext &&
+    (effectiveAnalyticsContext.programmeBatchId || effectiveAnalyticsContext.batchId)
+  );
+
   const handleOpenChat = useCallback(() => {
     if (chatStateRef.current !== 'closed') return;
     setChatState('opening');
@@ -136,6 +216,9 @@ export default function IqacEmmuAssistant() {
         isChatOpen={chatState === 'open' || chatState === 'opening'}
         launcherStyle={launcherStyle}
         transparentBg={transparentBg}
+        showSuggestionPrompt={showSuggestionPrompt}
+        suggestionPromptContext={effectiveAnalyticsContext}
+        onOpenSuggestionsComposer={() => setIsSuggestionComposerOpen(true)}
       />
 
       {/* CENTERED EMMU CHAT MODAL (DESTINATION FOR GENIE) */}
@@ -143,10 +226,20 @@ export default function IqacEmmuAssistant() {
         chatState={chatState}
         cardRef={chatCardRef}
         onClose={handleCloseChat}
-        academicContext={academicContext}
+        academicContext={effectiveAnalyticsContext || academicContext}
         setEmmuState={setEmmuState}
         onBadgeCountsChange={setBadgeCounts}
         initialBadges={badgeCounts}
+      />
+
+      {/* DIRECT CONTEXTUAL ANALYTICS SUGGESTION COMPOSER */}
+      <AnalyticsSuggestionComposer
+        isOpen={isSuggestionComposerOpen}
+        onClose={() => setIsSuggestionComposerOpen(false)}
+        academicContext={effectiveAnalyticsContext || academicContext}
+        onSuggestionSent={() => {
+          messengerApi.getBadgeCounts(true).then((b) => setBadgeCounts(b)).catch(() => {});
+        }}
       />
 
       {/* THREE.JS WEBGL 3D GENIE ANIMATION LAYER */}

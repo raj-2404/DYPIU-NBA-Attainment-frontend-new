@@ -215,6 +215,31 @@ export default function BatchAnalyticsOverview() {
     fetchOverview();
   }, [fetchOverview]);
 
+  // Broadcast active batch context to Emmu Assistant for contextual suggestions
+  useEffect(() => {
+    if (!data?.batch) return;
+    const batchObj = data.batch;
+    const ctx = {
+      type: 'PROGRAMME_BATCH',
+      programmeBatchId,
+      masterProgrammeId: batchObj.programme?.id || null,
+      programmeName: batchObj.programme?.name || 'Programme',
+      programmeCode: batchObj.programme?.code || '',
+      batchName: batchObj.batchName || `Batch ${batchObj.startYear || ''}-${batchObj.endYear || ''}`,
+      coordinatorName: batchObj.coordinatorName || null,
+      coordinatorRole: 'PROGRAMME_COORDINATOR',
+      schoolId: batchObj.school?.id || null,
+      schoolName: batchObj.school?.name || null,
+      departmentId: batchObj.department?.id || null,
+      departmentName: batchObj.department?.name || null,
+    };
+    window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: ctx }));
+
+    return () => {
+      window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: null }));
+    };
+  }, [data?.batch, programmeBatchId]);
+
   const handleSelectOutcome = (outcomeCode, outcomeType = 'PO') => {
     setSelectedOutcomeCode(outcomeCode);
     setSelectedOutcomeType(outcomeType);

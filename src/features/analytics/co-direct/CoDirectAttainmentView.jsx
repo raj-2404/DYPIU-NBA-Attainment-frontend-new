@@ -245,6 +245,34 @@ export default function CoDirectAttainmentView() {
     fetchDirectData();
   }, [fetchDirectData]);
 
+  // Broadcast active course analytics context to Emmu Assistant for contextual suggestions
+  useEffect(() => {
+    const activeCourse = courseData || coData;
+    if (!activeCourse) return;
+    const ctx = {
+      type: 'COURSE',
+      programmeBatchId,
+      programmeBatchCourseId,
+      masterProgrammeId: activeCourse.masterProgrammeId || null,
+      programmeName: activeCourse.programmeName || 'Programme',
+      batchName: activeCourse.batchName || 'Batch',
+      courseName: activeCourse.courseName || '',
+      courseCode: activeCourse.courseCode || '',
+      coordinatorName: activeCourse.courseCoordinator || activeCourse.courseCoordinatorName || null,
+      coordinatorEmail: activeCourse.courseCoordinatorEmail || null,
+      coordinatorRole: 'COURSE_COORDINATOR',
+      schoolId: activeCourse.schoolId || null,
+      schoolName: activeCourse.schoolName || null,
+      departmentId: activeCourse.departmentId || null,
+      departmentName: activeCourse.departmentName || null,
+    };
+    window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: ctx }));
+
+    return () => {
+      window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: null }));
+    };
+  }, [courseData, coData, programmeBatchId, programmeBatchCourseId]);
+
   const handleCoScopeChange = (newScope) => {
     setCoScope(newScope);
     const newParams = new URLSearchParams(searchParams);

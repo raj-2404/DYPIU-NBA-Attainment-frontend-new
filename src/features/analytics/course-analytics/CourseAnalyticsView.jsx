@@ -167,6 +167,33 @@ export default function CourseAnalyticsView() {
     fetchCourseAnalytics();
   }, [fetchCourseAnalytics]);
 
+  // Broadcast active course analytics context to Emmu Assistant for contextual suggestions
+  useEffect(() => {
+    if (!data) return;
+    const ctx = {
+      type: 'COURSE',
+      programmeBatchId,
+      programmeBatchCourseId,
+      masterProgrammeId: data.masterProgrammeId || null,
+      programmeName: data.programmeName || 'Programme',
+      batchName: data.batchName || 'Batch',
+      courseName: data.courseName || '',
+      courseCode: data.courseCode || '',
+      coordinatorName: data.courseCoordinator || null,
+      coordinatorEmail: data.courseCoordinatorEmail || null,
+      coordinatorRole: 'COURSE_COORDINATOR',
+      schoolId: data.schoolId || null,
+      schoolName: data.schoolName || null,
+      departmentId: data.departmentId || null,
+      departmentName: data.departmentName || null,
+    };
+    window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: ctx }));
+
+    return () => {
+      window.dispatchEvent(new CustomEvent('nba-analytics-context', { detail: null }));
+    };
+  }, [data, programmeBatchId, programmeBatchCourseId]);
+
   // Handle changing outcome from dropdown: update query params without full reload
   const handleSelectOutcome = (newCode, newType) => {
     setOutcomeScope('SELECTED');
