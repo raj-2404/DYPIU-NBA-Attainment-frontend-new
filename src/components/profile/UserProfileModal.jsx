@@ -81,10 +81,10 @@ export default function UserProfileModal({
         display: 'grid',
         placeItems: 'center',
 
-        background: 'rgba(15, 23, 42, .16)',
+        background: 'var(--modal-backdrop, rgba(15, 23, 42, .40))',
 
-        backdropFilter: 'blur(7px)',
-        WebkitBackdropFilter: 'blur(7px)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
 
         transition: 'opacity 180ms ease, backdrop-filter 180ms ease',
         pointerEvents: isModalVisuallyActive ? 'auto' : 'none',

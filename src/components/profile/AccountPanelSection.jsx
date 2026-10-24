@@ -1,14 +1,50 @@
-import { memo, useEffect, useMemo, useState } from 'react';
-import { AlertCircle, Bell, Building2, Check, ChevronRight, Clock3, Edit3, Eye, LockKeyhole, MessageSquare, Monitor, Moon, Save, ShieldCheck, SlidersHorizontal, Sparkles, UserRound, X } from 'lucide-react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  AlertCircle,
+  Bell,
+  Building2,
+  Check,
+  CheckCircle2,
+  ChevronRight,
+  Clock3,
+  Edit3,
+  Eye,
+  EyeOff,
+  KeyRound,
+  Laptop,
+  LockKeyhole,
+  LogOut,
+  MessageSquare,
+  Monitor,
+  Moon,
+  Palette,
+  Save,
+  ShieldCheck,
+  Smartphone,
+  SlidersHorizontal,
+  Sparkles,
+  Sun,
+  UserRound,
+  X,
+} from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
+import apiClient from '../../api/client';
 import { usersApi } from '../../api/users';
 
 export const tabs = [
   { id: 'profile', label: 'Info', icon: UserRound },
+  { id: 'customizations', label: 'Customizations', icon: Palette },
   { id: 'settings', label: 'Settings', icon: SlidersHorizontal },
 ];
 
-const cardStyle = { background: '#f8fafc', border: '1px solid #e7edf5', borderRadius: 12, padding: '13px 14px' };
+const cardStyle = {
+  background: 'var(--surface-secondary)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 14,
+  padding: '14px 16px',
+  boxShadow: 'var(--shadow-glass)',
+};
 
 function Toggle({ checked, onChange }) {
   return (
@@ -46,8 +82,8 @@ function Toggle({ checked, onChange }) {
 function Detail({ label, value }) {
   return (
     <div style={cardStyle}>
-      <div style={{ color: '#64748b', fontSize: 11, fontWeight: 700 }}>{label}</div>
-      <div style={{ marginTop: 5, color: '#172033', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
+      <div style={{ color: 'var(--text-muted)', fontSize: 11, fontWeight: 700 }}>{label}</div>
+      <div style={{ marginTop: 5, color: 'var(--text-primary)', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
         {value || 'Not available'}
       </div>
     </div>
@@ -71,9 +107,104 @@ function AccountPanelSection({
   style = {},
 }) {
   const { role, availableProfiles = [], isLoadingProfiles, loadAvailableProfiles, switchProfile } = useAuth();
+  const { theme, setTheme, isDark, reducedMotion, toggleReducedMotion } = useTheme();
   const [profileSwitchError, setProfileSwitchError] = useState('');
   const [switchingProfileKey, setSwitchingProfileKey] = useState(null);
   const [switchingSchoolId, setSwitchingSchoolId] = useState(null);
+
+  // Change Password State
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordSuccess, setPasswordSuccess] = useState('');
+  const [isSavingPassword, setIsSavingPassword] = useState(false);
+
+  // Manage Account / Sessions State
+  const [sessionData, setSessionData] = useState(null);
+  const [isLoadingSessions, setIsLoadingSessions] = useState(false);
+  const [sessionError, setSessionError] = useState('');
+  const [sessionSuccess, setSessionSuccess] = useState('');
+  const [isLoggingOutOthers, setIsLoggingOutOthers] = useState(false);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const loadSessions = useCallback(async () => {
+    setIsLoadingSessions(true);
+    setSessionError('');
+    try {
+      const res = await apiClient.get('/users/me/sessions');
+      setSessionData(res.data?.data || res.data);
+    } catch (err) {
+      console.warn('Failed to load sessions:', err);
+    } finally {
+      setIsLoadingSessions(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tab === 'settings') {
+      loadSessions();
+    }
+  }, [tab, loadSessions]);
+
+  const handlePasswordChange = async (e) => {
+    if (e) e.preventDefault();
+    setPasswordError('');
+    setPasswordSuccess('');
+
+    if (!currentPassword) {
+      setPasswordError('Please enter your current password.');
+      return;
+    }
+    if (!newPassword || newPassword.length < 6) {
+      setPasswordError('New password must be at least 6 characters in length.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordError('New passwords do not match. Please verify.');
+      return;
+    }
+
+    setIsSavingPassword(true);
+    try {
+      const res = await apiClient.put('/users/me/password', {
+        currentPassword,
+        newPassword,
+      });
+      setPasswordSuccess(res.data?.message || 'Password changed successfully.');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (err) {
+      setPasswordError(
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        err?.message ||
+        'Failed to change password. Please check your current password.'
+      );
+    } finally {
+      setIsSavingPassword(false);
+    }
+  };
+
+  const handleLogoutOtherSessions = async () => {
+    setIsLoggingOutOthers(true);
+    setSessionError('');
+    setSessionSuccess('');
+    try {
+      const res = await apiClient.post('/users/me/sessions/logout-other');
+      setSessionSuccess(res.data?.message || 'All other active sessions have been signed out.');
+      setShowLogoutConfirm(false);
+      loadSessions();
+    } catch (err) {
+      setSessionError(err?.response?.data?.message || err?.message || 'Failed to sign out other sessions.');
+    } finally {
+      setIsLoggingOutOthers(false);
+    }
+  };
 
   // Emmu Messenger Settings State
   const [emmuEnabled, setEmmuEnabled] = useState(() => localStorage.getItem('nba_emmu_enabled') !== 'false');
@@ -329,9 +460,12 @@ function AccountPanelSection({
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        background: '#fff',
-        borderRadius: 20,
-        boxShadow: '0 28px 90px rgba(2,6,23,.42)',
+        background: 'var(--surface-card)',
+        backdropFilter: 'var(--glass-blur)',
+        WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+        border: '1px solid var(--border-glass)',
+        borderRadius: 22,
+        boxShadow: 'var(--shadow-glass)',
         boxSizing: 'border-box',
         ...style,
       }}
@@ -343,13 +477,13 @@ function AccountPanelSection({
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'space-between',
-          borderBottom: '1px solid #e7edf5',
+          borderBottom: '1px solid var(--border-subtle)',
         }}
       >
         <div>
-          <h2 style={{ margin: 2, color: '#172033', fontSize: 19 }}>Account</h2>
-          <p style={{ margin: '4px 0 13px', color: '#64748b', fontSize: 12.5 }}>
-            Your account, security and application preferences
+          <h2 style={{ margin: 2, color: 'var(--text-primary)', fontSize: 19 }}>Account</h2>
+          <p style={{ margin: '4px 0 13px', color: 'var(--text-muted)', fontSize: 12.5 }}>
+            Your account, security, customizations and preferences
           </p>
         </div>
         <button
@@ -361,10 +495,10 @@ function AccountPanelSection({
             height: 34,
             display: 'grid',
             placeItems: 'center',
-            border: '1px solid #e2e8f0',
+            border: '1px solid var(--border-glass)',
             borderRadius: '50%',
-            color: '#64748b',
-            background: '#fff',
+            color: 'var(--text-muted)',
+            background: 'var(--surface-primary)',
             cursor: 'pointer',
           }}
         >
@@ -380,7 +514,7 @@ function AccountPanelSection({
             gap: 5,
             overflowX: 'auto',
             paddingBottom: 14,
-            borderBottom: '1px solid #e7edf5',
+            borderBottom: '1px solid var(--border-subtle)',
           }}
         >
           {tabs.map(({ id, label, icon: TabIcon }) => (
@@ -397,11 +531,12 @@ function AccountPanelSection({
                 padding: '0 12px',
                 border: 0,
                 borderRadius: 8,
-                background: tab === id ? '#eef2ff' : 'transparent',
-                color: tab === id ? '#4f46e5' : '#64748b',
+                background: tab === id ? 'var(--accent-subtle)' : 'transparent',
+                color: tab === id ? 'var(--accent-primary)' : 'var(--text-muted)',
                 fontWeight: 800,
                 fontSize: 12.5,
                 cursor: 'pointer',
+                transition: 'all 0.15s ease',
               }}
             >
               <TabIcon size={15} />
@@ -779,16 +914,110 @@ function AccountPanelSection({
           </div>
         )}
 
-        {/* TAB 2: Settings */}
-        {tab === 'settings' && (
-          <div style={{ paddingTop: 20, display: 'grid', gap: 12 }}>
+        {/* TAB 2: Customizations */}
+        {tab === 'customizations' && (
+          <div style={{ paddingTop: 20, display: 'grid', gap: 14 }}>
+            {/* THEME SWITCHER - iOS Style Light / Dark mode Cards */}
+            <div style={{ ...cardStyle, display: 'grid', gap: 12 }}>
+              <div>
+                <strong style={{ color: 'var(--text-primary)', fontSize: 13.5 }}>Interface Theme</strong>
+                <div style={{ marginTop: 2, color: 'var(--text-muted)', fontSize: 11.5 }}>
+                  Choose your visual preference. Light and Dark themes apply across all modules immediately.
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+                {/* Light Mode */}
+                <button
+                  type="button"
+                  onClick={() => setTheme('light')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    padding: '12px 14px',
+                    borderRadius: 12,
+                    border: !isDark ? '2px solid var(--accent-primary)' : '1px solid var(--border-glass)',
+                    background: !isDark ? 'var(--accent-subtle)' : 'var(--surface-primary)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.18s ease',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: 'linear-gradient(135deg, #fef3c7, #fed7aa)',
+                      display: 'grid',
+                      placeItems: 'center',
+                      color: '#d97706',
+                      flexShrink: 0,
+                      boxShadow: '0 2px 8px rgba(217, 119, 6, 0.2)',
+                    }}
+                  >
+                    <Sun size={20} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 800, fontSize: 13, color: !isDark ? 'var(--accent-primary)' : 'var(--text-primary)' }}>
+                      Light Mode
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Crisp daylight glass</div>
+                  </div>
+                  {!isDark && <Check size={18} color="var(--accent-primary)" />}
+                </button>
+
+                {/* Dark Mode */}
+                <button
+                  type="button"
+                  onClick={() => setTheme('dark')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    padding: '12px 14px',
+                    borderRadius: 12,
+                    border: isDark ? '2px solid var(--accent-primary)' : '1px solid var(--border-glass)',
+                    background: isDark ? 'var(--accent-subtle)' : 'var(--surface-primary)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.18s ease',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: 'linear-gradient(135deg, #1e1b4b, #312e81)',
+                      display: 'grid',
+                      placeItems: 'center',
+                      color: '#a5b4fc',
+                      flexShrink: 0,
+                      boxShadow: '0 2px 8px rgba(79, 70, 229, 0.25)',
+                    }}
+                  >
+                    <Moon size={20} />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 800, fontSize: 13, color: isDark ? 'var(--accent-primary)' : 'var(--text-primary)' }}>
+                      Dark Mode
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Deep translucent navy</div>
+                  </div>
+                  {isDark && <Check size={18} color="var(--accent-primary)" />}
+                </button>
+              </div>
+            </div>
+
             {/* EMMU MESSENGER MAIN TOGGLE */}
             <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 12 }}>
               <div
                 style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 9,
+                  width: 38,
+                  height: 38,
+                  borderRadius: 10,
                   background: 'linear-gradient(135deg, #075e54, #128c7e)',
                   display: 'grid',
                   placeItems: 'center',
@@ -799,8 +1028,8 @@ function AccountPanelSection({
                 <MessageSquare size={18} />
               </div>
               <div style={{ flex: 1 }}>
-                <strong style={{ color: '#172033', fontSize: 13.5 }}>Emmu Messenger</strong>
-                <div style={{ marginTop: 2, color: '#64748b', fontSize: 11.5 }}>
+                <strong style={{ color: 'var(--text-primary)', fontSize: 13.5 }}>Emmu Messenger</strong>
+                <div style={{ marginTop: 2, color: 'var(--text-muted)', fontSize: 11.5 }}>
                   Institutional messenger for direct encrypted chats, suggestions, and workflow notifications.
                 </div>
               </div>
@@ -811,8 +1040,8 @@ function AccountPanelSection({
             {emmuEnabled && (
               <div style={{ ...cardStyle, display: 'grid', gap: 10 }}>
                 <div>
-                  <strong style={{ color: '#172033', fontSize: 13 }}>Messenger Launcher Style</strong>
-                  <div style={{ marginTop: 2, color: '#64748b', fontSize: 11.5 }}>
+                  <strong style={{ color: 'var(--text-primary)', fontSize: 13 }}>Messenger Launcher Style</strong>
+                  <div style={{ marginTop: 2, color: 'var(--text-muted)', fontSize: 11.5 }}>
                     Select how the floating messenger widget appears on your screen.
                   </div>
                 </div>
@@ -827,8 +1056,8 @@ function AccountPanelSection({
                       gap: 12,
                       padding: '10px 14px',
                       borderRadius: 10,
-                      border: launcherChoice === 'emmu' ? '2px solid #4f46e5' : '1px solid #e2e8f0',
-                      background: launcherChoice === 'emmu' ? '#eef2ff' : '#fff',
+                      border: launcherChoice === 'emmu' ? '2px solid var(--accent-primary)' : '1px solid var(--border-glass)',
+                      background: launcherChoice === 'emmu' ? 'var(--accent-subtle)' : 'var(--surface-primary)',
                       cursor: 'pointer',
                       textAlign: 'left',
                       transition: 'all 0.15s ease',
@@ -857,14 +1086,14 @@ function AccountPanelSection({
                         style={{
                           fontWeight: 800,
                           fontSize: 12.5,
-                          color: launcherChoice === 'emmu' ? '#3730a3' : '#1e293b',
+                          color: launcherChoice === 'emmu' ? 'var(--accent-primary)' : 'var(--text-primary)',
                         }}
                       >
                         Emmu Mascot
                       </div>
-                      <div style={{ fontSize: 10.5, color: '#64748b' }}>Interactive Mascot</div>
+                      <div style={{ fontSize: 10.5, color: 'var(--text-muted)' }}>Interactive Mascot</div>
                     </div>
-                    {launcherChoice === 'emmu' && <Check size={16} color="#4f46e5" />}
+                    {launcherChoice === 'emmu' && <Check size={16} color="var(--accent-primary)" />}
                   </button>
 
                   {/* Option 2: Standard Messenger Icon */}
@@ -877,8 +1106,8 @@ function AccountPanelSection({
                       gap: 12,
                       padding: '10px 14px',
                       borderRadius: 10,
-                      border: launcherChoice === 'messenger' ? '2px solid #075e54' : '1px solid #e2e8f0',
-                      background: launcherChoice === 'messenger' ? '#f0fdf4' : '#fff',
+                      border: launcherChoice === 'messenger' ? '2px solid #075e54' : '1px solid var(--border-glass)',
+                      background: launcherChoice === 'messenger' ? 'rgba(7, 94, 84, 0.08)' : 'var(--surface-primary)',
                       cursor: 'pointer',
                       textAlign: 'left',
                       transition: 'all 0.15s ease',
@@ -903,12 +1132,12 @@ function AccountPanelSection({
                         style={{
                           fontWeight: 800,
                           fontSize: 12.5,
-                          color: launcherChoice === 'messenger' ? '#065f46' : '#1e293b',
+                          color: launcherChoice === 'messenger' ? '#065f46' : 'var(--text-primary)',
                         }}
                       >
                         Messenger FAB
                       </div>
-                      <div style={{ fontSize: 10.5, color: '#64748b' }}>Standard Icon</div>
+                      <div style={{ fontSize: 10.5, color: 'var(--text-muted)' }}>Standard Icon</div>
                     </div>
                     {launcherChoice === 'messenger' && <Check size={16} color="#075e54" />}
                   </button>
@@ -919,47 +1148,448 @@ function AccountPanelSection({
             {/* MASCOT BACKGROUND TRANSPARENCY OPTION */}
             {emmuEnabled && launcherChoice === 'emmu' && (
               <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <Sparkles size={16} color="#6366f1" />
+                <Sparkles size={18} color="var(--accent-primary)" />
                 <div style={{ flex: 1 }}>
-                  <strong style={{ color: '#172033', fontSize: 13 }}>Transparent Mascot Background</strong>
-                  <div style={{ marginTop: 2, color: '#64748b', fontSize: 11.5 }}>
+                  <strong style={{ color: 'var(--text-primary)', fontSize: 13 }}>Transparent Mascot Background</strong>
+                  <div style={{ marginTop: 2, color: 'var(--text-muted)', fontSize: 11.5 }}>
                     Remove the dark circular portal and border for a floating cutout mascot character.
                   </div>
                 </div>
                 <Toggle checked={transparentBg} onChange={handleToggleTransparentBg} />
               </div>
             )}
+          </div>
+        )}
 
-            {/* APPEARANCE SECTION */}
-            <div style={cardStyle}>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                <Moon size={17} color="#6366f1" />
-                <div>
-                  <strong style={{ color: '#172033', fontSize: 13 }}>Appearance</strong>
-                  <div style={{ marginTop: 2, color: '#64748b', fontSize: 11.5 }}>
-                    The application currently follows its standard light interface.
+        {/* TAB 3: Settings */}
+        {tab === 'settings' && (
+          <div style={{ paddingTop: 20, display: 'grid', gap: 16 }}>
+            {/* 1. MANAGE ACCOUNT & ACTIVE SESSIONS */}
+            <div style={{ ...cardStyle, display: 'grid', gap: 14 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: 10,
+                      background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                      display: 'grid',
+                      placeItems: 'center',
+                      color: '#ffffff',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Monitor size={18} />
+                  </div>
+                  <div>
+                    <strong style={{ color: 'var(--text-primary)', fontSize: 14 }}>Manage Account & Sessions</strong>
+                    <div style={{ marginTop: 2, color: 'var(--text-muted)', fontSize: 11.5 }}>
+                      Review current device details, recent login activity, and manage authorized sessions.
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowLogoutConfirm((p) => !p)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '8px 14px',
+                    borderRadius: 10,
+                    border: '1px solid rgba(239, 68, 68, 0.35)',
+                    background: 'rgba(239, 68, 68, 0.08)',
+                    color: '#ef4444',
+                    fontSize: 12,
+                    fontWeight: 750,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <LogOut size={14} />
+                  Log Out Other Devices
+                </button>
+              </div>
+
+              {/* Confirmation Prompt for Terminating Other Sessions */}
+              {showLogoutConfirm && (
+                <div
+                  style={{
+                    padding: '12px 14px',
+                    background: 'rgba(239, 68, 68, 0.06)',
+                    border: '1px solid rgba(239, 68, 68, 0.25)',
+                    borderRadius: 12,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: 10,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#ef4444', fontSize: 12, fontWeight: 650 }}>
+                    <AlertCircle size={16} />
+                    <span>Terminate all other active sessions and revoke existing tokens?</span>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                      type="button"
+                      onClick={() => setShowLogoutConfirm(false)}
+                      style={{
+                        padding: '6px 12px',
+                        borderRadius: 8,
+                        border: '1px solid var(--border-glass)',
+                        background: 'var(--surface-primary)',
+                        color: 'var(--text-muted)',
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isLoggingOutOthers}
+                      onClick={handleLogoutOtherSessions}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: 8,
+                        border: 'none',
+                        background: '#ef4444',
+                        color: '#ffffff',
+                        fontSize: 11.5,
+                        fontWeight: 750,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {isLoggingOutOthers ? 'Terminating...' : 'Confirm Sign Out'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {sessionSuccess && (
+                <div style={{ padding: '9px 12px', borderRadius: 10, background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#10b981', fontSize: 12, fontWeight: 700 }}>
+                  {sessionSuccess}
+                </div>
+              )}
+              {sessionError && (
+                <div style={{ padding: '9px 12px', borderRadius: 10, background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', fontSize: 12, fontWeight: 700 }}>
+                  {sessionError}
+                </div>
+              )}
+
+              {/* Current Session Device Card */}
+              <div
+                style={{
+                  padding: '12px 14px',
+                  background: 'var(--surface-primary)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 12,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: 12,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: 'var(--accent-subtle)',
+                      display: 'grid',
+                      placeItems: 'center',
+                      color: 'var(--accent-primary)',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Laptop size={20} />
+                  </div>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <strong style={{ color: 'var(--text-primary)', fontSize: 13 }}>
+                        {sessionData?.currentSession?.os || 'Desktop Device'} • {sessionData?.currentSession?.browser || 'Browser'}
+                      </strong>
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          padding: '2px 8px',
+                          borderRadius: 99,
+                          background: 'rgba(16, 185, 129, 0.15)',
+                          color: '#10b981',
+                          fontSize: 10,
+                          fontWeight: 800,
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#10b981' }} />
+                        Active Now
+                      </span>
+                    </div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: 11, marginTop: 3 }}>
+                      IP: {sessionData?.currentSession?.ipAddress || '127.0.0.1'} • Current Authenticated Session
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Recent Login History */}
+              {sessionData?.recentLogins && sessionData.recentLogins.length > 0 && (
+                <div>
+                  <div style={{ fontSize: 11.5, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 8 }}>
+                    Recent Login History
+                  </div>
+                  <div style={{ display: 'grid', gap: 6 }}>
+                    {sessionData.recentLogins.map((entry) => (
+                      <div
+                        key={entry.id}
+                        style={{
+                          padding: '8px 12px',
+                          borderRadius: 8,
+                          background: 'var(--surface-primary)',
+                          border: '1px solid var(--border-glass)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          fontSize: 11.5,
+                        }}
+                      >
+                        <div style={{ color: 'var(--text-secondary)' }}>
+                          {entry.timestamp ? new Date(entry.timestamp).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) : 'Recent'} • {entry.remarks || 'Web Authentication'}
+                        </div>
+                        <span style={{ color: '#10b981', fontWeight: 750, fontSize: 10.5 }}>
+                          {entry.status || 'SUCCESS'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* COMPACT & REDUCED MOTION */}
-            {[
-              ['Compact interface', 'Use a denser layout where supported', 'compact'],
-              ['Reduced motion', 'Limit non-essential transitions and animation', 'reducedMotion'],
-            ].map(([title, description, key]) => (
-              <div key={key} style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <Eye size={16} color="#6366f1" />
-                <div style={{ flex: 1 }}>
-                  <strong style={{ color: '#172033', fontSize: 13 }}>{title}</strong>
-                  <div style={{ marginTop: 2, color: '#64748b', fontSize: 11.5 }}>{description}</div>
+            {/* 2. PASSWORD MANAGEMENT */}
+            <form onSubmit={handlePasswordChange} style={{ ...cardStyle, display: 'grid', gap: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 10,
+                    background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                    display: 'grid',
+                    placeItems: 'center',
+                    color: '#ffffff',
+                    flexShrink: 0,
+                  }}
+                >
+                  <LockKeyhole size={18} />
                 </div>
-                <Toggle
-                  checked={preferences[key]}
-                  onChange={() => toggle(key)}
-                />
+                <div>
+                  <strong style={{ color: 'var(--text-primary)', fontSize: 14 }}>Security & Password</strong>
+                  <div style={{ marginTop: 2, color: 'var(--text-muted)', fontSize: 11.5 }}>
+                    Update your account password. Requires verification of your current password.
+                  </div>
+                </div>
               </div>
-            ))}
+
+              {passwordSuccess && (
+                <div style={{ padding: '9px 12px', borderRadius: 10, background: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#10b981', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <CheckCircle2 size={16} />
+                  <span>{passwordSuccess}</span>
+                </div>
+              )}
+              {passwordError && (
+                <div style={{ padding: '9px 12px', borderRadius: 10, background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#ef4444', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <AlertCircle size={16} />
+                  <span>{passwordError}</span>
+                </div>
+              )}
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 12 }}>
+                {/* Current Password */}
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 750, color: 'var(--text-muted)', marginBottom: 5 }}>
+                    Current Password
+                  </label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showCurrentPassword ? 'text' : 'password'}
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="••••••••"
+                      style={{
+                        width: '100%',
+                        padding: '9px 34px 9px 12px',
+                        borderRadius: 10,
+                        border: '1px solid var(--border-glass)',
+                        background: 'var(--surface-primary)',
+                        color: 'var(--text-primary)',
+                        fontSize: 13,
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPassword((p) => !p)}
+                      style={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        border: 'none',
+                        background: 'transparent',
+                        color: 'var(--text-muted)',
+                        cursor: 'pointer',
+                        padding: 4,
+                      }}
+                    >
+                      {showCurrentPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* New Password */}
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 750, color: 'var(--text-muted)', marginBottom: 5 }}>
+                    New Password (min 6 chars)
+                  </label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showNewPassword ? 'text' : 'password'}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="••••••••"
+                      style={{
+                        width: '100%',
+                        padding: '9px 34px 9px 12px',
+                        borderRadius: 10,
+                        border: '1px solid var(--border-glass)',
+                        background: 'var(--surface-primary)',
+                        color: 'var(--text-primary)',
+                        fontSize: 13,
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword((p) => !p)}
+                      style={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        border: 'none',
+                        background: 'transparent',
+                        color: 'var(--text-muted)',
+                        cursor: 'pointer',
+                        padding: 4,
+                      }}
+                    >
+                      {showNewPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Confirm New Password */}
+                <div>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 750, color: 'var(--text-muted)', marginBottom: 5 }}>
+                    Confirm New Password
+                  </label>
+                  <div style={{ position: 'relative' }}>
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="••••••••"
+                      style={{
+                        width: '100%',
+                        padding: '9px 34px 9px 12px',
+                        borderRadius: 10,
+                        border: '1px solid var(--border-glass)',
+                        background: 'var(--surface-primary)',
+                        color: 'var(--text-primary)',
+                        fontSize: 13,
+                        boxSizing: 'border-box',
+                        outline: 'none',
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword((p) => !p)}
+                      style={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        border: 'none',
+                        background: 'transparent',
+                        color: 'var(--text-muted)',
+                        cursor: 'pointer',
+                        padding: 4,
+                      }}
+                    >
+                      {showConfirmPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 4 }}>
+                <button
+                  type="submit"
+                  disabled={isSavingPassword || !currentPassword || !newPassword || !confirmPassword}
+                  style={{
+                    padding: '9px 18px',
+                    borderRadius: 10,
+                    border: 'none',
+                    background: 'var(--accent-primary)',
+                    color: '#ffffff',
+                    fontSize: 13,
+                    fontWeight: 750,
+                    cursor: (!currentPassword || !newPassword || !confirmPassword || isSavingPassword) ? 'not-allowed' : 'pointer',
+                    opacity: (!currentPassword || !newPassword || !confirmPassword || isSavingPassword) ? 0.6 : 1,
+                    boxShadow: '0 4px 14px rgba(37, 99, 235, 0.25)',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {isSavingPassword ? 'Updating Password...' : 'Save New Password'}
+                </button>
+              </div>
+            </form>
+
+            {/* 3. REDUCED MOTION */}
+            <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 10,
+                  background: 'var(--surface-primary)',
+                  border: '1px solid var(--border-glass)',
+                  display: 'grid',
+                  placeItems: 'center',
+                  color: 'var(--accent-primary)',
+                  flexShrink: 0,
+                }}
+              >
+                <Eye size={18} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <strong style={{ color: 'var(--text-primary)', fontSize: 13.5 }}>Reduced Motion</strong>
+                <div style={{ marginTop: 2, color: 'var(--text-muted)', fontSize: 11.5 }}>
+                  Disable the 3D genie effect and limit decorative transitions and animations across the entire application.
+                </div>
+              </div>
+              <Toggle checked={reducedMotion} onChange={toggleReducedMotion} />
+            </div>
           </div>
         )}
       </div>

@@ -55,6 +55,18 @@ export default function GenieAnimation({
   useEffect(() => {
     if (!isAnimating || !containerRef.current) return;
 
+    // Check global reduced motion setting or OS preference
+    const isReducedMotion =
+      typeof document !== 'undefined' &&
+      (document.documentElement.getAttribute('data-reduced-motion') === 'true' ||
+        localStorage.getItem('nba_reduced_motion') === 'true' ||
+        window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches);
+
+    if (isReducedMotion) {
+      onAnimationComplete?.();
+      return;
+    }
+
     let animId = null;
     const sourceEl = sourceRef?.current;
     const destEl = destinationRef?.current;

@@ -8,7 +8,7 @@ import OffscreenAccountPanel from '../profile/OffscreenAccountPanel';
 
 // ── SVG icon map with centered SVG display ─────────────────────────────────────
 function Icon({ name, active = false, size = 16 }) {
-  const col = active ? '#f8fafc' : '#cbd5e1';
+  const col = active ? 'var(--sidebar-active-text, #ffffff)' : 'var(--sidebar-text-muted, #64748b)';
   const p = {
     width: size, height: size, viewBox: '0 0 24 24',
     fill: 'none', stroke: col, strokeWidth: 2,
@@ -1497,11 +1497,11 @@ export default function AppSidebar({
           display: 'flex',
           alignItems: 'center',
           gap: 10,
-          background: 'rgba(255,255,255,0.055)',
-          border: '1px solid rgba(148,163,184,0.16)',
+          background: 'var(--surface-secondary)',
+          border: '1px solid var(--border-subtle)',
           borderRadius: 16,
           padding: 10,
-          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.04)',
+          boxShadow: 'var(--shadow-glass)',
           flexShrink: 0,
         }}
       >
@@ -1510,7 +1510,7 @@ export default function AppSidebar({
             width: 38,
             height: 38,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg,#475569,#47556999)',
+            background: 'linear-gradient(135deg, var(--accent-primary), #1d4ed8)',
             color: '#fff',
             fontWeight: 800,
             fontSize: 13,
@@ -1524,10 +1524,10 @@ export default function AppSidebar({
           {initials}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ color: '#f9fafb', fontSize: 12, fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <div style={{ color: 'var(--text-primary)', fontSize: 12, fontWeight: 800, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {(user?.name || roleText || 'Academic User').split(' ').slice(0, 3).join(' ')}
           </div>
-          <div style={{ color: '#9ca3af', fontSize: 10.5, marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <div style={{ color: 'var(--text-muted)', fontSize: 10.5, marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {roleText}
           </div>
         </div>
@@ -1536,7 +1536,7 @@ export default function AppSidebar({
             width: 28,
             height: 28,
             borderRadius: 10,
-            background: 'rgba(148,163,184,0.10)',
+            background: 'var(--surface-primary)',
             display: 'grid',
             placeItems: 'center',
             flexShrink: 0,
@@ -1550,8 +1550,8 @@ export default function AppSidebar({
       <div
         style={{
           padding: '11px 12px',
-          background: 'rgba(30,41,59,0.62)',
-          border: '1px solid rgba(148,163,184,0.18)',
+          background: 'var(--surface-secondary)',
+          border: '1px solid var(--border-subtle)',
           borderRadius: 16,
           display: 'flex',
           alignItems: 'center',
@@ -1564,7 +1564,7 @@ export default function AppSidebar({
             width: 30,
             height: 30,
             borderRadius: 10,
-            background: 'rgba(148,163,184,0.12)',
+            background: 'var(--surface-primary)',
             display: 'grid',
             placeItems: 'center',
             flexShrink: 0,
@@ -1573,8 +1573,8 @@ export default function AppSidebar({
           <Icon name="mail" size={15} />
         </span>
         <div style={{ minWidth: 0 }}>
-          <div style={{ color: '#f9fafb', fontWeight: 900, fontSize: 12, marginBottom: 3 }}>Need Help?</div>
-          <a href="mailto:iqac@dypiu.ac.in" style={{ color: '#c7d2fe', fontWeight: 800, fontSize: 10.5, wordBreak: 'break-all', textDecoration: 'none' }}>
+          <div style={{ color: 'var(--text-primary)', fontWeight: 900, fontSize: 12, marginBottom: 3 }}>Need Help?</div>
+          <a href="mailto:iqac@dypiu.ac.in" style={{ color: 'var(--accent-primary)', fontWeight: 800, fontSize: 10.5, wordBreak: 'break-all', textDecoration: 'none' }}>
             iqac@dypiu.ac.in
           </a>
         </div>

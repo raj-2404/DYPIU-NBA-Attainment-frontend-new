@@ -34,7 +34,7 @@ export default function OffscreenAccountPanel({
     if (!offscreenRef.current) return;
 
     let isCancelled = false;
-    const tabQueue = ['profile', 'settings'];
+    const tabQueue = ['profile', 'customizations', 'settings'];
     let queueIdx = 0;
 
     const processNextTab = async () => {

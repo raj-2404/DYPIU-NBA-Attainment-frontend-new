@@ -5,6 +5,7 @@ import { AttainmentProvider, useAttainment } from './attainment';
 import { ApprovalProvider, useApproval } from './approval';
 import { ReportsProvider, useReports } from './reports';
 import { DashboardProvider, useDashboard } from './dashboard';
+import { ThemeProvider, useTheme } from './ThemeContext';
 
 /* -------------------------------------------------------------------------- */
 /* Context exports                                                            */
@@ -31,6 +32,9 @@ export {
 
   DashboardProvider,
   useDashboard,
+
+  ThemeProvider,
+  useTheme,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -41,21 +45,23 @@ export function AppProvider({
   children,
 }) {
   return (
-    <AuthProvider>
-      <UserProvider>
-        <AcademicProvider>
-          <AttainmentProvider>
-            <ApprovalProvider>
-              <ReportsProvider>
-                <DashboardProvider>
-                  {children}
-                </DashboardProvider>
-              </ReportsProvider>
-            </ApprovalProvider>
-          </AttainmentProvider>
-        </AcademicProvider>
-      </UserProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <UserProvider>
+          <AcademicProvider>
+            <AttainmentProvider>
+              <ApprovalProvider>
+                <ReportsProvider>
+                  <DashboardProvider>
+                    {children}
+                  </DashboardProvider>
+                </ReportsProvider>
+              </ApprovalProvider>
+            </AttainmentProvider>
+          </AcademicProvider>
+        </UserProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

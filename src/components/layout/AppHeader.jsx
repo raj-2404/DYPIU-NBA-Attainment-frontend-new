@@ -42,20 +42,23 @@ export default function AppHeader() {
     <div className="app-header-shell" style={{ width: '100%', boxSizing: 'border-box' }}>
       <div className="app-header-frame" style={{ width: '100%', padding: '25px 35px 0', boxSizing: 'border-box' }}>
         <header
-          className="app-header-card"
+          className="app-header-card glass-header"
           style={{
             width: '100%',
             margin: 0,
-            padding: '25px 30px',
-            background: '#ffffff',
-            border: '1px solid #e5e7eb',
-            borderRadius: '14px',
-            boxShadow: '0 10px 28px rgba(17,24,39,0.06)',
+            padding: '24px 30px',
+            background: 'var(--surface-header)',
+            border: '1px solid var(--border-glass)',
+            borderRadius: '20px',
+            boxShadow: 'var(--shadow-card)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-webkit-blur)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: '25px',
             boxSizing: 'border-box',
+            transition: 'background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
           }}
         >
           <img
@@ -83,10 +86,10 @@ export default function AppHeader() {
               textAlign: 'center',
             }}
           >
-            <h1 className="app-header-title-text" style={{ margin: 0, fontSize: '24px', fontWeight: '950', color: '#111827', letterSpacing: '-0.01em', lineHeight: 1.2, whiteSpace: 'nowrap' }}>
+            <h1 className="app-header-title-text" style={{ margin: 0, fontSize: '24px', fontWeight: '950', color: 'var(--text-primary)', letterSpacing: '-0.01em', lineHeight: 1.2, whiteSpace: 'nowrap' }}>
               Outcome-Based Education (OBE) Attainment System
             </h1>
-            <div style={{ fontSize: '14px', fontWeight: '800', color: '#374151', margin: '2px 0 0' }}>
+            <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text-secondary)', margin: '2px 0 0' }}>
               {schoolName}
             </div>
           </div>
