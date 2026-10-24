@@ -10,14 +10,17 @@ import COAttainmentEngine from './COAttainmentEngine';
 import POPSOAttainmentEngine from '../poPsoAttainment/POPSOAttainmentEngine';
 
 // ── Style tokens ──────────────────────────────────────────────────────────────
-const ink   = '#0f172a';
-const muted = '#64748b';
-const accent = '#4f46e5';
+const ink   = 'var(--text-primary)';
+const muted = 'var(--text-muted)';
+const accent = 'var(--brand-primary)';
 
 const surface = {
-  background: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '14px',
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
 };
 
 // Tab configuration
@@ -298,9 +301,9 @@ export default function AttainmentOverviewHub() {
                 padding: '16px 20px',
                 textAlign: 'left',
                 cursor: 'pointer',
-                border: `2px solid ${isActive ? tab.borderActive : '#e2e8f0'}`,
-                background: isActive ? '#ffffff' : '#f8fafc',
-                boxShadow: isActive ? `0 4px 16px ${tab.color}22` : 'none',
+                border: `2px solid ${isActive ? tab.borderActive : 'var(--border-glass)'}`,
+                background: isActive ? 'var(--surface-card)' : 'var(--surface-input)',
+                boxShadow: isActive ? 'var(--shadow-lg)' : 'none',
                 transition: 'all .2s ease',
                 display: 'flex',
                 alignItems: 'center',
@@ -317,8 +320,8 @@ export default function AttainmentOverviewHub() {
                 width: '42px',
                 height: '42px',
                 borderRadius: '11px',
-                background: isActive ? tab.bgLight : '#ffffff',
-                border: `1.5px solid ${isActive ? tab.borderActive : '#e2e8f0'}`,
+                background: isActive ? tab.bgLight : 'var(--surface-input)',
+                border: `1.5px solid ${isActive ? tab.borderActive : 'var(--border-glass)'}`,
                 display: 'grid',
                 placeItems: 'center',
                 color: tab.color,

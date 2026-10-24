@@ -55,8 +55,8 @@ export default function CourseOfferingSelector() {
         </div>
       )}
 
-      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '12px 16px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px', flexWrap: 'wrap' }}>
-        <label htmlFor="course-offering-selector" style={{ color: '#64748b', fontSize: '12px', fontWeight: '700' }}>
+      <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', padding: '12px 16px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px', flexWrap: 'wrap', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', boxShadow: 'var(--shadow-card)' }}>
+        <label htmlFor="course-offering-selector" style={{ color: 'var(--text-muted)', fontSize: '12px', fontWeight: '700' }}>
           Course Offering
         </label>
         <div style={{ position: 'relative', minWidth: '280px', maxWidth: '100%' }}>
@@ -68,7 +68,7 @@ export default function CourseOfferingSelector() {
               if (offering) selectCourseOffering(offering);
             }}
             disabled={courseOfferings.length === 0}
-            style={{ width: '100%', height: '38px', padding: '0 34px 0 12px', appearance: 'none', border: '1px solid #c7d2fe', borderRadius: '8px', background: '#f5f3ff', color: '#3730a3', fontFamily: 'inherit', fontSize: '12.5px', fontWeight: '700', outline: 'none', cursor: courseOfferings.length ? 'pointer' : 'not-allowed' }}
+            style={{ width: '100%', height: '38px', padding: '0 34px 0 12px', appearance: 'none', border: '1px solid var(--border-glass)', borderRadius: '8px', background: 'var(--surface-input)', color: 'var(--brand-primary)', fontFamily: 'inherit', fontSize: '12.5px', fontWeight: '700', outline: 'none', cursor: courseOfferings.length ? 'pointer' : 'not-allowed' }}
           >
             {courseOfferings.length === 0 ? (
               <option value="">No courses assigned yet</option>

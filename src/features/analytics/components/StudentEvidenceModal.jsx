@@ -194,14 +194,17 @@ export default function StudentEvidenceModal({
     >
       <div
         style={{
-          background: '#ffffff',
-          borderRadius: 14,
+          background: 'var(--surface-card)',
+          borderRadius: 'var(--radius-xl)',
           maxWidth: 820,
           width: '100%',
           maxHeight: '90vh',
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+          boxShadow: 'var(--shadow-xl)',
+          border: '1px solid var(--border-glass)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-webkit-blur)',
           overflow: 'hidden',
         }}
       >
@@ -547,8 +550,8 @@ export default function StudentEvidenceModal({
                       <div
                         key={range}
                         style={{
-                          background: '#ffffff',
-                          border: '1px solid #cbd5e1',
+                          background: 'var(--surface-input)',
+                          border: '1px solid var(--border-glass)',
                           borderRadius: 8,
                           padding: '8px 10px',
                           textAlign: 'center',
@@ -577,7 +580,7 @@ export default function StudentEvidenceModal({
               </div>
 
               {/* 3. Privacy-Preserved Individual Student Table */}
-              <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, background: '#ffffff', padding: 14 }}>
+              <div style={{ border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', background: 'var(--surface-card)', padding: 14 }}>
                 <div
                   style={{
                     display: 'flex',

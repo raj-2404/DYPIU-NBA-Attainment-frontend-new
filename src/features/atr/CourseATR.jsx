@@ -11,10 +11,17 @@ import { sortOutcomes } from '../../utils/outcomeOrder';
 import { getErrorMessage } from '../../utils/errorMessage';
 
 // ── Style tokens ─────────────────────────────────────────────────────────────
-const surface    = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink        = '#0f172a';
-const muted      = '#64748b';
-const accent     = '#4f46e5';
+const surface    = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink        = 'var(--text-primary)';
+const muted      = 'var(--text-muted)';
+const accent     = 'var(--brand-primary)';
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
 const atrSignature = (outcomes = []) => JSON.stringify(outcomes.map((item) => ({
@@ -27,9 +34,16 @@ const atrSignature = (outcomes = []) => JSON.stringify(outcomes.map((item) => ({
   actions: (item.actions ?? []).filter(Boolean),
 })));
 const inputStyle = {
-  height: '40px', fontSize: '13px', border: '1px solid #e2e8f0',
-  borderRadius: '8px', padding: '0 12px', background: '#ffffff',
-  color: ink, width: '100%', outline: 'none', fontFamily: 'inherit',
+  height: '40px',
+  fontSize: '13px',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-sm)',
+  padding: '0 12px',
+  background: 'var(--surface-input)',
+  color: 'var(--text-primary)',
+  width: '100%',
+  outline: 'none',
+  fontFamily: 'inherit',
 };
 
 export default function CourseATR({ hideHeader = false, showHistoryProp, readOnly = false, courseId, batchId = null, showAssignedCourseSelector = false, showCourseSelector = true, showHeaderActions = true, assignedOfferings = [], onSelectOffering = () => {}, selectorDisabled = false, suppressPendingMessage = false, saveRef = null }) {

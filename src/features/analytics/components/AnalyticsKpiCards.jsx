@@ -52,11 +52,13 @@ export default function AnalyticsKpiCards({
           <div
             key={card.id}
             style={{
-              background: '#ffffff',
+              background: 'var(--surface-card)',
               border: `1px solid ${card.borderColor}`,
-              borderRadius: 12,
+              borderRadius: 'var(--radius-xl)',
               padding: '20px 24px',
-              boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+              boxShadow: 'var(--shadow-card)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-webkit-blur)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',

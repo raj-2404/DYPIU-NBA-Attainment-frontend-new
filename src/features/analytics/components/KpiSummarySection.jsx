@@ -2,11 +2,13 @@ import React from 'react';
 import { Target, Award, Layers, Activity, AlertCircle, RefreshCw } from 'lucide-react';
 
 const cardStyle = {
-  background: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: 14,
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
   padding: '18px 20px',
-  boxShadow: '0 4px 16px rgba(15, 23, 42, 0.04)',
+  boxShadow: 'var(--shadow-card)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
@@ -127,7 +129,7 @@ export default function KpiSummarySection({
               gap: 4,
               padding: '4px 10px',
               borderRadius: 6,
-              background: '#ffffff',
+              background: 'var(--surface-card)',
               border: '1px solid #fca5a5',
               color: '#dc2626',
               fontSize: 12,

@@ -774,7 +774,7 @@ function AccountPanelSection({
                 <form onSubmit={handleSaveProfile} style={{ display: 'grid', gap: 12 }}>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 10 }}>
                     <div style={cardStyle}>
-                      <label style={{ display: 'block', color: '#64748b', fontSize: 11, fontWeight: 700, marginBottom: 5 }}>
+                      <label style={{ display: 'block', color: 'var(--text-muted)', fontSize: 11, fontWeight: 700, marginBottom: 5 }}>
                         Full Name *
                       </label>
                       <input
@@ -786,11 +786,12 @@ function AccountPanelSection({
                         style={{
                           width: '100%',
                           padding: '7px 10px',
-                          border: '1px solid #cbd5e1',
+                          border: '1px solid var(--border-subtle)',
                           borderRadius: 8,
                           fontSize: 13,
                           fontWeight: 700,
-                          color: '#0f172a',
+                          background: 'var(--surface-input)',
+                          color: 'var(--text-primary)',
                           boxSizing: 'border-box',
                           outline: 'none',
                         }}
@@ -798,7 +799,7 @@ function AccountPanelSection({
                     </div>
 
                     <div style={cardStyle}>
-                      <label style={{ display: 'block', color: '#64748b', fontSize: 11, fontWeight: 700, marginBottom: 5 }}>
+                      <label style={{ display: 'block', color: 'var(--text-muted)', fontSize: 11, fontWeight: 700, marginBottom: 5 }}>
                         Employee ID
                       </label>
                       <input
@@ -809,11 +810,12 @@ function AccountPanelSection({
                         style={{
                           width: '100%',
                           padding: '7px 10px',
-                          border: '1px solid #cbd5e1',
+                          border: '1px solid var(--border-subtle)',
                           borderRadius: 8,
                           fontSize: 13,
                           fontWeight: 700,
-                          color: '#0f172a',
+                          background: 'var(--surface-input)',
+                          color: 'var(--text-primary)',
                           boxSizing: 'border-box',
                           outline: 'none',
                         }}
@@ -825,15 +827,15 @@ function AccountPanelSection({
                     <Detail label="Department" value={department} />
 
                     <div style={cardStyle}>
-                      <div style={{ color: '#64748b', fontSize: 11, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ color: 'var(--text-muted)', fontSize: 11, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span>School</span>
                         {schoolList.length > 1 && (
-                          <span style={{ fontSize: 9.5, background: '#e0e7ff', color: '#4338ca', padding: '1px 6px', borderRadius: 99, fontWeight: 800 }}>
+                          <span style={{ fontSize: 9.5, background: 'var(--brand-subtle)', color: 'var(--brand-primary)', padding: '1px 6px', borderRadius: 99, fontWeight: 800 }}>
                             Active School
                           </span>
                         )}
                       </div>
-                      <div style={{ marginTop: 5, color: '#172033', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
+                      <div style={{ marginTop: 5, color: 'var(--text-primary)', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
                         {chosenSchoolName}
                       </div>
                     </div>
@@ -845,12 +847,12 @@ function AccountPanelSection({
                       onClick={() => setIsEditingProfile(false)}
                       style={{
                         padding: '7px 14px',
-                        background: '#f8fafc',
-                        border: '1px solid #cbd5e1',
+                        background: 'var(--surface-tertiary)',
+                        border: '1px solid var(--border-subtle)',
                         borderRadius: 8,
                         fontSize: 12.5,
                         fontWeight: 700,
-                        color: '#475569',
+                        color: 'var(--text-secondary)',
                         cursor: 'pointer',
                       }}
                     >
@@ -887,15 +889,15 @@ function AccountPanelSection({
                   <Detail label="Department" value={department} />
 
                   <div style={cardStyle}>
-                    <div style={{ color: '#64748b', fontSize: 11, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ color: 'var(--text-muted)', fontSize: 11, fontWeight: 700, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span>School</span>
                       {schoolList.length > 1 && (
-                        <span style={{ fontSize: 9.5, background: '#e0e7ff', color: '#4338ca', padding: '1px 6px', borderRadius: 99, fontWeight: 800 }}>
+                        <span style={{ fontSize: 9.5, background: 'var(--brand-subtle)', color: 'var(--brand-primary)', padding: '1px 6px', borderRadius: 99, fontWeight: 800 }}>
                           Active School
                         </span>
                       )}
                     </div>
-                    <div style={{ marginTop: 5, color: '#172033', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
+                    <div style={{ marginTop: 5, color: 'var(--text-primary)', fontSize: 13, fontWeight: 750, overflowWrap: 'anywhere' }}>
                       {chosenSchoolName}
                     </div>
                   </div>
@@ -903,8 +905,8 @@ function AccountPanelSection({
                   <Detail label="Employee ID" value={user?.employeeId || user?.id || 'Not set'} />
                 </div>
               )}
-              <h3 style={{ margin: '22px 0 9px', fontSize: 15, color: '#172033' }}>About</h3>
-              <p style={{ margin: 0, color: '#475569', lineHeight: 1.65, fontSize: 13 }}>{about}</p>
+              <h3 style={{ margin: '22px 0 9px', fontSize: 15, color: 'var(--text-primary)' }}>About</h3>
+              <p style={{ margin: 0, color: 'var(--text-muted)', lineHeight: 1.65, fontSize: 13 }}>{about}</p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 10, marginTop: 20 }}>
                 <Detail label="Courses assigned" value={String(courseCount)} />
                 <Detail label="Current batch" value={batchName || 'Not selected'} />

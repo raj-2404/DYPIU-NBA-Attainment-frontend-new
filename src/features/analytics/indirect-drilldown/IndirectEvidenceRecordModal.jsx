@@ -324,10 +324,10 @@ export default function IndirectEvidenceRecordModal({
                 width: '100%',
                 padding: '6px 10px 6px 28px',
                 borderRadius: 7,
-                border: '1px solid #cbd5e1',
+                border: '1px solid var(--border-glass)',
                 fontSize: 12,
                 outline: 'none',
-                background: '#ffffff',
+                background: 'var(--surface-input)',
                 boxSizing: 'border-box',
               }}
             />
@@ -337,10 +337,10 @@ export default function IndirectEvidenceRecordModal({
         {/* Student Responses Table */}
         <div
           style={{
-            border: '1px solid #e2e8f0',
+            border: '1px solid var(--border-glass)',
             borderRadius: 10,
             overflow: 'hidden',
-            background: '#ffffff',
+            background: 'var(--surface-card)',
           }}
         >
           <div style={{ maxHeight: '48vh', overflowY: 'auto', overflowX: 'auto' }}>
@@ -421,7 +421,7 @@ export default function IndirectEvidenceRecordModal({
                         key={st.prn || st.studentPrn || idx}
                         style={{
                           borderBottom: '1px solid #f1f5f9',
-                          background: idx % 2 === 0 ? '#ffffff' : '#fafafa',
+                          background: idx % 2 === 0 ? 'transparent' : 'var(--surface-header)',
                         }}
                       >
                         <td style={{ padding: '8px 12px', textAlign: 'center', color: '#64748b', fontWeight: 600 }}>
@@ -592,7 +592,7 @@ export default function IndirectEvidenceRecordModal({
             <span style={{ fontSize: 11, color: '#64748b' }}>Authoritative attainment on 0.00 – 3.00 scale</span>
           </div>
 
-          <div style={{ border: '1px solid #e2e8f0', borderRadius: 10, overflow: 'hidden', background: '#ffffff' }}>
+          <div style={{ border: '1px solid var(--border-glass)', borderRadius: 10, overflow: 'hidden', background: 'var(--surface-card)' }}>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12.5 }}>
                 <thead>
@@ -646,7 +646,7 @@ export default function IndirectEvidenceRecordModal({
                   </tr>
                 </thead>
                 <tbody>
-                  <tr style={{ borderBottom: '1px solid #f1f5f9', background: '#ffffff' }}>
+                  <tr style={{ borderBottom: '1px solid var(--border-subtle)', background: 'transparent' }}>
                     <td style={{ padding: '14px', fontWeight: 800, color: '#0f172a' }}>
                       {activeAssessment.name}
                     </td>
@@ -743,8 +743,8 @@ export default function IndirectEvidenceRecordModal({
                 <div
                   key={out.code}
                   style={{
-                    background: isSelected ? (isPso ? '#f0fdf4' : '#f0f9ff') : '#ffffff',
-                    border: `1px solid ${isSelected ? (isPso ? '#86efac' : '#7dd3fc') : '#e2e8f0'}`,
+                    background: isSelected ? (isPso ? '#f0fdf4' : '#f0f9ff') : 'var(--surface-card)',
+                    border: `1px solid ${isSelected ? (isPso ? '#86efac' : '#7dd3fc') : 'var(--border-glass)'}`,
                     borderRadius: 8,
                     padding: '10px 12px',
                     display: 'flex',
@@ -826,12 +826,15 @@ export default function IndirectEvidenceRecordModal({
     >
       <div
         style={{
-          background: '#ffffff',
+          background: 'var(--surface-card)',
           borderRadius: 16,
           width: '100%',
           maxWidth: isExitSurvey ? 1160 : 960,
           maxHeight: '90vh',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          boxShadow: 'var(--shadow-xl)',
+          border: '1px solid var(--border-glass)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-webkit-blur)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -849,11 +852,11 @@ export default function IndirectEvidenceRecordModal({
         <div
           style={{
             padding: '18px 24px',
-            borderBottom: '1px solid #e2e8f0',
+            borderBottom: '1px solid var(--border-subtle)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: '#ffffff',
+            background: 'var(--surface-header)',
             flexShrink: 0,
           }}
         >
@@ -997,9 +1000,9 @@ export default function IndirectEvidenceRecordModal({
             style={{
               padding: '7px 18px',
               borderRadius: 8,
-              border: '1px solid #cbd5e1',
-              background: '#ffffff',
-              color: '#334155',
+              border: '1px solid var(--border-glass)',
+              background: 'var(--surface-card)',
+              color: 'var(--text-secondary)',
               fontSize: 12.5,
               fontWeight: 700,
               cursor: 'pointer',

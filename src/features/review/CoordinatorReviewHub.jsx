@@ -14,13 +14,20 @@ import ApprovalHeaderControls from '../../components/common/ApprovalHeaderContro
 import RequestRevisionCard from '../../components/common/RequestRevisionCard';
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
-const ink    = '#0f172a';
-const muted  = '#64748b';
-const accent = '#4f46e5';
-const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
+const ink    = 'var(--text-primary)';
+const muted  = 'var(--text-muted)';
+const accent = 'var(--brand-primary)';
+const surface = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
 const inputStyle = {
-  height: '40px', fontSize: '13px', border: '1px solid #e2e8f0',
-  borderRadius: '8px', padding: '0 12px', background: '#ffffff',
+  height: '40px', fontSize: '13px', border: '1px solid var(--border-glass)',
+  borderRadius: '8px', padding: '0 12px', background: 'var(--surface-input)',
   color: ink, width: '100%', outline: 'none', fontFamily: 'inherit',
 };
 
@@ -36,8 +43,8 @@ function NoSubmissionsEmptyState({ itemTitle, courseCode }) {
         alignItems: 'center',
         justifyContent: 'center',
         gap: '12px',
-        background: '#ffffff',
-        border: '1.5px dashed #cbd5e1',
+        background: 'var(--surface-card)',
+        border: '1.5px dashed var(--border-subtle)',
         borderRadius: '16px',
         margin: '8px 0',
       }}
@@ -294,9 +301,9 @@ export default function CoordinatorReviewHub() {
                 fontSize: '12.5px',
                 fontWeight: '700',
                 cursor: 'pointer',
-                background: activeTab === id ? '#ffffff' : 'transparent',
+                background: activeTab === id ? 'var(--surface-card)' : 'transparent',
                 color: activeTab === id ? accent : muted,
-                boxShadow: activeTab === id ? '0 1px 4px rgba(0,0,0,0.08)' : 'none',
+                boxShadow: activeTab === id ? 'var(--shadow-sm)' : 'none',
                 fontFamily: 'inherit',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -412,22 +419,22 @@ export default function CoordinatorReviewHub() {
       {/* ── REJECTION REMARKS MODAL DIALOG ──────────────────────────────────── */}
       {showRejectModal && createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh', background: 'rgba(15,23,42,0.65)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99999, padding: '20px', boxSizing: 'border-box' }}>
-          <div style={{ background: '#ffffff', borderRadius: '16px', width: '100%', maxWidth: '540px', maxHeight: '90vh', overflowY: 'auto', padding: '24px', boxShadow: '0 24px 60px rgba(0,0,0,0.3)', boxSizing: 'border-box' }}>
+          <div style={{ background: 'var(--surface-card)', borderRadius: '16px', width: '100%', maxWidth: '540px', maxHeight: '90vh', overflowY: 'auto', padding: '24px', boxShadow: 'var(--shadow-xl)', boxSizing: 'border-box', border: '1px solid var(--border-glass)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#fef2f2', color: '#dc2626', display: 'grid', placeItems: 'center' }}>
                   <MessageSquare size={18} />
                 </div>
-                <h3 style={{ margin: 0, fontSize: '17px', color: '#0f172a', fontWeight: '800' }}>
+                <h3 style={{ margin: 0, fontSize: '17px', color: 'var(--text-primary)', fontWeight: '800' }}>
                   Send Back Submission for Revision
                 </h3>
               </div>
-              <button type="button" onClick={() => setShowRejectModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+              <button type="button" onClick={() => setShowRejectModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
                 <X size={18} />
               </button>
             </div>
 
-            <p style={{ fontSize: '13px', color: '#475569', marginBottom: '14px', background: '#f8fafc', padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '14px', background: 'var(--surface-input)', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
               Target Item: <strong>{rejectModalData?.title}</strong>
             </p>
 

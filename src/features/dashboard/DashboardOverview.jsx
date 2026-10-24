@@ -11,10 +11,17 @@ import { useAuth } from '../../context/AuthContext';
 import { ScreenLoadingState, ScreenErrorState } from '../../components/common/ScreenState';
 
 // ── Style tokens ──────────────────────────────────────────────────────────────
-const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink     = '#0f172a';
-const muted   = '#64748b';
-const accent  = '#4f46e5';
+const surface = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: '16px',
+  boxShadow: 'var(--shadow-card)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+};
+const ink     = 'var(--text-primary)';
+const muted   = 'var(--text-muted)';
+const accent  = 'var(--brand-primary)';
 
 // ── Workflow steps mirroring WORKFLOW_STEPS in AttainmentProgressTracker ─────
 const WORKFLOW_STEPS = [

@@ -53,11 +53,18 @@ export default function DirectorProgrammeOverview() {
     setNewProgrammeDeptId((current) => current || departments[0]?.id || '');
   }, [departments]);
 
-  const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-  const ink = '#0f172a';
-  const muted = '#64748b';
-  const accent = '#4f46e5';
-  const inputStyle = { height: '38px', fontSize: '13px', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '0 12px', background: '#ffffff', color: ink, width: '100%', outline: 'none', fontFamily: 'inherit' };
+  const surface = {
+    background: 'var(--surface-card)',
+    border: '1px solid var(--border-glass)',
+    borderRadius: 'var(--radius-xl)',
+    backdropFilter: 'var(--glass-blur)',
+    WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+    boxShadow: 'var(--shadow-card)',
+  };
+  const ink = 'var(--text-primary)';
+  const muted = 'var(--text-muted)';
+  const accent = 'var(--brand-primary)';
+  const inputStyle = { height: '38px', fontSize: '13px', border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '0 12px', background: 'var(--surface-input)', color: ink, width: '100%', outline: 'none', fontFamily: 'inherit' };
   const labelStyle = { display: 'block', fontSize: '11.5px', fontWeight: '600', color: muted, marginBottom: '5px' };
 
   const filteredProgrammes = masterProgrammes.filter((prog) => {
@@ -225,7 +232,7 @@ export default function DirectorProgrammeOverview() {
           <Building2 size={14} style={{ color: muted }} />
           <span style={{ fontSize: '12px', fontWeight: '700', color: ink }}>Sort by department</span>
           <div style={{ position: 'relative' }}>
-            <select value={selectedDeptFilter} onChange={(e) => setSelectedDeptFilter(e.target.value)} style={{ height: '34px', paddingLeft: '10px', paddingRight: '30px', fontSize: '12px', fontWeight: '600', border: '1px solid #e2e8f0', borderRadius: '7px', background: '#ffffff', color: ink, cursor: 'pointer', outline: 'none', fontFamily: 'inherit', appearance: 'none' }}>
+            <select value={selectedDeptFilter} onChange={(e) => setSelectedDeptFilter(e.target.value)} style={{ height: '34px', paddingLeft: '10px', paddingRight: '30px', fontSize: '12px', fontWeight: '600', border: '1px solid var(--border-glass)', borderRadius: '7px', background: 'var(--surface-input)', color: ink, cursor: 'pointer', outline: 'none', fontFamily: 'inherit', appearance: 'none' }}>
               <option value="ALL">All Departments</option>
               {departments.map((department) => <option key={department.id} value={department.id}>{department.code} – {department.name}</option>)}
             </select>
@@ -327,13 +334,13 @@ export default function DirectorProgrammeOverview() {
       {/* ── EDIT PROGRAMME MODAL ────────────────────────────────────────────── */}
       {showEditModal && createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh', background: 'rgba(15,23,42,0.65)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 99999, padding: '20px', boxSizing: 'border-box' }}>
-          <div style={{ background: '#ffffff', borderRadius: '14px', width: '480px', maxWidth: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)', overflow: 'hidden', boxSizing: 'border-box' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ background: 'var(--surface-card)', borderRadius: '16px', width: '480px', maxWidth: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: 'var(--shadow-xl)', overflow: 'hidden', boxSizing: 'border-box', border: '1px solid var(--border-glass)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border-subtle)', background: 'var(--surface-header)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
                 <div style={{ fontSize: '15px', fontWeight: '800', color: ink }}>Edit Programme</div>
                 <div style={{ fontSize: '11.5px', color: muted, marginTop: '1px' }}>{editingProg?.code} · {editingProg?.name}</div>
               </div>
-              <button onClick={() => setShowEditModal(false)} style={{ width: '28px', height: '28px', borderRadius: '7px', border: '1px solid #e2e8f0', background: '#f8fafc', cursor: 'pointer', display: 'grid', placeItems: 'center', color: muted }}>
+              <button onClick={() => setShowEditModal(false)} style={{ width: '28px', height: '28px', borderRadius: '7px', border: '1px solid var(--border-glass)', background: 'var(--surface-card)', cursor: 'pointer', display: 'grid', placeItems: 'center', color: muted }}>
                 <X size={14} />
               </button>
             </div>

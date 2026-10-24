@@ -19,10 +19,17 @@ import COAttainmentEngine from '../coAttainment/COAttainmentEngine';
 import CourseATR from '../atr/CourseATR';
 
 // ── Style tokens ───────────────────────────────────────────────────────────────
-const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink     = '#0f172a';
-const muted   = '#64748b';
-const accent  = '#4f46e5';
+const surface = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink     = 'var(--text-primary)';
+const muted   = 'var(--text-muted)';
+const accent  = 'var(--brand-primary)';
 
 // ── Step definitions ───────────────────────────────────────────────────────────
 const STEPS = [
@@ -334,8 +341,8 @@ export default function CourseCoordinatorWorkflow() {
           {currentStep === 5 && <COAttainmentEngine hideFooter />}
           {currentStep === 6 && (
             <div>
-              <div style={{ background: '#ffffff', borderBottom: '1px solid #e2e8f0', padding: '16px 24px' }}>
-                <h3 style={{ margin: 0, fontSize: '17px', color: '#0f172a', fontWeight: '800' }}>
+              <div style={{ background: 'var(--surface-header)', borderBottom: '1px solid var(--border-subtle)', padding: '16px 24px' }}>
+                <h3 style={{ margin: 0, fontSize: '17px', color: 'var(--text-primary)', fontWeight: '800' }}>
                   Course ATR
                 </h3>
               </div>
@@ -418,7 +425,7 @@ export default function CourseCoordinatorWorkflow() {
               onClick={handleSaveAndNext}
               style={{
                 height: '40px', padding: '0 22px', fontSize: '13.5px', fontWeight: '800',
-                background: '#ffffff', color: accent, border: `1px solid ${accent}`, borderRadius: '8px', cursor: 'pointer',
+                background: 'var(--surface-card)', color: accent, border: `1px solid ${accent}`, borderRadius: '8px', cursor: 'pointer',
                 display: 'inline-flex', alignItems: 'center', gap: '7px', fontFamily: 'inherit',
               }}
             >

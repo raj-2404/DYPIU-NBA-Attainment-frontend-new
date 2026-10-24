@@ -183,10 +183,10 @@ export default function AtrIntelligenceSection({
       {/* 1. Header with Title and CQI Indicator */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
         <div>
-          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#0f172a' }}>
+          <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>
             Action Taken Report (ATR) Detailed Intelligence
           </h3>
-          <p style={{ margin: '3px 0 0', fontSize: 12.5, color: '#64748b' }}>
+          <p style={{ margin: '3px 0 0', fontSize: 12.5, color: 'var(--text-muted)' }}>
             Continuous Quality Improvement (CQI) closed-loop investigation connecting target gaps to recorded corrective action plans.
           </p>
         </div>
@@ -201,12 +201,12 @@ export default function AtrIntelligenceSection({
               padding: '6px 12px',
               fontSize: 12,
               fontWeight: 600,
-              color: '#475569',
-              background: '#ffffff',
-              border: '1px solid #cbd5e1',
+              color: 'var(--text-secondary)',
+              background: 'var(--surface-tertiary)',
+              border: '1px solid var(--border-subtle)',
               borderRadius: 8,
               cursor: isLoading ? 'not-allowed' : 'pointer',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+              boxShadow: 'var(--shadow-card)',
             }}
           >
             <RefreshCw size={13} style={{ animation: isLoading ? 'spin 1s linear infinite' : 'none' }} />
@@ -218,11 +218,13 @@ export default function AtrIntelligenceSection({
       {/* 2. Main Card Container */}
       <div
         style={{
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: 14,
+          background: 'var(--surface-card)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          border: '1px solid var(--border-glass)',
+          borderRadius: 'var(--radius-xl)',
           padding: 22,
-          boxShadow: '0 4px 16px rgba(15, 23, 42, 0.04)',
+          boxShadow: 'var(--shadow-card)',
         }}
       >
         {/* Error Banner */}

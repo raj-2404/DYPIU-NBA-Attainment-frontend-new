@@ -23,23 +23,25 @@ import { useUser } from '../../context/user';
 import { useAuth } from '../../context/AuthContext';
 
 const surface = {
-  background: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '14px',
-  boxShadow: '0 1px 3px 0 rgba(15, 23, 42, 0.04)',
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  boxShadow: 'var(--shadow-card)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
 };
 
 const fieldStyle = {
   width: '100%',
   height: '39px',
-  border: '1px solid #cbd5e1',
-  borderRadius: '8px',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-sm)',
   padding: '0 11px',
   boxSizing: 'border-box',
   fontFamily: 'inherit',
   fontSize: '13px',
-  color: '#0f172a',
-  background: '#ffffff',
+  color: 'var(--text-primary)',
+  background: 'var(--surface-input)',
   outline: 'none',
 };
 

@@ -259,10 +259,17 @@ export default function ProgrammeCoordinatorDashboard() {
   ];
 
   // ── Style tokens ─────────────────────────────────────────────────────────
-  const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-  const ink = '#0f172a';
-  const muted = '#64748b';
-  const accent = '#4f46e5';
+  const surface = {
+    background: 'var(--surface-card)',
+    border: '1px solid var(--border-glass)',
+    borderRadius: 'var(--radius-xl)',
+    backdropFilter: 'var(--glass-blur)',
+    WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+    boxShadow: 'var(--shadow-card)',
+  };
+  const ink = 'var(--text-primary)';
+  const muted = 'var(--text-muted)';
+  const accent = 'var(--brand-primary)';
 
   if (screenLoading && !programmeCoordinatorDashboard) {
     return <ScreenLoadingState message="Loading Programme Coordinator Dashboard..." />;
@@ -470,19 +477,19 @@ export default function ProgrammeCoordinatorDashboard() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: '14px',
                     padding: '12px 16px', borderRadius: '10px',
-                    background: current ? '#f5f3ff' : done ? '#fafafa' : '#ffffff',
-                    border: `1.5px solid ${current ? '#c7d2fe' : done ? '#e2e8f0' : '#f1f5f9'}`,
+                    background: current ? 'rgba(99, 102, 241, 0.12)' : done ? 'var(--surface-input)' : 'var(--surface-card)',
+                    border: `1.5px solid ${current ? 'var(--border-accent)' : done ? 'var(--border-glass)' : 'var(--border-subtle)'}`,
                     cursor: 'pointer', transition: 'all .15s ease',
                   }}
-                  onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; }}
                 >
                   {/* Step indicator circle */}
                   <div style={{
                     width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
                     display: 'grid', placeItems: 'center',
-                    background: done ? '#f0fdf4' : current ? '#eef2ff' : '#f8fafc',
-                    border: `1.5px solid ${done ? '#86efac' : current ? accent : '#e2e8f0'}`,
+                    background: done ? 'rgba(34, 197, 94, 0.12)' : current ? 'rgba(99, 102, 241, 0.12)' : 'var(--surface-input)',
+                    border: `1.5px solid ${done ? 'rgba(34, 197, 94, 0.4)' : current ? accent : 'var(--border-glass)'}`,
                     color: done ? '#16a34a' : current ? accent : muted,
                   }}>
                     {done ? <Check size={14} /> : <Icon size={14} />}

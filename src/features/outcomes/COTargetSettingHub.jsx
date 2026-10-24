@@ -136,7 +136,7 @@ export default function COTargetSettingHub({ hideFooter = false }) {
       )}
 
       {/* Target Setting Card */}
-      <div className="card" style={{ marginBottom: '24px', background: '#ffffff', border: '1.5px solid #4f46e5' }}>
+      <div className="card glass-panel" style={{ marginBottom: '24px', background: 'var(--surface-card)', border: '1.5px solid var(--border-accent)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', boxShadow: 'var(--shadow-card)' }}>
         <div className="card-header" style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '14px', marginBottom: '16px' }}>
           <div>
             <h3 style={{ margin: 0, fontSize: '16px', color: '#0f172a', fontWeight: '800' }}>
@@ -184,8 +184,8 @@ export default function COTargetSettingHub({ hideFooter = false }) {
                               textAlign: 'center',
                               fontWeight: '800',
                               fontSize: '14px',
-                              color: '#0f172a',
-                              background: isLocked ? '#f8fafc' : '#ffffff',
+                              color: 'var(--text-primary)',
+                              background: isLocked ? 'var(--surface-input)' : 'var(--surface-card)',
                               cursor: isLocked ? 'not-allowed' : 'text',
                             }}
                             value={currentVal}

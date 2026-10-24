@@ -55,7 +55,7 @@ export default function AttainmentProgressTracker() {
 
   return (
     <div className="attainment-progress-tracker" style={{ padding: '16px 28px 0', width: '100%', boxSizing: 'border-box' }}>
-      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '12px 16px', boxShadow: '0 2px 8px rgba(15,23,42,0.04)', width: '100%', boxSizing: 'border-box' }}>
+      <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', padding: '12px 16px', boxShadow: 'var(--shadow-card)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', width: '100%', boxSizing: 'border-box' }}>
 
         {/* Header row */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', flexWrap: 'wrap', gap: '8px' }}>

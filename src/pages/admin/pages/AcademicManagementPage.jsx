@@ -99,7 +99,9 @@ export const AcademicManagementPage = () => {
       <header
         style={{
           height: '64px',
-          backgroundColor: '#ffffff',
+          backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
           borderBottom: '1px solid var(--border)',
           display: 'flex',
           alignItems: 'center',
@@ -176,7 +178,9 @@ export const AcademicManagementPage = () => {
               padding: '6px 12px',
               borderRadius: 'var(--radius-md)',
               border: '1px solid var(--border)',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
               color: 'var(--text-secondary)',
               fontSize: '12px',
               fontWeight: '600',
@@ -223,7 +227,9 @@ export const AcademicManagementPage = () => {
                 padding: '10px 18px',
                 borderRadius: 'var(--radius-md)',
                 border: '1px solid var(--border)',
-                backgroundColor: '#ffffff',
+                backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
                 color: 'var(--text-primary)',
                 fontSize: '13.5px',
                 fontWeight: '700',
@@ -278,7 +284,9 @@ export const AcademicManagementPage = () => {
             style={{
               padding: '18px 20px',
               borderRadius: 'var(--radius-lg)',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
               border: `1.5px solid ${selectedRole === 'DIRECTOR' ? 'var(--role-director)' : 'var(--border)'}`,
               boxShadow: 'var(--shadow-xs)',
               cursor: 'pointer',
@@ -307,7 +315,9 @@ export const AcademicManagementPage = () => {
             style={{
               padding: '18px 20px',
               borderRadius: 'var(--radius-lg)',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
               border: `1.5px solid ${selectedRole === 'HOD' ? 'var(--role-hod)' : 'var(--border)'}`,
               boxShadow: 'var(--shadow-xs)',
               cursor: 'pointer',
@@ -336,7 +346,9 @@ export const AcademicManagementPage = () => {
             style={{
               padding: '18px 20px',
               borderRadius: 'var(--radius-lg)',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
               border: `1.5px solid ${selectedRole === 'PROGRAMME_COORDINATOR' ? 'var(--role-pc)' : 'var(--border)'}`,
               boxShadow: 'var(--shadow-xs)',
               cursor: 'pointer',
@@ -365,7 +377,9 @@ export const AcademicManagementPage = () => {
             style={{
               padding: '18px 20px',
               borderRadius: 'var(--radius-lg)',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
               border: `1.5px solid ${selectedRole === 'FACULTY' ? 'var(--role-faculty)' : 'var(--border)'}`,
               boxShadow: 'var(--shadow-xs)',
               cursor: 'pointer',
@@ -392,7 +406,9 @@ export const AcademicManagementPage = () => {
         {/* Filters & Search Toolbar */}
         <div
           style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
             borderRadius: 'var(--radius-lg)',
             border: '1px solid var(--border)',
             padding: '14px 20px',
@@ -462,7 +478,9 @@ export const AcademicManagementPage = () => {
         {/* Academic Members Table */}
         <div
           style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
             borderRadius: 'var(--radius-lg)',
             border: '1px solid var(--border)',
             boxShadow: 'var(--shadow-xs)',
@@ -483,7 +501,9 @@ export const AcademicManagementPage = () => {
                   padding: '6px 14px',
                   borderRadius: 'var(--radius-md)',
                   border: '1px solid var(--border)',
-                  backgroundColor: '#ffffff',
+                  backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
                   fontSize: '12px',
                   fontWeight: '600',
                   cursor: 'pointer',
@@ -541,7 +561,7 @@ export const AcademicManagementPage = () => {
                           borderBottom: idx === filteredUsers.length - 1 ? 'none' : '1px solid var(--border)',
                           transition: 'background-color 0.15s ease',
                         }}
-                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--surface-table-row-hover)')}
                         onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                       >
                         {/* Member */}
@@ -598,7 +618,9 @@ export const AcademicManagementPage = () => {
                                 padding: '6px 10px',
                                 borderRadius: 'var(--radius-sm)',
                                 border: '1px solid var(--border)',
-                                backgroundColor: '#ffffff',
+                                backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
                                 color: 'var(--text-secondary)',
                                 fontSize: '12px',
                                 fontWeight: '600',
@@ -618,7 +640,9 @@ export const AcademicManagementPage = () => {
                                 padding: '6px 12px',
                                 borderRadius: 'var(--radius-sm)',
                                 border: '1px solid var(--border)',
-                                backgroundColor: '#ffffff',
+                                backgroundColor: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
                                 color: 'var(--primary)',
                                 fontSize: '12px',
                                 fontWeight: '700',

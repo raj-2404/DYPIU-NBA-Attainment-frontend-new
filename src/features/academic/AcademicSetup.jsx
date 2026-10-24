@@ -5,13 +5,20 @@ import { useAuth } from '../../context/AuthContext';
 import RequestRevisionCard from '../../components/common/RequestRevisionCard';
 
 // ── Style tokens ─────────────────────────────────────────────────────────────
-const surface    = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink        = '#0f172a';
-const muted      = '#64748b';
-const accent     = '#4f46e5';
+const surface = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink        = 'var(--text-primary)';
+const muted      = 'var(--text-muted)';
+const accent     = 'var(--brand-primary)';
 const inputStyle = {
-  height: '40px', fontSize: '13px', border: '1px solid #e2e8f0',
-  borderRadius: '8px', padding: '0 12px', background: '#ffffff',
+  height: '40px', fontSize: '13px', border: '1px solid var(--border-glass)',
+  borderRadius: '8px', padding: '0 12px', background: 'var(--surface-input)',
   color: ink, width: '100%', outline: 'none', fontFamily: 'inherit',
 };
 const labelStyle = {
@@ -279,7 +286,7 @@ export default function AcademicSetup() {
             <select
               value={programmeId}
               onChange={(e) => setProgrammeId(e.target.value)}
-              style={{ height: '38px', paddingLeft: '12px', paddingRight: '32px', fontSize: '12.5px', fontWeight: '600', border: '1.5px solid #cbd5e1', borderRadius: '8px', background: '#ffffff', color: accent, cursor: 'pointer', outline: 'none', fontFamily: 'inherit', appearance: 'none', maxWidth: '300px' }}
+              style={{ height: '38px', paddingLeft: '12px', paddingRight: '32px', fontSize: '12.5px', fontWeight: '600', border: '1.5px solid var(--border-glass)', borderRadius: '8px', background: 'var(--surface-input)', color: accent, cursor: 'pointer', outline: 'none', fontFamily: 'inherit', appearance: 'none', maxWidth: '300px' }}
             >
               {masterProgrammes.map((p) => <option key={p.id} value={p.id}>{p.code} — {p.name}</option>)}
             </select>
@@ -301,7 +308,7 @@ export default function AcademicSetup() {
                 <Send size={14} /> Submit Allocations for HOD Review
               </button>
             ) : (
-              <span style={{ height: '38px', padding: '0 14px', fontSize: '12px', fontWeight: '700', background: '#f1f5f9', color: '#475569', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ height: '38px', padding: '0 14px', fontSize: '12px', fontWeight: '700', background: 'var(--surface-input)', color: 'var(--text-secondary)', border: '1px solid var(--border-glass)', borderRadius: '8px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                 <Lock size={13} /> Course &amp; Coordinator Locked
               </span>
             )
@@ -311,10 +318,10 @@ export default function AcademicSetup() {
 
       {/* ── TAB STRIP ─────────────────────────────────────────────────────── */}
       <div style={{ ...surface, padding: '8px 12px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-        <div style={{ display: 'flex', gap: '6px', background: '#f1f5f9', padding: '4px', borderRadius: '9px' }}>
+        <div style={{ display: 'flex', gap: '6px', background: 'var(--surface-input)', padding: '4px', borderRadius: '9px' }}>
           {tabs.map(({ id, label, icon: Icon }) => (
             <button key={id} type="button" onClick={() => setActiveTab(id)}
-              style={{ padding: '7px 18px', borderRadius: '7px', border: 'none', fontSize: '12.5px', fontWeight: '700', cursor: 'pointer', background: activeTab === id ? '#ffffff' : 'transparent', color: activeTab === id ? accent : muted, boxShadow: activeTab === id ? '0 1px 4px rgba(0,0,0,0.08)' : 'none', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+              style={{ padding: '7px 18px', borderRadius: '7px', border: 'none', fontSize: '12.5px', fontWeight: '700', cursor: 'pointer', background: activeTab === id ? 'var(--surface-card)' : 'transparent', color: activeTab === id ? accent : muted, boxShadow: activeTab === id ? 'var(--shadow-sm)' : 'none', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
             >
               <Icon size={13} /> {label}
             </button>
@@ -444,7 +451,7 @@ export default function AcademicSetup() {
                             cursor: isAllocationApproved ? 'not-allowed' : 'pointer',
                             color: accent,
                             fontWeight: '600',
-                            background: isAllocationApproved ? '#f8fafc' : '#ffffff',
+                            background: isAllocationApproved ? 'var(--surface-input)' : 'var(--surface-card)',
                           }}
                         >
                           <option value="">Select coordinator</option>
@@ -478,14 +485,14 @@ export default function AcademicSetup() {
       {activeTab === 'outcomes' && (
         <div>
           {/* Outcome type sub-tabs */}
-          <div style={{ display: 'flex', gap: '6px', background: '#f1f5f9', padding: '4px', borderRadius: '9px', width: 'fit-content', marginBottom: '18px' }}>
+          <div style={{ display: 'flex', gap: '6px', background: 'var(--surface-input)', padding: '4px', borderRadius: '9px', width: 'fit-content', marginBottom: '18px' }}>
             {[
               ['PO',  `POs (${activePOs.length})`],
               ['PSO', `PSOs (${normPSOs.length})`],
               ['PEO', `PEOs (${activePEOs.length})`],
             ].map(([tab, label]) => (
               <button key={tab} type="button" onClick={() => setOutcomeTab(tab)}
-                style={{ padding: '7px 18px', borderRadius: '7px', border: 'none', fontSize: '12.5px', fontWeight: '700', cursor: 'pointer', background: outcomeTab === tab ? '#ffffff' : 'transparent', color: outcomeTab === tab ? accent : muted, boxShadow: outcomeTab === tab ? '0 1px 4px rgba(0,0,0,0.08)' : 'none', fontFamily: 'inherit' }}
+                style={{ padding: '7px 18px', borderRadius: '7px', border: 'none', fontSize: '12.5px', fontWeight: '700', cursor: 'pointer', background: outcomeTab === tab ? 'var(--surface-card)' : 'transparent', color: outcomeTab === tab ? accent : muted, boxShadow: outcomeTab === tab ? 'var(--shadow-sm)' : 'none', fontFamily: 'inherit' }}
               >
                 {label}
               </button>

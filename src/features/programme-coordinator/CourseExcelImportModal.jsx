@@ -15,9 +15,9 @@ import {
 } from 'lucide-react';
 import { useAcademic } from '../../context/academic';
 
-const ink = '#0f172a';
-const muted = '#64748b';
-const accent = '#4f46e5';
+const ink = 'var(--text-primary)';
+const muted = 'var(--text-muted)';
+const accent = 'var(--brand-primary)';
 
 export default function CourseExcelImportModal({
   isOpen,
@@ -163,9 +163,12 @@ export default function CourseExcelImportModal({
           width: '100%',
           maxWidth: '920px',
           maxHeight: '90vh',
-          background: '#ffffff',
+          background: 'var(--surface-card)',
           borderRadius: '16px',
-          boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.25)',
+          boxShadow: 'var(--shadow-xl)',
+          border: '1px solid var(--border-glass)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-webkit-blur)',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
@@ -176,11 +179,11 @@ export default function CourseExcelImportModal({
         <div
           style={{
             padding: '18px 24px',
-            borderBottom: '1px solid #f1f5f9',
+            borderBottom: '1px solid var(--border-subtle)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: '#ffffff',
+            background: 'var(--surface-header)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -395,7 +398,7 @@ export default function CourseExcelImportModal({
                   borderRadius: '12px',
                   padding: '24px 20px',
                   textAlign: 'center',
-                  background: selectedFile ? '#f8fafc' : '#ffffff',
+                  background: selectedFile ? 'var(--surface-header)' : 'var(--surface-card)',
                   marginBottom: '18px',
                   transition: 'all 0.2s',
                   position: 'relative',
@@ -440,9 +443,9 @@ export default function CourseExcelImportModal({
                           padding: '0 12px',
                           fontSize: '12px',
                           fontWeight: '600',
-                          background: '#ffffff',
+                          background: 'var(--surface-card)',
                           color: ink,
-                          border: '1px solid #cbd5e1',
+                          border: '1px solid var(--border-glass)',
                           borderRadius: '6px',
                           cursor: 'pointer',
                           fontFamily: 'inherit',
@@ -613,7 +616,7 @@ export default function CourseExcelImportModal({
                           padding: '0 12px',
                           borderRadius: '6px',
                           border: `1px solid ${selectedSemesterTab === 'ALL' ? accent : '#e2e8f0'}`,
-                          background: selectedSemesterTab === 'ALL' ? '#eef2ff' : '#ffffff',
+                          background: selectedSemesterTab === 'ALL' ? 'var(--surface-header)' : 'var(--surface-card)',
                           color: selectedSemesterTab === 'ALL' ? accent : ink,
                           fontSize: '11.5px',
                           fontWeight: '700',
@@ -636,7 +639,7 @@ export default function CourseExcelImportModal({
                               padding: '0 12px',
                               borderRadius: '6px',
                               border: `1px solid ${active ? accent : '#e2e8f0'}`,
-                              background: active ? '#eef2ff' : '#ffffff',
+                              background: active ? 'var(--surface-header)' : 'var(--surface-card)',
                               color: active ? accent : ink,
                               fontSize: '11.5px',
                               fontWeight: '700',
@@ -657,9 +660,9 @@ export default function CourseExcelImportModal({
                     style={{
                       maxHeight: '320px',
                       overflowY: 'auto',
-                      border: '1px solid #e2e8f0',
+                      border: '1px solid var(--border-glass)',
                       borderRadius: '8px',
-                      background: '#ffffff',
+                      background: 'var(--surface-card)',
                     }}
                   >
                     <table className="audit-data-table" style={{ margin: 0, fontSize: '12px' }}>
@@ -686,7 +689,7 @@ export default function CourseExcelImportModal({
                           displayedCourses().map((course, idx) => {
                             const isErr = course.status === 'INVALID' || course.status === 'DUPLICATE';
                             const isWarn = course.status === 'WARNING';
-                            const bg = isErr ? '#fef2f2' : isWarn ? '#fffbeb' : '#ffffff';
+                            const bg = isErr ? '#fef2f2' : isWarn ? '#fffbeb' : 'transparent';
                             return (
                               <tr key={`${course.sheetName}-${course.rowIndex}-${idx}`} style={{ background: bg }}>
                                 <td style={{ textAlign: 'center', color: muted }}>{idx + 1}</td>
@@ -767,9 +770,9 @@ export default function CourseExcelImportModal({
                 padding: '0 16px',
                 fontSize: '12.5px',
                 fontWeight: '600',
-                background: '#ffffff',
+                background: 'var(--surface-card)',
                 color: muted,
-                border: '1px solid #cbd5e1',
+                border: '1px solid var(--border-glass)',
                 borderRadius: '8px',
                 cursor: 'pointer',
                 fontFamily: 'inherit',

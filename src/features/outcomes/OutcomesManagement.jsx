@@ -779,7 +779,7 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
                 if (offering) selectCourseOffering(offering);
               }}
               disabled={assignedOfferings.length === 0}
-              style={{ height: '38px', minWidth: '260px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a', background: '#ffffff', fontWeight: '700', fontFamily: 'inherit' }}
+              style={{ height: '38px', minWidth: '260px', padding: '0 10px', border: '1px solid var(--border-glass)', borderRadius: '8px', color: 'var(--text-primary)', background: 'var(--surface-input)', fontWeight: '700', fontFamily: 'inherit' }}
             >
               {assignedOfferings.length === 0 ? <option value="">No courses assigned yet</option> : assignedOfferings.map((offering) => <option key={offering.id} value={offering.id}>{offering.courseCode ?? offering.code ?? 'Course'} — {offering.courseName ?? offering.name ?? 'Programme-Batch Course'} · Sem {offering.semester ?? '—'}</option>)}
             </select>}
@@ -827,7 +827,7 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
                   onClick={handleSubmitForReview}
                   disabled={isSubmittingForReview || isSavingOutcomes || !outcomesComplete}
                   title={!outcomesComplete ? 'Complete the code, statement, and target for every CO before submitting.' : undefined}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', height: '38px', background: '#ffffff', color: '#2563eb', border: '1px solid #2563eb', opacity: (isSubmittingForReview || isSavingOutcomes || !outcomesComplete) ? 0.6 : 1, cursor: (isSubmittingForReview || isSavingOutcomes || !outcomesComplete) ? 'not-allowed' : 'pointer' }}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', height: '38px', background: 'var(--surface-card)', color: 'var(--brand-primary)', border: '1px solid var(--border-glass)', opacity: (isSubmittingForReview || isSavingOutcomes || !outcomesComplete) ? 0.6 : 1, cursor: (isSubmittingForReview || isSavingOutcomes || !outcomesComplete) ? 'not-allowed' : 'pointer' }}
                 >
                   <Send size={15} /> {isSubmittingForReview ? 'Submitting…' : outcomesPendingReview ? 'Submitted' : 'Submit for Review'}
                 </button>
@@ -928,12 +928,14 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
               position: 'sticky',
               top: '0px',
               zIndex: 30,
-              background: '#ffffff',
+              background: 'var(--surface-header)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-webkit-blur)',
               padding: '12px 18px',
               margin: '0 0 16px 0',
-              borderRadius: '12px',
-              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.08)',
-              border: '1px solid #cbd5e1',
+              borderRadius: 'var(--radius-xl)',
+              boxShadow: 'var(--shadow-card)',
+              border: '1px solid var(--border-glass)',
               display: 'flex',
               justify: 'space-between',
               alignItems: 'center',
@@ -1010,12 +1012,14 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
               position: 'sticky',
               top: '0px',
               zIndex: 30,
-              background: '#ffffff',
+              background: 'var(--surface-header)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-webkit-blur)',
               padding: '12px 18px',
               margin: '0 0 16px 0',
-              borderRadius: '12px',
-              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.08)',
-              border: '1px solid #cbd5e1',
+              borderRadius: 'var(--radius-xl)',
+              boxShadow: 'var(--shadow-card)',
+              border: '1px solid var(--border-glass)',
               display: 'flex',
               justify: 'space-between',
               alignItems: 'center',
@@ -1183,12 +1187,14 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
               position: 'sticky',
               top: '0px',
               zIndex: 30,
-              background: '#ffffff',
+              background: 'var(--surface-header)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-webkit-blur)',
               padding: '12px 18px',
               margin: '0 0 16px 0',
-              borderRadius: '12px',
-              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.08)',
-              border: '1px solid #cbd5e1',
+              borderRadius: 'var(--radius-xl)',
+              boxShadow: 'var(--shadow-card)',
+              border: '1px solid var(--border-glass)',
               display: 'flex',
               justify: 'space-between',
               alignItems: 'center',
@@ -1539,7 +1545,7 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
                                 width: '100%',
                                 minWidth: '85px',
                                 color: isApproved ? '#10b981' : '#d97706',
-                                background: isLockedForEditing ? '#f8fafc' : '#ffffff',
+                                background: isLockedForEditing ? 'var(--surface-input)' : 'var(--surface-card)',
                                 cursor: isLockedForEditing ? 'not-allowed' : 'text',
                               }}
                               value={co.code}
@@ -1559,7 +1565,7 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
                                 minWidth: '500px',
                                 boxSizing: 'border-box',
                                 padding: '8px 12px',
-                                background: isLockedForEditing ? '#f8fafc' : '#ffffff',
+                                background: isLockedForEditing ? 'var(--surface-input)' : 'var(--surface-card)',
                                 cursor: isLockedForEditing ? 'not-allowed' : 'text',
                                 color: isLockedForEditing ? '#334155' : '#0f172a',
                               }}
@@ -1581,7 +1587,7 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
                                 color: '#0f172a',
                                 padding: '6px 8px',
                                 margin: '0 auto',
-                                background: isLockedForEditing ? '#f8fafc' : '#ffffff',
+                                background: isLockedForEditing ? 'var(--surface-input)' : 'var(--surface-card)',
                                 cursor: isLockedForEditing ? 'not-allowed' : 'text',
                               }}
                               value={targetVal}
@@ -1685,31 +1691,33 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
           padding: '16px',
         }}>
           <div style={{
-            background: '#ffffff',
+            background: 'var(--surface-card)',
             borderRadius: '16px',
             width: '100%',
             maxWidth: '540px',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+            boxShadow: 'var(--shadow-xl)',
             overflow: 'hidden',
-            border: '1px solid #e2e8f0',
+            border: '1px solid var(--border-glass)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-webkit-blur)',
           }}>
             <div style={{
               padding: '18px 24px',
-              borderBottom: '1px solid #f1f5f9',
+              borderBottom: '1px solid var(--border-subtle)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              background: '#f8fafc',
+              background: 'var(--surface-header)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#e0e7ff', color: '#4338ca', display: 'grid', placeItems: 'center' }}>
                   <Download size={18} />
                 </div>
                 <div>
-                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: '#0f172a' }}>
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: 'var(--text-primary)' }}>
                     Import Course Outcomes
                   </h3>
-                  <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>
+                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted)' }}>
                     Copy outcomes from a previous batch offering of this course
                   </p>
                 </div>
@@ -1745,10 +1753,10 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
                       height: '38px',
                       width: '100%',
                       padding: '0 30px 0 12px',
-                      border: '1px solid #cbd5e1',
+                      border: '1px solid var(--border-glass)',
                       borderRadius: '8px',
-                      background: '#ffffff',
-                      color: '#0f172a',
+                      background: 'var(--surface-input)',
+                      color: 'var(--text-primary)',
                       fontWeight: '600',
                       fontSize: '13px',
                       cursor: 'pointer',
@@ -1793,7 +1801,7 @@ export default function OutcomesManagement({ hideFooter = false, hideHeader = fa
                 type="button"
                 onClick={() => setIsImportCoModalOpen(false)}
                 disabled={importCoLoading}
-                style={{ height: '38px', padding: '0 16px', fontSize: '13px', fontWeight: '700', background: '#ffffff', color: '#475569', border: '1px solid #e2e8f0', borderRadius: '8px', cursor: 'pointer' }}
+                style={{ height: '38px', padding: '0 16px', fontSize: '13px', fontWeight: '700', background: 'var(--surface-card)', color: 'var(--text-secondary)', border: '1px solid var(--border-glass)', borderRadius: '8px', cursor: 'pointer' }}
               >
                 Cancel
               </button>

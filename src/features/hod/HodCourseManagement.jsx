@@ -191,14 +191,21 @@ export default function HodCourseManagement() {
   };
 
   // Shared Style Tokens
-  const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-  const ink = '#0f172a';
-  const muted = '#64748b';
-  const accent = '#4f46e5';
+  const surface = {
+    background: 'var(--surface-card)',
+    border: '1px solid var(--border-glass)',
+    borderRadius: 'var(--radius-xl)',
+    backdropFilter: 'var(--glass-blur)',
+    WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+    boxShadow: 'var(--shadow-card)',
+  };
+  const ink = 'var(--text-primary)';
+  const muted = 'var(--text-muted)';
+  const accent = 'var(--brand-primary)';
   const inputStyle = {
     height: '38px', fontSize: '13px', fontWeight: '500',
-    border: '1px solid #cbd5e1', borderRadius: '8px',
-    padding: '0 12px', background: '#ffffff', color: ink,
+    border: '1px solid var(--border-glass)', borderRadius: '8px',
+    padding: '0 12px', background: 'var(--surface-input)', color: ink,
     width: '100%', outline: 'none', fontFamily: 'inherit',
   };
   const labelStyle = { display: 'block', fontSize: '11.5px', fontWeight: '600', color: muted, marginBottom: '4px' };
@@ -244,7 +251,7 @@ export default function HodCourseManagement() {
                 style={{
                   width: '100%', height: '40px', fontSize: '13px',
                   fontWeight: '700', color: '#1e293b',
-                  background: '#ffffff', border: '1.5px solid rgba(255,255,255,0.8)',
+                  background: 'var(--surface-input)', border: '1.5px solid var(--border-glass)',
                   borderRadius: '9px', padding: '0 34px 0 32px',
                   outline: 'none', appearance: 'none', cursor: 'pointer',
                   fontFamily: 'inherit',
@@ -300,8 +307,8 @@ export default function HodCourseManagement() {
                 fontSize: '13px',
                 fontWeight: '700',
                 color: accent,
-                background: '#ffffff',
-                border: '1.5px solid #c7d2fe',
+                background: 'var(--surface-input)',
+                border: '1.5px solid var(--border-accent)',
                 borderRadius: '8px',
                 outline: 'none',
                 cursor: 'pointer',
@@ -535,7 +542,7 @@ export default function HodCourseManagement() {
                       <div style={{ display: 'flex', gap: '4px', justifyContent: 'center' }}>
                         <button
                           onClick={() => handleStartEdit(c)}
-                          style={{ width: '28px', height: '28px', borderRadius: '6px', border: '1px solid #e2e8f0', background: '#ffffff', color: accent, cursor: 'pointer', display: 'grid', placeItems: 'center' }}
+                          style={{ width: '28px', height: '28px', borderRadius: '6px', border: '1px solid var(--border-glass)', background: 'var(--surface-input)', color: accent, cursor: 'pointer', display: 'grid', placeItems: 'center' }}
                           title="Edit course"
                         >
                           <Edit2 size={12} />

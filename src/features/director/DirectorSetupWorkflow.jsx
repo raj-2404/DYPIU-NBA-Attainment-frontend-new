@@ -352,14 +352,21 @@ export default function DirectorSetupWorkflow() {
   const currentStepMeta = STEPS[currentStep - 1] || STEPS[0];
 
   // ─── Shared style tokens ──────────────────────────────────────────────────
-  const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-  const muted = '#64748b';
-  const ink = '#0f172a';
-  const accent = '#4f46e5';
+  const surface = {
+    background: 'var(--surface-card)',
+    border: '1px solid var(--border-glass)',
+    borderRadius: 'var(--radius-xl)',
+    backdropFilter: 'var(--glass-blur)',
+    WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+    boxShadow: 'var(--shadow-card)',
+  };
+  const muted = 'var(--text-muted)';
+  const ink = 'var(--text-primary)';
+  const accent = 'var(--brand-primary)';
   const inputStyle = {
     height: '40px', fontSize: '13px', fontWeight: '500',
-    border: '1px solid #e2e8f0', borderRadius: '8px',
-    padding: '0 12px', background: '#ffffff', color: ink,
+    border: '1px solid var(--border-glass)', borderRadius: '8px',
+    padding: '0 12px', background: 'var(--surface-input)', color: ink,
     width: '100%', outline: 'none', fontFamily: 'inherit',
     transition: 'border-color .15s ease',
   };

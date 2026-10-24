@@ -129,11 +129,13 @@ export default function PoPsoIntelligenceSection({
       {/* Main Container Card */}
       <div
         style={{
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: 14,
+          background: 'var(--surface-card)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          border: '1px solid var(--border-glass)',
+          borderRadius: 'var(--radius-xl)',
           padding: '20px 22px',
-          boxShadow: '0 2px 12px rgba(15, 23, 42, 0.04)',
+          boxShadow: 'var(--shadow-card)',
         }}
       >
         {/* Header with Title and Segmented Switch */}
@@ -146,7 +148,7 @@ export default function PoPsoIntelligenceSection({
             gap: 12,
             marginBottom: 18,
             paddingBottom: 14,
-            borderBottom: '1px solid #f1f5f9',
+            borderBottom: '1px solid var(--border-subtle)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -155,8 +157,8 @@ export default function PoPsoIntelligenceSection({
                 width: 34,
                 height: 34,
                 borderRadius: 8,
-                background: activeTab === 'PO' ? '#eef2ff' : '#ecfdf5',
-                color: activeTab === 'PO' ? '#4f46e5' : '#059669',
+                background: activeTab === 'PO' ? 'var(--brand-subtle)' : 'var(--status-success-bg)',
+                color: activeTab === 'PO' ? 'var(--brand-primary)' : 'var(--status-success)',
                 display: 'grid',
                 placeItems: 'center',
                 transition: 'all 0.2s ease',
@@ -165,10 +167,10 @@ export default function PoPsoIntelligenceSection({
               {activeTab === 'PO' ? <Target size={18} /> : <Award size={18} />}
             </div>
             <div>
-              <h3 style={{ margin: 0, fontSize: 15.5, fontWeight: 700, color: '#0f172a' }}>
+              <h3 style={{ margin: 0, fontSize: 15.5, fontWeight: 700, color: 'var(--text-primary)' }}>
                 Outcome Intelligence
               </h3>
-              <p style={{ margin: '2px 0 0', fontSize: 12, color: '#64748b' }}>
+              <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
                 {activeTab === 'PO'
                   ? `Standard & Extended Program Outcomes (PO1–PO${poList.length}) analytical attainment performance`
                   : `Curriculum Program Specific Outcomes (${psoList.length} PSOs) specialized performance`}
@@ -180,10 +182,10 @@ export default function PoPsoIntelligenceSection({
           <div
             style={{
               display: 'inline-flex',
-              background: '#f1f5f9',
+              background: 'var(--surface-tertiary)',
               padding: 3,
               borderRadius: 8,
-              border: '1px solid #e2e8f0',
+              border: '1px solid var(--border-subtle)',
             }}
             role="tablist"
             aria-label="Outcome Type Selection"
@@ -201,10 +203,10 @@ export default function PoPsoIntelligenceSection({
                 borderRadius: 6,
                 fontSize: 12.5,
                 fontWeight: activeTab === 'PO' ? 700 : 500,
-                color: activeTab === 'PO' ? '#4f46e5' : '#64748b',
-                background: activeTab === 'PO' ? '#ffffff' : 'transparent',
-                border: 'none',
-                boxShadow: activeTab === 'PO' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                color: activeTab === 'PO' ? 'var(--brand-primary)' : 'var(--text-muted)',
+                background: activeTab === 'PO' ? 'var(--surface-card)' : 'transparent',
+                border: activeTab === 'PO' ? '1px solid var(--border-subtle)' : 'none',
+                boxShadow: activeTab === 'PO' ? 'var(--shadow-card)' : 'none',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
               }}
@@ -217,7 +219,7 @@ export default function PoPsoIntelligenceSection({
                   fontWeight: 700,
                   padding: '1px 6px',
                   borderRadius: 10,
-                  background: activeTab === 'PO' ? '#eef2ff' : '#e2e8f0',
+                  background: activeTab === 'PO' ? 'var(--brand-subtle)' : 'var(--surface-secondary)',
                   color: activeTab === 'PO' ? '#4f46e5' : '#64748b',
                 }}
               >

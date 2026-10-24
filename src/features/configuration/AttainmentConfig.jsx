@@ -7,10 +7,17 @@ import { useApproval } from '../../context/approval';
 import SectionSaveFooter from '../../components/layout/SectionSaveFooter';
 
 // ── Style tokens ───────────────────────────────────────────────────────────
-const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink = '#0f172a';
-const muted = '#64748b';
-const accent = '#4f46e5';
+const surface = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink = 'var(--text-primary)';
+const muted = 'var(--text-muted)';
+const accent = 'var(--brand-primary)';
 const configSignature = (config = {}) => JSON.stringify({
   directWeight: config.directWeight,
   indirectWeight: config.indirectWeight,
@@ -349,7 +356,7 @@ export default function AttainmentConfig({
                 if (offering) selectCourseOffering(offering);
               }}
               disabled={!batchId || assignedOfferings.length === 0}
-              style={{ height: '38px', minWidth: '270px', padding: '0 10px', border: '1px solid #cbd5e1', borderRadius: '8px', color: '#0f172a', background: '#ffffff', fontWeight: 700, fontFamily: 'inherit' }}
+              style={{ height: '38px', minWidth: '270px', padding: '0 10px', border: '1px solid var(--border-glass)', borderRadius: '8px', color: 'var(--text-primary)', background: 'var(--surface-input)', fontWeight: 700, fontFamily: 'inherit' }}
             >
               {assignedOfferings.length === 0 ? <option value="">No assigned courses for this programme batch</option> : assignedOfferings.map((offering) => <option key={offering.id} value={offering.id}>{offering.courseCode ?? offering.code ?? 'Course'} — {offering.courseName ?? offering.name ?? 'Programme-Batch Course'} · Sem {offering.semester ?? '—'}</option>)}
             </select>}
@@ -404,7 +411,7 @@ export default function AttainmentConfig({
                     className="btn btn-primary"
                     onClick={handleSubmitForReview}
                     disabled={isSubmittingForReview || isSavingConfig || isPendingReview}
-                    style={{ height: '38px', background: '#ffffff', color: '#2563eb', border: '1px solid #2563eb', opacity: isSubmittingForReview || isSavingConfig || isPendingReview ? 0.5 : 1, cursor: isSubmittingForReview || isSavingConfig || isPendingReview ? 'not-allowed' : 'pointer' }}
+                    style={{ height: '38px', background: 'var(--surface-card)', color: 'var(--brand-primary)', border: '1px solid var(--border-glass)', opacity: isSubmittingForReview || isSavingConfig || isPendingReview ? 0.5 : 1, cursor: isSubmittingForReview || isSavingConfig || isPendingReview ? 'not-allowed' : 'pointer' }}
                   >
                     <Send size={15} /> {isSubmittingForReview ? 'Submitting…' : isPendingReview ? 'Submitted' : 'Submit for Review'}
                   </button>
@@ -504,7 +511,7 @@ export default function AttainmentConfig({
               </p>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', background: isApproved ? '#f1f5f9' : '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '12px 16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: '10px', padding: '12px 16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ position: 'relative' }}>
                   <input
@@ -515,7 +522,7 @@ export default function AttainmentConfig({
                     disabled={isLocked}
                     min="0"
                     max="100"
-                    style={{ width: '84px', fontWeight: '900', fontSize: '16px', color: '#4f46e5', textAlign: 'center', padding: '6px 10px', border: '1.5px solid #c7d2fe', borderRadius: '8px', background: isApproved ? '#f8fafc' : '#ffffff', cursor: isApproved ? 'not-allowed' : 'text' }}
+                    style={{ width: '84px', fontWeight: '900', fontSize: '16px', color: '#4f46e5', textAlign: 'center', padding: '6px 10px', border: '1.5px solid #c7d2fe', borderRadius: '8px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', cursor: isApproved ? 'not-allowed' : 'text' }}
                   />
                 </div>
                 <span style={{ fontSize: '13px', fontWeight: '800', color: '#475569' }}>% Direct Weight</span>
@@ -557,7 +564,7 @@ export default function AttainmentConfig({
               </p>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', background: isApproved ? '#f1f5f9' : '#ffffff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '12px 16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: '10px', padding: '12px 16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ position: 'relative' }}>
                   <input
@@ -568,7 +575,7 @@ export default function AttainmentConfig({
                     disabled={isLocked}
                     min="0"
                     max="100"
-                    style={{ width: '84px', fontWeight: '900', fontSize: '16px', color: '#059669', textAlign: 'center', padding: '6px 10px', border: '1.5px solid #a7f3d0', borderRadius: '8px', background: isApproved ? '#f8fafc' : '#ffffff', cursor: isApproved ? 'not-allowed' : 'text' }}
+                    style={{ width: '84px', fontWeight: '900', fontSize: '16px', color: '#059669', textAlign: 'center', padding: '6px 10px', border: '1.5px solid #a7f3d0', borderRadius: '8px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', cursor: isApproved ? 'not-allowed' : 'text' }}
                   />
                 </div>
                 <span style={{ fontSize: '13px', fontWeight: '800', color: '#475569' }}>% Threshold Marks</span>
@@ -628,7 +635,7 @@ export default function AttainmentConfig({
                             value={lvl.minPercentage}
                             onChange={(e) => handleDirectLevelChange(index, 'minPercentage', e.target.value)}
                             className="form-input"
-                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #c7d2fe', borderRadius: '6px', background: isApproved ? '#f8fafc' : '#ffffff', cursor: isApproved ? 'not-allowed' : 'text' }}
+                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #c7d2fe', borderRadius: '6px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', cursor: isApproved ? 'not-allowed' : 'text' }}
                           />
                           <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b' }}>%</span>
                         </div>
@@ -643,7 +650,7 @@ export default function AttainmentConfig({
                             value={lvl.maxPercentage}
                             onChange={(e) => handleDirectLevelChange(index, 'maxPercentage', e.target.value)}
                             className="form-input"
-                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #c7d2fe', borderRadius: '6px', background: isApproved ? '#f8fafc' : '#ffffff', cursor: isApproved ? 'not-allowed' : 'text' }}
+                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #c7d2fe', borderRadius: '6px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', cursor: isApproved ? 'not-allowed' : 'text' }}
                           />
                           <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b' }}>%</span>
                         </div>
@@ -702,7 +709,7 @@ export default function AttainmentConfig({
                             value={lvl.minPercentage}
                             onChange={(e) => handleIndirectLevelChange(index, 'minPercentage', e.target.value)}
                             className="form-input"
-                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #7dd3fc', borderRadius: '6px', background: isApproved ? '#f8fafc' : '#ffffff', cursor: isApproved ? 'not-allowed' : 'text' }}
+                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #7dd3fc', borderRadius: '6px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', cursor: isApproved ? 'not-allowed' : 'text' }}
                           />
                           <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b' }}>%</span>
                         </div>
@@ -717,7 +724,7 @@ export default function AttainmentConfig({
                             value={lvl.maxPercentage}
                             onChange={(e) => handleIndirectLevelChange(index, 'maxPercentage', e.target.value)}
                             className="form-input"
-                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #7dd3fc', borderRadius: '6px', background: isApproved ? '#f8fafc' : '#ffffff', cursor: isApproved ? 'not-allowed' : 'text' }}
+                            style={{ width: '70px', padding: '4px 8px', fontSize: '13px', fontWeight: '800', textAlign: 'center', border: '1px solid #7dd3fc', borderRadius: '6px', background: isApproved ? 'var(--surface-input)' : 'var(--surface-card)', cursor: isApproved ? 'not-allowed' : 'text' }}
                           />
                           <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b' }}>%</span>
                         </div>

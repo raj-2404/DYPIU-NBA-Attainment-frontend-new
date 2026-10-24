@@ -45,10 +45,17 @@ export default function DirectorSchoolStructure() {
     fetchData();
   }, [loadDepartments, loadMasterProgrammes, loadSchools, selectedSchool?.id, selectedSchoolId]);
 
-  const surface = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-  const ink = '#0f172a';
-  const muted = '#64748b';
-  const accent = '#4f46e5';
+  const surface = {
+    background: 'var(--surface-card)',
+    border: '1px solid var(--border-glass)',
+    borderRadius: 'var(--radius-xl)',
+    backdropFilter: 'var(--glass-blur)',
+    WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+    boxShadow: 'var(--shadow-card)',
+  };
+  const ink = 'var(--text-primary)';
+  const muted = 'var(--text-muted)';
+  const accent = 'var(--brand-primary)';
 
   if (loading && departments.length === 0 && !selectedSchool) {
     return <ScreenLoadingState message="Loading School Structure..." />;
@@ -132,7 +139,7 @@ export default function DirectorSchoolStructure() {
                 {/* Dept row */}
                 <div
                   onClick={() => setExpandedDeptId(isExpanded ? null : dept.id)}
-                  style={{ padding: '17px 20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px', borderBottom: isExpanded ? '1px solid #f1f5f9' : 'none', background: isExpanded ? '#fafafa' : '#ffffff', transition: 'background .15s' }}
+                  style={{ padding: '17px 20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '16px', borderBottom: isExpanded ? '1px solid var(--border-subtle)' : 'none', background: isExpanded ? 'var(--surface-header)' : 'transparent', transition: 'background .15s' }}
                 >
                   <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#eef2ff', color: accent, display: 'grid', placeItems: 'center', fontWeight: '800', fontSize: '11px', flexShrink: 0 }}>
                     {dept.code}
@@ -153,13 +160,13 @@ export default function DirectorSchoolStructure() {
 
                 {/* Programmes list */}
                 {isExpanded && (
-                  <div style={{ padding: '16px 20px 18px 56px', background: '#f8fafc' }}>
+                  <div style={{ padding: '16px 20px 18px 56px', background: 'var(--surface-header)' }}>
                     {deptProgrammes.length === 0 ? (
                       <div style={{ fontSize: '12px', color: muted, fontStyle: 'italic' }}>No programmes added to this department.</div>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         {deptProgrammes.map((p) => (
-                          <div key={p.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+                          <div key={p.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '11px 14px', background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: '8px' }}>
                             <div>
                               <div style={{ fontSize: '13px', fontWeight: '700', color: ink }}>{p.name}</div>
                               <div style={{ fontSize: '11.5px', color: muted }}>

@@ -31,21 +31,26 @@ const ROLE_OPTIONS = [
 ];
 
 const surface = {
-  background: '#fff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '14px',
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
 };
 
 const fieldStyle = {
   width: '100%',
   height: 39,
-  border: '1px solid #cbd5e1',
+  border: '1px solid var(--border-subtle)',
   borderRadius: 7,
   padding: '0 10px',
   boxSizing: 'border-box',
   fontFamily: 'inherit',
   fontSize: 13,
-  color: '#0f172a',
+  color: 'var(--text-primary)',
+  background: 'var(--surface-input)',
+  outline: 'none',
 };
 
 const normalizeRole = (role) => (role === 'COURSE_COORDINATOR' ? 'FACULTY' : role);

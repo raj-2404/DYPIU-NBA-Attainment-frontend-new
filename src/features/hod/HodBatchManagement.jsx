@@ -74,18 +74,25 @@ const calculateExpirationDate = (option, customVal) => {
 };
 
 // ── Style tokens ─────────────────────────────────────────────────────────────
-const surface    = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink        = '#0f172a';
-const muted      = '#64748b';
-const accent     = '#4f46e5';
+const surface    = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink        = 'var(--text-primary)';
+const muted      = 'var(--text-muted)';
+const accent     = 'var(--brand-primary)';
 const inputStyle = {
   height: '40px',
   fontSize: '13px',
-  border: '1px solid #e2e8f0',
-  borderRadius: '8px',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-sm)',
   padding: '0 12px',
-  background: '#ffffff',
-  color: ink,
+  background: 'var(--surface-input)',
+  color: 'var(--text-primary)',
   width: '100%',
   outline: 'none',
   fontFamily: 'inherit',
@@ -1521,8 +1528,8 @@ export default function HodBatchManagement() {
       )}
 
       {readinessDialog && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 1001, display: 'grid', placeItems: 'center', padding: '20px', background: 'rgba(15,23,42,.58)' }}>
-          <div role="dialog" aria-modal="true" style={{ width: '100%', maxWidth: '560px', background: '#fff', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 22px 70px rgba(15,23,42,.32)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 1001, display: 'grid', placeItems: 'center', padding: '20px', background: 'var(--modal-backdrop)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)' }}>
+          <div role="dialog" aria-modal="true" style={{ width: '100%', maxWidth: '560px', background: 'var(--surface-modal)', borderRadius: '14px', border: '1px solid var(--border-glass)', overflow: 'hidden', boxShadow: 'var(--shadow-modal)' }}>
             <div style={{ padding: '20px 22px' }}>
               <h3 style={{ margin: 0, color: ink, fontSize: '16px' }}>{readinessDialog.mode === 'reopen' ? `Reopen Semester ${readinessDialog.semester.semester}` : `Semester ${readinessDialog.semester.semester} Readiness`}</h3>
               {readinessDialog.loading ? <p style={{ color: muted, fontSize: '13px' }}>Loading readiness checklist…</p> : readinessDialog.mode === 'reopen' ? <p style={{ color: muted, fontSize: '12.5px', lineHeight: 1.5 }}>Reopening re-enables course work for this semester. An audited reason is required.</p> : <>
@@ -1532,8 +1539,8 @@ export default function HodBatchManagement() {
               <div style={{ marginTop: '14px' }}><label style={labelStyle}>{readinessDialog.mode === 'reopen' ? 'Reason *' : 'Completion note (optional)'}</label><textarea value={semesterReason} onChange={(event) => { setSemesterReason(event.target.value); setSemesterActionError(''); }} rows={3} style={{ ...inputStyle, height: 'auto', padding: '9px 11px', resize: 'vertical' }} /></div>
               {semesterActionError && <div style={{ marginTop: '8px', color: '#b91c1c', fontSize: '12px', fontWeight: '700' }}>{semesterActionError}</div>}
             </div>
-            <div style={{ padding: '14px 22px', display: 'flex', justifyContent: 'flex-end', gap: '8px', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
-              <button type="button" onClick={() => setReadinessDialog(null)} disabled={isUpdatingSemester} style={{ height: '35px', padding: '0 13px', border: '1px solid #cbd5e1', background: '#fff', borderRadius: '7px', color: '#475569', fontWeight: '700', cursor: 'pointer' }}>Cancel</button>
+            <div style={{ padding: '14px 22px', display: 'flex', justifyContent: 'flex-end', gap: '8px', background: 'var(--surface-tertiary)', borderTop: '1px solid var(--border-subtle)' }}>
+              <button type="button" onClick={() => setReadinessDialog(null)} disabled={isUpdatingSemester} style={{ height: '35px', padding: '0 13px', border: '1px solid var(--border-subtle)', background: 'var(--surface-card)', borderRadius: '7px', color: 'var(--text-secondary)', fontWeight: '700', cursor: 'pointer' }}>Cancel</button>
               {!readinessDialog.loading && <button type="button" onClick={() => updateSemesterLifecycle(readinessDialog.mode === 'reopen' ? 'reopen' : 'complete')} disabled={isUpdatingSemester} style={{ height: '35px', padding: '0 13px', border: 0, background: '#4f46e5', borderRadius: '7px', color: '#fff', fontWeight: '800', cursor: isUpdatingSemester ? 'wait' : 'pointer' }}>{isUpdatingSemester ? 'Saving…' : readinessDialog.mode === 'reopen' ? 'Reopen Semester' : 'Complete Semester'}</button>}
             </div>
           </div>
@@ -1546,9 +1553,9 @@ export default function HodBatchManagement() {
           onMouseDown={(event) => {
             if (event.target === event.currentTarget && !isConcludingBatch) setConcludingBatch(null);
           }}
-          style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'grid', placeItems: 'center', padding: '20px', background: 'rgba(15,23,42,0.58)', backdropFilter: 'blur(3px)' }}
+          style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'grid', placeItems: 'center', padding: '20px', background: 'var(--modal-backdrop)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)' }}
         >
-          <div role="dialog" aria-modal="true" aria-labelledby="conclude-batch-title" style={{ width: '100%', maxWidth: '500px', background: '#fff', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 22px 70px rgba(15,23,42,0.32)' }}>
+          <div role="dialog" aria-modal="true" aria-labelledby="conclude-batch-title" style={{ width: '100%', maxWidth: '500px', background: 'var(--surface-modal)', borderRadius: '14px', border: '1px solid var(--border-glass)', overflow: 'hidden', boxShadow: 'var(--shadow-modal)' }}>
             <div style={{ padding: '22px 24px 18px' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '10px', display: 'grid', placeItems: 'center', color: '#3730a3', background: '#eef2ff', border: '1px solid #c7d2fe', marginBottom: '13px' }}>
                 <LockKeyhole size={19} />
@@ -1578,8 +1585,8 @@ export default function HodBatchManagement() {
               </div>
               {conclusionError && <div style={{ marginTop: '9px', display: 'flex', gap: '6px', color: '#b91c1c', fontSize: '12px', fontWeight: '600' }}><AlertCircle size={14} />{conclusionError}</div>}
             </div>
-            <div style={{ padding: '14px 24px 20px', background: '#f8fafc', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <button type="button" onClick={() => setConcludingBatch(null)} disabled={isConcludingBatch} style={{ height: '36px', padding: '0 14px', borderRadius: '7px', border: '1px solid #cbd5e1', background: '#fff', color: '#475569', fontWeight: '700', cursor: isConcludingBatch ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+            <div style={{ padding: '14px 24px 20px', background: 'var(--surface-tertiary)', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+              <button type="button" onClick={() => setConcludingBatch(null)} disabled={isConcludingBatch} style={{ height: '36px', padding: '0 14px', borderRadius: '7px', border: '1px solid var(--border-subtle)', background: 'var(--surface-card)', color: 'var(--text-secondary)', fontWeight: '700', cursor: isConcludingBatch ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}>Cancel</button>
               <button type="button" onClick={handleConfirmConclusion} disabled={isConcludingBatch} style={{ height: '36px', padding: '0 15px', borderRadius: '7px', border: 0, background: '#4f46e5', color: '#fff', fontWeight: '800', cursor: isConcludingBatch ? 'wait' : 'pointer', fontFamily: 'inherit', display: 'inline-flex', alignItems: 'center', gap: '6px', opacity: isConcludingBatch ? 0.7 : 1 }}>
                 <CheckCircle2 size={14} /> {isConcludingBatch ? 'Concluding…' : 'Mark as Completed'}
               </button>
@@ -1590,8 +1597,8 @@ export default function HodBatchManagement() {
 
       {/* ── TIME-BOUNDED REOPEN BATCH MODAL (MAIN SCREEN) ── */}
       {reopenBatchDialog && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 1001, display: 'grid', placeItems: 'center', padding: '20px', background: 'rgba(15,23,42,.58)', backdropFilter: 'blur(3px)' }}>
-          <div role="dialog" aria-modal="true" style={{ width: '100%', maxWidth: '540px', background: '#fff', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 1001, display: 'grid', placeItems: 'center', padding: '20px', background: 'var(--modal-backdrop)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)' }}>
+          <div role="dialog" aria-modal="true" style={{ width: '100%', maxWidth: '540px', background: 'var(--surface-modal)', borderRadius: '14px', border: '1px solid var(--border-glass)', overflow: 'hidden', boxShadow: 'var(--shadow-modal)' }}>
             <form onSubmit={handleConfirmReopenBatch}>
               <div style={{ padding: '22px 24px', display: 'grid', gap: '15px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -1687,12 +1694,12 @@ export default function HodBatchManagement() {
                 )}
               </div>
 
-              <div style={{ padding: '14px 24px', display: 'flex', justifyContent: 'flex-end', gap: '8px', background: '#f8fafc', borderTop: '1px solid #e2e8f0' }}>
+              <div style={{ padding: '14px 24px', display: 'flex', justifyContent: 'flex-end', gap: '8px', background: 'var(--surface-tertiary)', borderTop: '1px solid var(--border-subtle)' }}>
                 <button
                   type="button"
                   onClick={() => setReopenBatchDialog(null)}
                   disabled={isReopeningBatch}
-                  style={{ height: '36px', padding: '0 14px', border: '1px solid #cbd5e1', background: '#fff', borderRadius: '7px', color: '#475569', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}
+                  style={{ height: '36px', padding: '0 14px', border: '1px solid var(--border-subtle)', background: 'var(--surface-card)', borderRadius: '7px', color: 'var(--text-secondary)', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}
                 >
                   Cancel
                 </button>

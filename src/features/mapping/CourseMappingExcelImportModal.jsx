@@ -20,9 +20,9 @@ import {
 } from 'lucide-react';
 import { useAcademic } from '../../context/AcademicContext';
 
-const ink = '#0f172a';
-const muted = '#64748b';
-const accent = '#4f46e5';
+const ink = 'var(--text-primary)';
+const muted = 'var(--text-muted)';
+const accent = 'var(--brand-primary)';
 
 export default function CourseMappingExcelImportModal({
   isOpen,
@@ -202,14 +202,17 @@ export default function CourseMappingExcelImportModal({
     >
       <div
         style={{
-          background: '#ffffff',
+          background: 'var(--surface-card)',
           borderRadius: '16px',
           width: '100%',
           maxWidth: '960px',
           maxHeight: '90vh',
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          boxShadow: 'var(--shadow-xl)',
+          border: '1px solid var(--border-glass)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-webkit-blur)',
           overflow: 'hidden',
           fontFamily: 'inherit',
         }}
@@ -305,7 +308,7 @@ export default function CourseMappingExcelImportModal({
                     borderRadius: '10px',
                     border: '1.5px solid',
                     borderColor: importScope === 'ALL' ? accent : '#e2e8f0',
-                    background: importScope === 'ALL' ? '#eef2ff' : '#ffffff',
+                    background: importScope === 'ALL' ? 'var(--surface-header)' : 'var(--surface-card)',
                     color: importScope === 'ALL' ? accent : ink,
                     fontWeight: '700',
                     fontSize: '13px',
@@ -347,7 +350,7 @@ export default function CourseMappingExcelImportModal({
                     borderRadius: '10px',
                     border: '1.5px solid',
                     borderColor: importScope === 'PO' ? accent : '#e2e8f0',
-                    background: importScope === 'PO' ? '#eef2ff' : '#ffffff',
+                    background: importScope === 'PO' ? 'var(--surface-header)' : 'var(--surface-card)',
                     color: importScope === 'PO' ? accent : ink,
                     fontWeight: '700',
                     fontSize: '13px',
@@ -389,7 +392,7 @@ export default function CourseMappingExcelImportModal({
                     borderRadius: '10px',
                     border: '1.5px solid',
                     borderColor: importScope === 'PSO' ? '#0891b2' : '#e2e8f0',
-                    background: importScope === 'PSO' ? '#ecfeff' : '#ffffff',
+                    background: importScope === 'PSO' ? 'var(--surface-header)' : 'var(--surface-card)',
                     color: importScope === 'PSO' ? '#0891b2' : ink,
                     fontWeight: '700',
                     fontSize: '13px',
@@ -580,8 +583,8 @@ export default function CourseMappingExcelImportModal({
                       style={{
                         height: '38px',
                         padding: '0 16px',
-                        background: '#ffffff',
-                        border: '1px solid #cbd5e1',
+                        background: 'var(--surface-input)',
+                        border: '1px solid var(--border-glass)',
                         borderRadius: '8px',
                         fontSize: '12.5px',
                         fontWeight: '700',
@@ -627,9 +630,9 @@ export default function CourseMappingExcelImportModal({
                           padding: '0 14px',
                           fontSize: '12px',
                           fontWeight: '700',
-                          background: '#ffffff',
+                          background: 'var(--surface-input)',
                           color: accent,
-                          border: '1px solid #c7d2fe',
+                          border: '1px solid var(--border-glass)',
                           borderRadius: '8px',
                           cursor: isDownloadingTemplate || isDownloadingSample ? 'wait' : 'pointer',
                           display: 'inline-flex',
@@ -653,8 +656,8 @@ export default function CourseMappingExcelImportModal({
                             top: '100%',
                             right: 0,
                             marginTop: '4px',
-                            background: '#ffffff',
-                            border: '1px solid #e2e8f0',
+                            background: 'var(--surface-dropdown)',
+                            border: '1px solid var(--border-glass)',
                             borderRadius: '10px',
                             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
                             zIndex: 50,
@@ -930,9 +933,9 @@ export default function CourseMappingExcelImportModal({
                           fontSize: '12px',
                           fontWeight: '700',
                           cursor: 'pointer',
-                          background: activeInspectTab === 'SHEET_DATA' ? '#ffffff' : 'transparent',
+                          background: activeInspectTab === 'SHEET_DATA' ? 'var(--surface-card)' : 'transparent',
                           color: activeInspectTab === 'SHEET_DATA' ? accent : muted,
-                          boxShadow: activeInspectTab === 'SHEET_DATA' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                          boxShadow: activeInspectTab === 'SHEET_DATA' ? 'var(--shadow-sm)' : 'none',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
@@ -953,9 +956,9 @@ export default function CourseMappingExcelImportModal({
                           fontSize: '12px',
                           fontWeight: '700',
                           cursor: 'pointer',
-                          background: activeInspectTab === 'MATRIX' ? '#ffffff' : 'transparent',
+                          background: activeInspectTab === 'MATRIX' ? 'var(--surface-card)' : 'transparent',
                           color: activeInspectTab === 'MATRIX' ? accent : muted,
-                          boxShadow: activeInspectTab === 'MATRIX' ? '0 1px 3px rgba(0,0,0,0.08)' : 'none',
+                          boxShadow: activeInspectTab === 'MATRIX' ? 'var(--shadow-sm)' : 'none',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
@@ -986,9 +989,9 @@ export default function CourseMappingExcelImportModal({
                               fontSize: '11.5px',
                               fontWeight: '700',
                               cursor: 'pointer',
-                              background: selectedFilterTab === tabKey ? '#ffffff' : 'transparent',
+                              background: selectedFilterTab === tabKey ? 'var(--surface-card)' : 'transparent',
                               color: selectedFilterTab === tabKey ? accent : muted,
-                              boxShadow: selectedFilterTab === tabKey ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+                              boxShadow: selectedFilterTab === tabKey ? 'var(--shadow-sm)' : 'none',
                               transition: 'all 0.15s ease',
                             }}
                           >
@@ -1025,7 +1028,7 @@ export default function CourseMappingExcelImportModal({
                                   padding: '16px 18px',
                                   borderRadius: '12px',
                                   border: '1px solid #e2e8f0',
-                                  background: isPSO ? '#fcfaff' : '#ffffff',
+                                  background: isPSO ? 'rgba(8, 145, 178, 0.04)' : 'var(--surface-card)',
                                   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.02)',
                                 }}
                               >
@@ -1165,8 +1168,8 @@ export default function CourseMappingExcelImportModal({
                                         <div
                                           key={comp.id || comp.code}
                                           style={{
-                                            background: '#ffffff',
-                                            border: '1px solid #e2e8f0',
+                                            background: 'var(--surface-input)',
+                                            border: '1px solid var(--border-glass)',
                                             borderRadius: '8px',
                                             padding: '8px 12px',
                                           }}
@@ -1233,9 +1236,9 @@ export default function CourseMappingExcelImportModal({
                                                         key={kwIdx}
                                                         style={{
                                                           fontSize: '11px',
-                                                          background: '#ffffff',
-                                                          color: '#334155',
-                                                          border: '1px solid #cbd5e1',
+                                                          background: 'var(--surface-card)',
+                                                          color: 'var(--text-secondary)',
+                                                          border: '1px solid var(--border-glass)',
                                                           padding: '2px 8px',
                                                           borderRadius: '12px',
                                                           fontWeight: '500',
@@ -1365,12 +1368,12 @@ export default function CourseMappingExcelImportModal({
                 style={{
                   height: '38px',
                   padding: '0 16px',
-                  background: '#ffffff',
-                  border: '1px solid #cbd5e1',
+                  background: 'var(--surface-card)',
+                  border: '1px solid var(--border-glass)',
                   borderRadius: '8px',
                   fontSize: '12.5px',
                   fontWeight: '600',
-                  color: ink,
+                  color: muted,
                   cursor: isImporting ? 'not-allowed' : 'pointer',
                 }}
               >

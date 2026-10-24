@@ -18,19 +18,36 @@ import CourseExcelImportModal from './CourseExcelImportModal';
 import DeleteConfirmModal from '../../components/common/DeleteConfirmModal';
 import { getErrorMessage } from '../../utils/errorMessage';
 
-// ── Style tokens (identical to HodSetupWorkflow) ─────────────────────────────
-const surface    = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink        = '#0f172a';
-const muted      = '#64748b';
-const accent     = '#4f46e5';
+// ── Style tokens ─────────────────────────────────────────────────────────────
+const surface    = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink        = 'var(--text-primary)';
+const muted      = 'var(--text-muted)';
+const accent     = 'var(--brand-primary)';
 const inputStyle = {
-  height: '40px', fontSize: '13px', border: '1px solid #e2e8f0',
-  borderRadius: '8px', padding: '0 12px', background: '#ffffff',
-  color: ink, width: '100%', outline: 'none', fontFamily: 'inherit',
+  height: '40px',
+  fontSize: '13px',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-sm)',
+  padding: '0 12px',
+  background: 'var(--surface-input)',
+  color: 'var(--text-primary)',
+  width: '100%',
+  outline: 'none',
+  fontFamily: 'inherit',
 };
 const labelStyle = {
-  display: 'block', fontSize: '11.5px', fontWeight: '600',
-  color: muted, marginBottom: '5px',
+  display: 'block',
+  fontSize: '11.5px',
+  fontWeight: '600',
+  color: muted,
+  marginBottom: '5px',
 };
 
 const TARGET_LEVELS = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0];

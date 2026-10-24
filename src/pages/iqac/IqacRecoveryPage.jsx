@@ -31,20 +31,22 @@ import { recoveryApi } from '../../api/recovery';
 
 // ── Style Tokens ─────────────────────────────────────────────────────────────
 const surfaceCard = {
-  background: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '12px',
-  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.04)',
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  boxShadow: 'var(--shadow-card)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-blur)',
 };
 
 const inputBase = {
   height: '38px',
   fontSize: '12.5px',
-  border: '1px solid #cbd5e1',
-  borderRadius: '8px',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-sm)',
   padding: '0 11px',
-  background: '#ffffff',
-  color: '#0f172a',
+  background: 'var(--surface-input)',
+  color: 'var(--text-primary)',
   outline: 'none',
   fontFamily: 'inherit',
   width: '100%',

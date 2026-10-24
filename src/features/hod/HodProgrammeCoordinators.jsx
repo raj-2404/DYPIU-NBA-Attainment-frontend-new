@@ -129,47 +129,47 @@ export default function HodProgrammeCoordinators() {
 
       {/* Summary KPI Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
-        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px 20px' }}>
+        <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', padding: '16px 20px', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', boxShadow: 'var(--shadow-card)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>Department Programmes</span>
-            <div style={{ background: '#eef2ff', color: '#4f46e5', width: '32px', height: '32px', borderRadius: '8px', display: 'grid', placeItems: 'center' }}>
+            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Department Programmes</span>
+            <div style={{ background: 'rgba(99, 102, 241, 0.12)', color: 'var(--brand-primary)', width: '32px', height: '32px', borderRadius: '8px', display: 'grid', placeItems: 'center' }}>
               <BookOpen size={16} />
             </div>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: '#0f172a' }}>{departmentProgrammes.length}</div>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: 'var(--text-primary)' }}>{departmentProgrammes.length}</div>
         </div>
 
-        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px 20px' }}>
+        <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', padding: '16px 20px', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', boxShadow: 'var(--shadow-card)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>Coordinators Assigned</span>
-            <div style={{ background: '#ecfdf5', color: '#059669', width: '32px', height: '32px', borderRadius: '8px', display: 'grid', placeItems: 'center' }}>
+            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Coordinators Assigned</span>
+            <div style={{ background: 'rgba(16, 185, 129, 0.12)', color: '#059669', width: '32px', height: '32px', borderRadius: '8px', display: 'grid', placeItems: 'center' }}>
               <UserCheck size={16} />
             </div>
           </div>
           <div style={{ fontSize: '24px', fontWeight: '900', color: '#059669' }}>{assignedCount}</div>
         </div>
 
-        <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px 20px' }}>
+        <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', padding: '16px 20px', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', boxShadow: 'var(--shadow-card)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <span style={{ fontSize: '12px', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>Pending Assignment</span>
-            <div style={{ background: unassignedCount > 0 ? '#fffbeb' : '#f1f5f9', color: unassignedCount > 0 ? '#d97706' : '#64748b', width: '32px', height: '32px', borderRadius: '8px', display: 'grid', placeItems: 'center' }}>
+            <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Pending Assignment</span>
+            <div style={{ background: unassignedCount > 0 ? 'rgba(245, 158, 11, 0.12)' : 'var(--surface-input)', color: unassignedCount > 0 ? '#d97706' : 'var(--text-muted)', width: '32px', height: '32px', borderRadius: '8px', display: 'grid', placeItems: 'center' }}>
               <Users size={16} />
             </div>
           </div>
-          <div style={{ fontSize: '24px', fontWeight: '900', color: unassignedCount > 0 ? '#d97706' : '#64748b' }}>{unassignedCount}</div>
+          <div style={{ fontSize: '24px', fontWeight: '900', color: unassignedCount > 0 ? '#d97706' : 'var(--text-muted)' }}>{unassignedCount}</div>
         </div>
       </div>
 
       {/* Main Table Container */}
-      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+      <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', overflow: 'hidden', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', boxShadow: 'var(--shadow-card)' }}>
         
         {/* Table Header Controls */}
-        <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ background: 'var(--surface-header)', borderBottom: '1px solid var(--border-subtle)', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div>
-            <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '800', color: '#0f172a' }}>
+            <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '800', color: 'var(--text-primary)' }}>
               Programme Coordinators Allocation Matrix
             </h3>
-            <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#64748b' }}>
+            <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--text-muted)' }}>
               Assign and update Programme Coordinators for all degree programmes under the department.
             </p>
           </div>
@@ -296,31 +296,33 @@ export default function HodProgrammeCoordinators() {
         >
           <div
             style={{
-              background: '#ffffff',
+              background: 'var(--surface-card)',
               borderRadius: '16px',
               width: '100%',
               maxWidth: '520px',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+              boxShadow: 'var(--shadow-xl)',
               overflow: 'hidden',
-              border: '1px solid #e2e8f0',
+              border: '1px solid var(--border-glass)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-webkit-blur)',
               animation: 'scaleIn 0.2s ease',
             }}
           >
             {/* Modal Header */}
-            <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ background: 'var(--surface-header)', borderBottom: '1px solid var(--border-subtle)', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Sparkles size={16} style={{ color: '#4f46e5' }} />
+                <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '800', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Sparkles size={16} style={{ color: 'var(--brand-primary)' }} />
                   Assign Programme Coordinator
                 </h4>
-                <p style={{ margin: '2px 0 0', fontSize: '12px', color: '#64748b' }}>
+                <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--text-muted)' }}>
                   {editingProg.code} — {editingProg.name}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setEditingProg(null)}
-                style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: '4px' }}
+                style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}
               >
                 <X size={18} />
               </button>
@@ -330,7 +332,7 @@ export default function HodProgrammeCoordinators() {
             <div style={{ padding: '20px', display: 'grid', gap: '16px' }}>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: '800', color: '#334155', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '800', color: 'var(--text-secondary)', marginBottom: '6px' }}>
                   Select Faculty Member
                 </label>
                 <select
@@ -340,13 +342,13 @@ export default function HodProgrammeCoordinators() {
                     width: '100%',
                     padding: '9px 12px',
                     borderRadius: '8px',
-                    border: '1px solid #cbd5e1',
+                    border: '1px solid var(--border-glass)',
                     fontSize: '13px',
                     fontWeight: '700',
-                    color: '#0f172a',
+                    color: 'var(--text-primary)',
                     outline: 'none',
                     fontFamily: 'inherit',
-                    background: '#ffffff',
+                    background: 'var(--surface-input)',
                   }}
                 >
                   <option value="">Select Programme Coordinator</option>
@@ -358,23 +360,23 @@ export default function HodProgrammeCoordinators() {
                 </select>
               </div>
 
-              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '12px 14px', fontSize: '12px', color: '#475569', lineHeight: '1.5' }}>
+              <div style={{ background: 'var(--surface-input)', border: '1px solid var(--border-subtle)', borderRadius: '10px', padding: '12px 14px', fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
                 💡 <strong>Note:</strong> The assigned Programme Coordinator will have administrative access to set PO/PSO targets, verify course submissions, and generate batch reports.
               </div>
 
             </div>
 
             {/* Modal Footer */}
-            <div style={{ background: '#f8fafc', borderTop: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px' }}>
+            <div style={{ background: 'var(--surface-header)', borderTop: '1px solid var(--border-subtle)', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '10px' }}>
               <button
                 type="button"
                 onClick={() => setEditingProg(null)}
                 style={{
                   padding: '8px 16px',
                   borderRadius: '8px',
-                  border: '1px solid #cbd5e1',
-                  background: '#ffffff',
-                  color: '#475569',
+                  border: '1px solid var(--border-glass)',
+                  background: 'var(--surface-card)',
+                  color: 'var(--text-secondary)',
                   fontSize: '12.5px',
                   fontWeight: '700',
                   cursor: 'pointer',

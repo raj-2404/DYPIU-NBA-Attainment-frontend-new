@@ -29,20 +29,22 @@ import { auditApi } from '../../api/audit';
 
 // ── Style Tokens ─────────────────────────────────────────────────────────────
 const surfaceCard = {
-  background: '#ffffff',
-  border: '1px solid #e2e8f0',
-  borderRadius: '12px',
-  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.04)',
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  boxShadow: 'var(--shadow-card)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-blur)',
 };
 
 const inputBase = {
   height: '38px',
   fontSize: '12.5px',
-  border: '1px solid #cbd5e1',
-  borderRadius: '8px',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-sm)',
   padding: '0 11px',
-  background: '#ffffff',
-  color: '#0f172a',
+  background: 'var(--surface-input)',
+  color: 'var(--text-primary)',
   outline: 'none',
   fontFamily: 'inherit',
   width: '100%',
@@ -614,24 +616,24 @@ export default function IqacAuditLogsPage() {
           )}
 
           {/* ── Audit Logs Table Card ──────────────────────────────── */}
-          <div style={{ ...surfaceCard, overflow: 'hidden', marginBottom: '20px' }}>
+          <div className="glass-table-container" style={{ ...surfaceCard, overflow: 'hidden', marginBottom: '20px' }}>
             <div style={{ overflowX: 'auto' }}>
-              <table className="audit-data-table" style={{ width: '100%', borderCollapse: 'collapse', margin: 0 }}>
+              <table className="glass-table audit-data-table" style={{ width: '100%', borderCollapse: 'collapse', margin: 0 }}>
                 <thead>
-                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', textAlign: 'left' }}>
-                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Timestamp</th>
-                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Actor</th>
-                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Operation</th>
-                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Target Resource</th>
-                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>State Change</th>
-                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Audited Remarks</th>
-                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: '#475569', textTransform: 'uppercase', letterSpacing: '0.04em', textAlign: 'right' }}>Actions</th>
+                  <tr style={{ background: 'var(--surface-table-header)', borderBottom: '1px solid var(--border-glass)', textAlign: 'left' }}>
+                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Timestamp</th>
+                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Actor</th>
+                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Operation</th>
+                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Target Resource</th>
+                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>State Change</th>
+                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Audited Remarks</th>
+                    <th style={{ padding: '12px 16px', fontSize: '11.5px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', textAlign: 'right' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {isLoading ? (
                     <tr>
-                      <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: '#64748b', fontSize: '13px' }}>
+                      <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px' }}>
                         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
                           <RotateCcw size={16} className="animate-spin" />
                           <span>Loading institutional audit history…</span>
@@ -641,9 +643,9 @@ export default function IqacAuditLogsPage() {
                   ) : filteredLogs.length === 0 ? (
                     <tr>
                       <td colSpan={7} style={{ padding: '48px 20px', textAlign: 'center' }}>
-                        <ShieldCheck size={36} style={{ color: '#cbd5e1', marginBottom: '10px' }} />
-                        <div style={{ fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>No audit records found</div>
-                        <div style={{ fontSize: '12.5px', color: '#64748b', marginTop: '4px' }}>
+                        <ShieldCheck size={36} style={{ color: 'var(--text-muted)', marginBottom: '10px' }} />
+                        <div style={{ fontSize: '14px', fontWeight: '800', color: 'var(--text-primary)' }}>No audit records found</div>
+                        <div style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginTop: '4px' }}>
                           Try adjusting your search terms or filter criteria.
                         </div>
                       </td>
@@ -658,15 +660,15 @@ export default function IqacAuditLogsPage() {
                         <tr
                           key={log.id}
                           style={{
-                            borderBottom: '1px solid #f1f5f9',
+                            borderBottom: '1px solid var(--border-subtle)',
                             transition: 'background 0.12s',
                           }}
-                          onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface-table-row-hover)')}
                           onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
                         >
                           {/* Timestamp */}
                           <td style={{ padding: '14px 16px', whiteSpace: 'nowrap' }}>
-                            <div style={{ fontSize: '12px', fontWeight: '700', color: '#0f172a' }}>
+                            <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-primary)' }}>
                               {formatDateTime(log.createdAt)}
                             </div>
                             {relative && (

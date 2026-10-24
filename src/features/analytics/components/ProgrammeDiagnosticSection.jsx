@@ -378,11 +378,11 @@ export default function ProgrammeDiagnosticSection({
                 style={{
                   padding: '5px 10px',
                   borderRadius: 8,
-                  border: '1px solid #cbd5e1',
-                  background: '#ffffff',
+                  border: '1px solid var(--border-subtle)',
+                  background: 'var(--surface-input)',
                   fontSize: 12,
                   fontWeight: 600,
-                  color: '#0f172a',
+                  color: 'var(--text-primary)',
                   outline: 'none',
                 }}
               >
@@ -406,9 +406,9 @@ export default function ProgrammeDiagnosticSection({
               padding: '6px 12px',
               fontSize: 12,
               fontWeight: 600,
-              color: '#475569',
-              background: '#ffffff',
-              border: '1px solid #cbd5e1',
+              color: 'var(--text-secondary)',
+              background: 'var(--surface-tertiary)',
+              border: '1px solid var(--border-subtle)',
               borderRadius: 8,
               cursor: isLoadingMain ? 'not-allowed' : 'pointer',
             }}
@@ -426,9 +426,9 @@ export default function ProgrammeDiagnosticSection({
               padding: '6px 12px',
               fontSize: 12,
               fontWeight: 600,
-              color: '#0284c7',
-              background: '#f0f9ff',
-              border: '1px solid #bae6fd',
+              color: 'var(--brand-primary)',
+              background: 'var(--brand-subtle)',
+              border: '1px solid var(--border-glass)',
               borderRadius: 8,
               cursor: 'pointer',
             }}
@@ -442,11 +442,13 @@ export default function ProgrammeDiagnosticSection({
       {/* Main Container Card */}
       <div
         style={{
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: 14,
+          background: 'var(--surface-card)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          border: '1px solid var(--border-glass)',
+          borderRadius: 'var(--radius-xl)',
           padding: 22,
-          boxShadow: '0 4px 16px rgba(15, 23, 42, 0.04)',
+          boxShadow: 'var(--shadow-card)',
         }}
       >
         {/* Main Error */}

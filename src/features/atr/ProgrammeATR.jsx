@@ -13,10 +13,17 @@ import { openReportPdf } from '../../utils/reportDownload';
 import { sortOutcomes } from '../../utils/outcomeOrder';
 
 // ── Style tokens ─────────────────────────────────────────────────────────────
-const surface    = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink        = '#0f172a';
-const muted      = '#64748b';
-const accent     = '#4f46e5';
+const surface    = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink        = 'var(--text-primary)';
+const muted      = 'var(--text-muted)';
+const accent     = 'var(--brand-primary)';
 const parseObservations = (observationsJson) => {
   if (Array.isArray(observationsJson)) return observationsJson;
   if (typeof observationsJson !== 'string' || !observationsJson.trim()) return [];

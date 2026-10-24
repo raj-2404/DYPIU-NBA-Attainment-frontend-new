@@ -12,9 +12,9 @@ import {
 const selectStyle = {
   padding: '6px 10px',
   borderRadius: 8,
-  border: '1px solid #cbd5e1',
-  background: '#ffffff',
-  color: '#0f172a',
+  border: '1px solid var(--border-subtle)',
+  background: 'var(--surface-input)',
+  color: 'var(--text-primary)',
   fontSize: 12.5,
   fontWeight: 600,
   outline: 'none',
@@ -182,10 +182,10 @@ export default function HistoricalIntelligenceSection({
             <TrendingUp size={18} color="#2563eb" />
           </div>
           <div>
-            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#0f172a' }}>
+            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>
               Historical Multi-Cohort Longitudinal Intelligence
             </h3>
-            <p style={{ margin: '2px 0 0', fontSize: 12, color: '#64748b' }}>
+            <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
               Availability-driven longitudinal outcome attainment trajectories across finalized cohorts
             </p>
           </div>
@@ -196,7 +196,7 @@ export default function HistoricalIntelligenceSection({
           {/* Programme Selector (when multiple programmes exist) */}
           {seriesList.length > 1 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>Programme:</span>
+              <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>Programme:</span>
               <select
                 value={selectedProgId || ''}
                 onChange={(e) => setSelectedProgId(e.target.value)}
@@ -338,12 +338,14 @@ export default function HistoricalIntelligenceSection({
       {!isLoading && !error && (!activeSeries || cohortCount === 0) && (
         <div
           style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: 14,
+            background: 'var(--surface-card)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-blur)',
+            border: '1px solid var(--border-glass)',
+            borderRadius: 'var(--radius-xl)',
             padding: '36px 20px',
             textAlign: 'center',
-            boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04)',
+            boxShadow: 'var(--shadow-card)',
           }}
         >
           <div
@@ -351,20 +353,20 @@ export default function HistoricalIntelligenceSection({
               width: 44,
               height: 44,
               borderRadius: '50%',
-              background: '#eff6ff',
-              border: '1px solid #bfdbfe',
+              background: 'var(--brand-subtle)',
+              border: '1px solid var(--border-glass)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 12px',
             }}
           >
-            <Calendar size={22} color="#2563eb" />
+            <Calendar size={22} color="var(--brand-primary)" />
           </div>
-          <h4 style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: '#0f172a' }}>
+          <h4 style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>
             No Historical Attainment Data Available
           </h4>
-          <p style={{ margin: 0, fontSize: 12.5, color: '#64748b', maxWidth: 480, marginInline: 'auto' }}>
+          <p style={{ margin: 0, fontSize: 12.5, color: 'var(--text-muted)', maxWidth: 480, marginInline: 'auto' }}>
             Historical intelligence will appear when finalized cohort attainment reports are available for the selected scope.
           </p>
         </div>
@@ -374,11 +376,13 @@ export default function HistoricalIntelligenceSection({
       {!isLoading && !error && activeSeries && cohortCount > 0 && (
         <div
           style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: 14,
+            background: 'var(--surface-card)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-blur)',
+            border: '1px solid var(--border-glass)',
+            borderRadius: 'var(--radius-xl)',
             padding: '20px 24px',
-            boxShadow: '0 1px 3px rgba(15, 23, 42, 0.04)',
+            boxShadow: 'var(--shadow-card)',
           }}
         >
           {/* Section Summary Banner */}

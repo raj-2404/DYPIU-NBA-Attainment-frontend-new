@@ -16,9 +16,9 @@ import {
 const selectStyle = {
   padding: '6px 10px',
   borderRadius: 8,
-  border: '1px solid #cbd5e1',
-  background: '#ffffff',
-  color: '#0f172a',
+  border: '1px solid var(--border-subtle)',
+  background: 'var(--surface-input)',
+  color: 'var(--text-primary)',
   fontSize: 12.5,
   fontWeight: 600,
   outline: 'none',
@@ -302,10 +302,10 @@ export default function AttentionAreasSection({
             <AlertTriangle size={18} color="#b45309" />
           </div>
           <div>
-            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: '#0f172a' }}>
+            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: 'var(--text-primary)' }}>
               Prioritized Attention Areas & Deficit Diagnostics
             </h3>
-            <p style={{ margin: '2px 0 0', fontSize: 12, color: '#64748b' }}>
+            <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--text-muted)' }}>
               Observed outcome target deficits requiring quality review and evidence investigation
             </p>
           </div>
@@ -315,7 +315,7 @@ export default function AttentionAreasSection({
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           {/* Outcome Type Filter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>Filter:</span>
+            <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>Filter:</span>
             <select
               value={outcomeType}
               onChange={(e) => setOutcomeType(e.target.value)}

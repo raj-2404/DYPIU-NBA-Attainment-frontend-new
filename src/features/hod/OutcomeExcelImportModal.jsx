@@ -20,9 +20,9 @@ import {
 } from 'lucide-react';
 import { useAcademic } from '../../context/AcademicContext';
 
-const ink = '#0f172a';
-const muted = '#64748b';
-const accent = '#4f46e5';
+const ink = 'var(--text-primary)';
+const muted = 'var(--text-muted)';
+const accent = 'var(--brand-primary)';
 
 export default function OutcomeExcelImportModal({
   isOpen,
@@ -261,14 +261,17 @@ export default function OutcomeExcelImportModal({
     >
       <div
         style={{
-          background: '#ffffff',
+          background: 'var(--surface-card)',
           borderRadius: '16px',
           width: '100%',
           maxWidth: '960px',
           maxHeight: '90vh',
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          boxShadow: 'var(--shadow-xl)',
+          border: '1px solid var(--border-glass)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-webkit-blur)',
           overflow: 'hidden',
           fontFamily: 'inherit',
         }}
@@ -364,7 +367,7 @@ export default function OutcomeExcelImportModal({
                     borderRadius: '10px',
                     border: '1.5px solid',
                     borderColor: importScope === 'ALL' ? accent : '#e2e8f0',
-                    background: importScope === 'ALL' ? '#eef2ff' : '#ffffff',
+                    background: importScope === 'ALL' ? 'var(--surface-header)' : 'var(--surface-card)',
                     color: importScope === 'ALL' ? accent : ink,
                     fontWeight: '700',
                     fontSize: '13px',
@@ -406,7 +409,7 @@ export default function OutcomeExcelImportModal({
                     borderRadius: '10px',
                     border: '1.5px solid',
                     borderColor: importScope === 'PO' ? accent : '#e2e8f0',
-                    background: importScope === 'PO' ? '#eef2ff' : '#ffffff',
+                    background: importScope === 'PO' ? 'var(--surface-header)' : 'var(--surface-card)',
                     color: importScope === 'PO' ? accent : ink,
                     fontWeight: '700',
                     fontSize: '13px',
@@ -448,7 +451,7 @@ export default function OutcomeExcelImportModal({
                     borderRadius: '10px',
                     border: '1.5px solid',
                     borderColor: importScope === 'PSO' ? '#0891b2' : '#e2e8f0',
-                    background: importScope === 'PSO' ? '#ecfeff' : '#ffffff',
+                    background: importScope === 'PSO' ? 'var(--surface-header)' : 'var(--surface-card)',
                     color: importScope === 'PSO' ? '#0891b2' : ink,
                     fontWeight: '700',
                     fontSize: '13px',
@@ -639,8 +642,8 @@ export default function OutcomeExcelImportModal({
                       style={{
                         height: '38px',
                         padding: '0 16px',
-                        background: '#ffffff',
-                        border: '1px solid #cbd5e1',
+                        background: 'var(--surface-input)',
+                        border: '1px solid var(--border-glass)',
                         borderRadius: '8px',
                         fontSize: '12.5px',
                         fontWeight: '700',
@@ -685,9 +688,9 @@ export default function OutcomeExcelImportModal({
                           padding: '0 14px',
                           fontSize: '12px',
                           fontWeight: '700',
-                          background: '#ffffff',
+                          background: 'var(--surface-input)',
                           color: accent,
-                          border: '1px solid #c7d2fe',
+                          border: '1px solid var(--border-glass)',
                           borderRadius: '8px',
                           cursor: isDownloadingTemplate ? 'wait' : 'pointer',
                           display: 'inline-flex',
@@ -708,10 +711,10 @@ export default function OutcomeExcelImportModal({
                             top: '100%',
                             right: 0,
                             marginTop: '4px',
-                            background: '#ffffff',
-                            border: '1px solid #e2e8f0',
+                            background: 'var(--surface-dropdown)',
+                            border: '1px solid var(--border-glass)',
                             borderRadius: '10px',
-                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                            boxShadow: 'var(--shadow-xl)',
                             zIndex: 50,
                             minWidth: '250px',
                             padding: '6px',
@@ -858,8 +861,8 @@ export default function OutcomeExcelImportModal({
                   {/* Summary Bar */}
                   <div
                     style={{
-                      background: '#ffffff',
-                      border: '1px solid #e2e8f0',
+                      background: 'var(--surface-card)',
+                      border: '1px solid var(--border-glass)',
                       borderRadius: '12px',
                       padding: '14px 18px',
                       marginBottom: '16px',
@@ -918,9 +921,9 @@ export default function OutcomeExcelImportModal({
                               fontSize: '11.5px',
                               fontWeight: '700',
                               cursor: 'pointer',
-                              background: selectedFilterTab === tabKey ? '#ffffff' : 'transparent',
+                              background: selectedFilterTab === tabKey ? 'var(--surface-card)' : 'transparent',
                               color: selectedFilterTab === tabKey ? accent : muted,
-                              boxShadow: selectedFilterTab === tabKey ? '0 1px 3px rgba(0,0,0,0.06)' : 'none',
+                              boxShadow: selectedFilterTab === tabKey ? 'var(--shadow-sm)' : 'none',
                             }}
                           >
                             {label}
@@ -983,7 +986,7 @@ export default function OutcomeExcelImportModal({
                           style={{
                             padding: '14px 18px',
                             borderBottom: '1px solid #f1f5f9',
-                            background: isPSO ? '#fcfaff' : '#ffffff',
+                            background: isPSO ? 'rgba(8, 145, 178, 0.04)' : 'var(--surface-card)',
                             transition: 'background 0.15s ease',
                           }}
                         >
@@ -1121,7 +1124,7 @@ export default function OutcomeExcelImportModal({
                                 borderRadius: '6px',
                                 outline: 'none',
                                 resize: 'vertical',
-                                background: '#ffffff',
+                                background: 'var(--surface-input)',
                                 fontFamily: 'inherit',
                                 lineHeight: '1.4',
                               }}
@@ -1219,9 +1222,9 @@ export default function OutcomeExcelImportModal({
                   padding: '0 16px',
                   fontSize: '12.5px',
                   fontWeight: '700',
-                  background: '#ffffff',
+                  background: 'var(--surface-card)',
                   color: muted,
-                  border: '1px solid #cbd5e1',
+                  border: '1px solid var(--border-glass)',
                   borderRadius: '8px',
                   cursor: isImporting ? 'not-allowed' : 'pointer',
                 }}

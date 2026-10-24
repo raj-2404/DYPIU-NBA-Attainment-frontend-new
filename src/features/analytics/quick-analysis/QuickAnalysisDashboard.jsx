@@ -763,13 +763,15 @@ export default function QuickAnalysisDashboard() {
       <div
         className="no-print"
         style={{
-          background: '#ffffff',
-          borderBottom: '1px solid #e2e8f0',
+          background: 'var(--surface-header)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          borderBottom: '1px solid var(--border-glass)',
           position: 'sticky',
           top: 0,
           zIndex: 40,
           padding: '10px 24px',
-          boxShadow: '0 1px 3px rgba(15, 23, 42, 0.05)',
+          boxShadow: 'var(--shadow-header)',
         }}
       >
         <div
@@ -793,9 +795,9 @@ export default function QuickAnalysisDashboard() {
                 gap: 6,
                 padding: '6px 12px',
                 borderRadius: 8,
-                background: '#f1f5f9',
-                border: '1px solid #cbd5e1',
-                color: '#334155',
+                background: 'var(--surface-tertiary)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--text-secondary)',
                 fontSize: 12,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -804,8 +806,8 @@ export default function QuickAnalysisDashboard() {
               <ArrowLeft size={14} />
               <span>Back</span>
             </button>
-            <span style={{ fontSize: 13, fontWeight: 800, color: '#0f172a', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Sparkles size={15} color="#0284c7" />
+            <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Sparkles size={15} color="var(--brand-primary)" />
               <span>OBE Quick Analysis Infographic</span>
             </span>
           </div>
@@ -821,9 +823,9 @@ export default function QuickAnalysisDashboard() {
                 gap: 6,
                 padding: '6px 12px',
                 borderRadius: 8,
-                background: '#ffffff',
-                border: '1px solid #cbd5e1',
-                color: '#1e293b',
+                background: 'var(--surface-card)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--text-primary)',
                 fontSize: 12,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -842,9 +844,9 @@ export default function QuickAnalysisDashboard() {
                 gap: 6,
                 padding: '6px 12px',
                 borderRadius: 8,
-                background: '#ffffff',
-                border: '1px solid #cbd5e1',
-                color: '#1e293b',
+                background: 'var(--surface-card)',
+                border: '1px solid var(--border-subtle)',
+                color: 'var(--text-primary)',
                 fontSize: 12,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -882,10 +884,10 @@ export default function QuickAnalysisDashboard() {
       <div
         className="no-print"
         style={{
-          background: '#ffffff',
-          borderBottom: '1px solid #e2e8f0',
+          background: 'var(--surface-card)',
+          borderBottom: '1px solid var(--border-glass)',
           padding: '12px 24px',
-          boxShadow: '0 2px 4px rgba(15, 23, 42, 0.03)',
+          boxShadow: 'var(--shadow-card)',
         }}
       >
         <div
@@ -910,11 +912,11 @@ export default function QuickAnalysisDashboard() {
                   gap: 6,
                   fontSize: 12,
                   fontWeight: 800,
-                  color: '#0f2b5c',
+                  color: 'var(--text-primary)',
                   whiteSpace: 'nowrap',
                 }}
               >
-                <BookOpen size={15} color="#0284c7" />
+                <BookOpen size={15} color="var(--brand-primary)" />
                 <span>Programme:</span>
               </label>
               <div style={{ position: 'relative', flex: 1 }}>
@@ -926,9 +928,9 @@ export default function QuickAnalysisDashboard() {
                     width: '100%',
                     padding: '8px 32px 8px 12px',
                     borderRadius: 8,
-                    border: '1px solid #cbd5e1',
-                    background: '#f8fafc',
-                    color: '#0f172a',
+                    border: '1px solid var(--border-subtle)',
+                    background: 'var(--surface-input)',
+                    color: 'var(--text-primary)',
                     fontSize: 12.5,
                     fontWeight: 700,
                     outline: 'none',
@@ -946,7 +948,7 @@ export default function QuickAnalysisDashboard() {
                 </select>
                 <ChevronDown
                   size={15}
-                  color="#64748b"
+                  color="var(--text-muted)"
                   style={{
                     position: 'absolute',
                     right: 10,
@@ -967,11 +969,11 @@ export default function QuickAnalysisDashboard() {
                   gap: 6,
                   fontSize: 12,
                   fontWeight: 800,
-                  color: '#0f2b5c',
+                  color: 'var(--text-primary)',
                   whiteSpace: 'nowrap',
                 }}
               >
-                <Calendar size={15} color="#0284c7" />
+                <Calendar size={15} color="var(--brand-primary)" />
                 <span>Batch:</span>
               </label>
               <div style={{ position: 'relative', flex: 1 }}>
@@ -983,9 +985,9 @@ export default function QuickAnalysisDashboard() {
                     width: '100%',
                     padding: '8px 32px 8px 12px',
                     borderRadius: 8,
-                    border: '1px solid #cbd5e1',
-                    background: '#f8fafc',
-                    color: '#0f172a',
+                    border: '1px solid var(--border-subtle)',
+                    background: 'var(--surface-input)',
+                    color: 'var(--text-primary)',
                     fontSize: 12.5,
                     fontWeight: 700,
                     outline: 'none',
@@ -1003,7 +1005,7 @@ export default function QuickAnalysisDashboard() {
                 </select>
                 <ChevronDown
                   size={15}
-                  color="#64748b"
+                  color="var(--text-muted)"
                   style={{
                     position: 'absolute',
                     right: 10,

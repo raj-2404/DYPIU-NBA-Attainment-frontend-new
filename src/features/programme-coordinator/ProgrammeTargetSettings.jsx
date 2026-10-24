@@ -10,19 +10,26 @@ export default function ProgrammeTargetSettings() {
 }
 
 // ── Style tokens ─────────────────────────────────────────────────────────────
-const surface    = { background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px' };
-const ink        = '#0f172a';
-const muted      = '#64748b';
-const accent     = '#4f46e5';
+const surface = {
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-glass)',
+  borderRadius: 'var(--radius-xl)',
+  backdropFilter: 'var(--glass-blur)',
+  WebkitBackdropFilter: 'var(--glass-webkit-blur)',
+  boxShadow: 'var(--shadow-card)',
+};
+const ink        = 'var(--text-primary)';
+const muted      = 'var(--text-muted)';
+const accent     = 'var(--brand-primary)';
 const inputStyle = {
-  height: '40px', fontSize: '13px', border: '1px solid #e2e8f0',
-  borderRadius: '8px', padding: '0 12px', background: '#ffffff',
+  height: '40px', fontSize: '13px', border: '1px solid var(--border-glass)',
+  borderRadius: '8px', padding: '0 12px', background: 'var(--surface-input)',
   color: ink, width: '100%', outline: 'none', fontFamily: 'inherit',
 };
 
 const TARGET_INPUT = {
   type: 'number', min: 0, max: 3, step: 0.1,
-  style: { height: '36px', width: '90px', fontSize: '13.5px', fontWeight: '700', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '0 10px', outline: 'none', fontFamily: 'inherit', textAlign: 'center', color: accent, background: '#ffffff' },
+  style: { height: '36px', width: '90px', fontSize: '13.5px', fontWeight: '700', border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '0 10px', outline: 'none', fontFamily: 'inherit', textAlign: 'center', color: accent, background: 'var(--surface-input)' },
 };
 
 function LegacyProgrammeTargetSettings() {
@@ -131,7 +138,7 @@ function LegacyProgrammeTargetSettings() {
             <select
               value={programmeId}
               onChange={(e) => handleProgrammeChange(e.target.value)}
-              style={{ height: '38px', paddingLeft: '12px', paddingRight: '32px', fontSize: '12.5px', fontWeight: '600', border: '1.5px solid #cbd5e1', borderRadius: '8px', background: '#ffffff', color: accent, cursor: 'pointer', outline: 'none', fontFamily: 'inherit', appearance: 'none', maxWidth: '300px' }}
+              style={{ height: '38px', paddingLeft: '12px', paddingRight: '32px', fontSize: '12.5px', fontWeight: '600', border: '1.5px solid var(--border-glass)', borderRadius: '8px', background: 'var(--surface-input)', color: accent, cursor: 'pointer', outline: 'none', fontFamily: 'inherit', appearance: 'none', maxWidth: '300px' }}
             >
               {masterProgrammes.map((p) => <option key={p.id} value={p.id}>{p.code} — {p.name}</option>)}
             </select>
@@ -242,7 +249,7 @@ function LegacyProgrammeTargetSettings() {
                         style={{
                           ...TARGET_INPUT.style,
                           color: accent,
-                          background: isTargetsApproved ? '#f8fafc' : '#ffffff',
+                          background: isTargetsApproved ? 'var(--surface-input)' : 'var(--surface-card)',
                           cursor: isTargetsApproved ? 'not-allowed' : 'text',
                         }}
                         value={poTargetDraft[po.code] ?? 2.0}
@@ -296,7 +303,7 @@ function LegacyProgrammeTargetSettings() {
                         style={{
                           ...TARGET_INPUT.style,
                           color: '#059669',
-                          background: isTargetsApproved ? '#f8fafc' : '#ffffff',
+                          background: isTargetsApproved ? 'var(--surface-input)' : 'var(--surface-card)',
                           cursor: isTargetsApproved ? 'not-allowed' : 'text',
                         }}
                         value={psoTargetDraft[pso.code] ?? 2.0}

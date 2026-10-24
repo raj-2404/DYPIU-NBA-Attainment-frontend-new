@@ -4,10 +4,10 @@ import { Landmark, GraduationCap, Calendar, RotateCcw } from 'lucide-react';
 const selectStyle = {
   width: '100%',
   padding: '8px 12px',
-  borderRadius: 8,
-  border: '1px solid #cbd5e1',
-  background: '#ffffff',
-  color: '#0f172a',
+  borderRadius: 10,
+  border: '1px solid var(--input-border)',
+  background: 'var(--input-bg)',
+  color: 'var(--text-primary)',
   fontSize: 13,
   fontWeight: 600,
   outline: 'none',
@@ -19,8 +19,8 @@ const labelStyle = {
   alignItems: 'center',
   gap: 6,
   fontSize: 11,
-  fontWeight: 700,
-  color: '#475569',
+  fontWeight: 800,
+  color: 'var(--text-muted)',
   textTransform: 'uppercase',
   letterSpacing: '0.04em',
   marginBottom: 6,
@@ -50,12 +50,14 @@ export default function AnalyticsSelectors({
   return (
     <div
       style={{
-        background: '#ffffff',
-        border: '1px solid #e2e8f0',
-        borderRadius: 12,
+        background: 'var(--surface-card)',
+        backdropFilter: 'var(--glass-blur)',
+        WebkitBackdropFilter: 'var(--glass-blur)',
+        border: '1px solid var(--border-glass)',
+        borderRadius: 'var(--radius-xl)',
         padding: '16px 20px',
         marginBottom: 24,
-        boxShadow: '0 2px 8px rgba(15, 23, 42, 0.03)',
+        boxShadow: 'var(--shadow-card)',
       }}
     >
       <div
@@ -70,7 +72,7 @@ export default function AnalyticsSelectors({
           style={{
             fontSize: 12,
             fontWeight: 800,
-            color: '#0f172a',
+            color: 'var(--text-primary)',
             textTransform: 'uppercase',
             letterSpacing: '0.04em',
           }}
@@ -86,14 +88,15 @@ export default function AnalyticsSelectors({
               display: 'inline-flex',
               alignItems: 'center',
               gap: 5,
-              background: '#f1f5f9',
-              border: '1px solid #cbd5e1',
-              borderRadius: 6,
+              background: 'var(--surface-tertiary)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-sm)',
               padding: '4px 10px',
               fontSize: 12,
               fontWeight: 700,
-              color: '#334155',
+              color: 'var(--text-secondary)',
               cursor: 'pointer',
+              transition: 'all 0.15s ease',
             }}
           >
             <RotateCcw size={12} />
@@ -148,7 +151,7 @@ export default function AnalyticsSelectors({
             disabled={isProgrammeDisabled}
             style={{
               ...selectStyle,
-              background: isProgrammeDisabled ? '#f8fafc' : '#ffffff',
+              background: isProgrammeDisabled ? 'var(--surface-secondary)' : 'var(--surface-input)',
               cursor: isProgrammeDisabled ? 'not-allowed' : 'pointer',
             }}
           >
@@ -175,7 +178,7 @@ export default function AnalyticsSelectors({
             disabled={!selectedMasterProgrammeId || isLoadingBatches}
             style={{
               ...selectStyle,
-              background: !selectedMasterProgrammeId ? '#f8fafc' : '#ffffff',
+              background: !selectedMasterProgrammeId ? 'var(--surface-secondary)' : 'var(--surface-input)',
               cursor: !selectedMasterProgrammeId ? 'not-allowed' : 'pointer',
             }}
           >

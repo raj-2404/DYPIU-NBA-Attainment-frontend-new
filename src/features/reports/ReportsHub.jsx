@@ -1046,23 +1046,25 @@ export default function ReportsHub() {
       <div
         className="print:hidden"
         style={{
-          background: '#ffffff',
-          border: '1px solid #e2e8f0',
-          borderRadius: '14px',
+          background: 'var(--surface-card)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          border: '1px solid var(--border-glass)',
+          borderRadius: 'var(--radius-xl)',
           padding: '20px 24px',
           marginBottom: '20px',
-          boxShadow: '0 4px 20px rgba(15, 23, 42, 0.05)',
+          boxShadow: 'var(--shadow-card)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '18px' }}>
           <div>
-            <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#4f46e5', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '4px' }}>
+            <div style={{ fontSize: '10.5px', fontWeight: '800', color: 'var(--brand-primary)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '4px' }}>
               Academic Governance &nbsp;·&nbsp; Consolidated Reports
             </div>
-            <h2 style={{ margin: 0, fontSize: '22px', color: '#0f172a', fontWeight: '800', letterSpacing: '-0.01em' }}>
+            <h2 style={{ margin: 0, fontSize: '22px', color: 'var(--text-primary)', fontWeight: '800', letterSpacing: '-0.01em' }}>
               Reports Hub
             </h2>
-            <p style={{ margin: '3px 0 0', fontSize: '13px', color: '#64748b' }}>
+            <p style={{ margin: '3px 0 0', fontSize: '13px', color: 'var(--text-muted)' }}>
               Unified attainment and Action Taken Reports (ATR) for OBE NBA auditing.
             </p>
           </div>
@@ -1076,7 +1078,7 @@ export default function ReportsHub() {
                 if (offering) selectCourseOffering(offering);
               }}
               disabled={!batchId || assignedOfferings.length === 0}
-              style={{ height: '38px', width: '220px', padding: '0 8px', border: '1.5px solid #cbd5e1', borderRadius: '8px', color: '#4f46e5', background: '#ffffff', fontSize: '12.5px', fontWeight: 700, fontFamily: 'inherit' }}
+              style={{ height: '38px', width: '220px', padding: '0 8px', border: '1.5px solid var(--border-subtle)', borderRadius: '8px', color: 'var(--brand-primary)', background: 'var(--surface-input)', fontSize: '12.5px', fontWeight: 700, fontFamily: 'inherit' }}
             >
               {assignedOfferings.length === 0 ? <option value="">No assigned courses</option> : assignedOfferings.map((offering) => <option key={offering.id} value={offering.id}>{offering.courseCode ?? offering.code ?? 'Course'} — {offering.courseName ?? offering.name ?? 'Programme-Batch Course'} · Sem {offering.semester ?? '—'}</option>)}
             </select>}
@@ -1178,9 +1180,9 @@ export default function ReportsHub() {
                 padding: '0 16px',
                 fontSize: '12.5px',
                 fontWeight: '700',
-                background: '#ffffff',
-                color: '#0f172a',
-                border: '1px solid #cbd5e1',
+                background: 'var(--surface-card)',
+                color: 'var(--text-primary)',
+                border: '1px solid var(--border-subtle)',
                 borderRadius: '8px',
                 cursor: 'pointer',
                 display: 'inline-flex',
@@ -1196,12 +1198,12 @@ export default function ReportsHub() {
         {officialReportError && <p style={{ margin: '0 0 12px', color: '#b91c1c', fontSize: '12px', fontWeight: 700 }}>{officialReportError}</p>}
 
         {/* Dynamic Filters Row */}
-        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '14px', paddingTop: '14px', borderTop: '1px solid #f1f5f9' }}>
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '14px', paddingTop: '14px', borderTop: '1px solid var(--border-subtle)' }}>
           
           {/* 0. SCHOOL SELECTOR (For IQAC Role) */}
           {isIqac && (
             <div style={{ minWidth: '240px', flex: '1 1 240px', order: 0 }}>
-              <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '4px' }}>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
                 School
               </label>
               <div style={{ position: 'relative' }}>
@@ -1218,9 +1220,9 @@ export default function ReportsHub() {
                     width: '100%',
                     fontSize: '12.5px',
                     fontWeight: '700',
-                    color: '#0f172a',
-                    background: '#ffffff',
-                    border: '1.5px solid #cbd5e1',
+                    color: 'var(--text-primary)',
+                    background: 'var(--surface-input)',
+                    border: '1.5px solid var(--border-subtle)',
                     borderRadius: '8px',
                     padding: '0 30px 0 12px',
                     appearance: 'none',
@@ -1234,7 +1236,7 @@ export default function ReportsHub() {
                     <option key={s.id || s.schoolId} value={s.id || s.schoolId}>{s.name} {s.code ? `(${s.code})` : ''}</option>
                   ))}
                 </select>
-                <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+                <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
               </div>
             </div>
           )}
@@ -1242,7 +1244,7 @@ export default function ReportsHub() {
           {/* 1. PROGRAMME SELECTOR (For Programme Coordinator, HOD, Director, IQAC) */}
           {!isCourseCoordinator && !isProgrammeCoordinator && (
             <div style={{ minWidth: '240px', flex: '1 1 240px', order: isHod || isDirector || isIqac ? 1 : undefined }}>
-              <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '4px' }}>
+              <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
                 {isHod || isDirector || isIqac ? 'Programme' : 'School Programme'}
               </label>
               <div style={{ position: 'relative' }}>
@@ -1263,9 +1265,9 @@ export default function ReportsHub() {
                     width: '100%',
                     fontSize: '12.5px',
                     fontWeight: '700',
-                    color: '#0f172a',
-                    background: '#ffffff',
-                    border: '1.5px solid #cbd5e1',
+                    color: 'var(--text-primary)',
+                    background: 'var(--surface-input)',
+                    border: '1.5px solid var(--border-subtle)',
                     borderRadius: '8px',
                     padding: '0 30px 0 12px',
                     appearance: 'none',
@@ -1279,14 +1281,14 @@ export default function ReportsHub() {
                     <option key={p.id} value={p.id}>{p.code} — {p.name}</option>
                   ))}
                 </select>
-                <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+                <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
               </div>
             </div>
           )}
 
           {/* 2. COURSE SELECTOR (For All Roles) */}
           {!isCourseCoordinator && <div style={{ minWidth: '260px', flex: '1 1 260px', order: isProgrammeCoordinator ? 2 : isHod || isDirector || isIqac ? 3 : undefined }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '4px' }}>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
               {isProgrammeCoordinator || isHod || isDirector || isIqac ? 'Course' : `Select Course (under ${currentProgramme.code})`}
             </label>
             <div style={{ position: 'relative' }}>
@@ -1306,9 +1308,9 @@ export default function ReportsHub() {
                   width: '100%',
                   fontSize: '12.5px',
                   fontWeight: '700',
-                  color: '#4f46e5',
-                  background: '#ffffff',
-                  border: '1.5px solid #cbd5e1',
+                  color: 'var(--brand-primary)',
+                  background: 'var(--surface-input)',
+                  border: '1.5px solid var(--border-subtle)',
                   borderRadius: '8px',
                   padding: '0 30px 0 12px',
                   appearance: 'none',
@@ -1335,13 +1337,13 @@ export default function ReportsHub() {
                   </>
                 )}
               </select>
-              <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+              <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
             </div>
           </div>}
 
           {/* 3. ACADEMIC BATCH SELECTOR (For All Roles) */}
           {!isCourseCoordinator && <div style={{ minWidth: '240px', flex: '1 1 240px', order: isProgrammeCoordinator ? 1 : isHod || isDirector || isIqac ? 2 : undefined }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '4px' }}>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>
               {isProgrammeCoordinator || isHod || isDirector || isIqac ? 'Batch' : 'Academic Batch'}
             </label>
             <div style={{ position: 'relative' }}>
@@ -1356,9 +1358,9 @@ export default function ReportsHub() {
                   width: '100%',
                   fontSize: '12.5px',
                   fontWeight: '700',
-                  color: '#0f172a',
-                  background: '#ffffff',
-                  border: '1.5px solid #cbd5e1',
+                  color: 'var(--text-primary)',
+                  background: 'var(--surface-input)',
+                  border: '1.5px solid var(--border-subtle)',
                   borderRadius: '8px',
                   padding: '0 28px 0 12px',
                   appearance: 'none',
@@ -1372,7 +1374,7 @@ export default function ReportsHub() {
                   <option key={b.id} value={b.id}>{b.name}</option>
                 ))}
               </select>
-              <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: '#64748b', pointerEvents: 'none' }} />
+              <ChevronDown size={14} style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
             </div>
           </div>}
         </div>
@@ -1383,10 +1385,11 @@ export default function ReportsHub() {
         className="print:hidden"
         style={{
           display: 'flex',
-          gap: '10px',
-          background: '#f1f5f9',
-          padding: '6px',
-          borderRadius: '12px',
+          gap: '8px',
+          background: 'var(--surface-tertiary)',
+          border: '1px solid var(--border-glass)',
+          padding: '5px',
+          borderRadius: 'var(--radius-lg)',
           marginBottom: '20px',
           width: 'fit-content',
         }}
@@ -1395,15 +1398,15 @@ export default function ReportsHub() {
           type="button"
           onClick={() => setActiveMainTab('attainment-reports')}
           style={{
-            padding: '10px 24px',
-            borderRadius: '9px',
-            border: 'none',
+            padding: '9px 20px',
+            borderRadius: 'var(--radius-md)',
+            border: activeMainTab === 'attainment-reports' ? '1px solid var(--border-subtle)' : '1px solid transparent',
             fontSize: '13.5px',
             fontWeight: '800',
             cursor: 'pointer',
-            background: activeMainTab === 'attainment-reports' ? '#ffffff' : 'transparent',
-            color: activeMainTab === 'attainment-reports' ? '#4f46e5' : '#64748b',
-            boxShadow: activeMainTab === 'attainment-reports' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
+            background: activeMainTab === 'attainment-reports' ? 'var(--surface-card)' : 'transparent',
+            color: activeMainTab === 'attainment-reports' ? 'var(--brand-primary)' : 'var(--text-muted)',
+            boxShadow: activeMainTab === 'attainment-reports' ? 'var(--shadow-card)' : 'none',
             fontFamily: 'inherit',
             display: 'inline-flex',
             alignItems: 'center',
@@ -1418,15 +1421,15 @@ export default function ReportsHub() {
           type="button"
           onClick={() => setActiveMainTab('atr-reports')}
           style={{
-            padding: '10px 24px',
-            borderRadius: '9px',
-            border: 'none',
+            padding: '9px 20px',
+            borderRadius: 'var(--radius-md)',
+            border: activeMainTab === 'atr-reports' ? '1px solid var(--border-subtle)' : '1px solid transparent',
             fontSize: '13.5px',
             fontWeight: '800',
             cursor: 'pointer',
-            background: activeMainTab === 'atr-reports' ? '#ffffff' : 'transparent',
-            color: activeMainTab === 'atr-reports' ? '#4f46e5' : '#64748b',
-            boxShadow: activeMainTab === 'atr-reports' ? '0 2px 6px rgba(0,0,0,0.08)' : 'none',
+            background: activeMainTab === 'atr-reports' ? 'var(--surface-card)' : 'transparent',
+            color: activeMainTab === 'atr-reports' ? 'var(--brand-primary)' : 'var(--text-muted)',
+            boxShadow: activeMainTab === 'atr-reports' ? 'var(--shadow-card)' : 'none',
             fontFamily: 'inherit',
             display: 'inline-flex',
             alignItems: 'center',
@@ -1488,7 +1491,7 @@ export default function ReportsHub() {
                 <span>{new Date(authRecord.authenticatedAt).toLocaleString()}</span>
               </div>
               {authRecord.remarks && (
-                <div style={{ fontSize: '12px', color: '#475569', marginTop: '4px', fontStyle: 'italic', background: '#ffffff', padding: '4px 10px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px', fontStyle: 'italic', background: 'var(--surface-input)', padding: '4px 10px', borderRadius: '6px', border: '1px solid var(--border-glass)' }}>
                   “{authRecord.remarks}”
                 </div>
               )}
@@ -1507,7 +1510,7 @@ export default function ReportsHub() {
                 fontSize: '12px',
                 fontWeight: '700',
                 color: '#047857',
-                background: '#ffffff',
+                background: 'var(--surface-card)',
                 border: '1px solid #a7f3d0',
                 padding: '6px 14px',
                 borderRadius: '7px',
@@ -1535,10 +1538,13 @@ export default function ReportsHub() {
               style={{
                 display: 'flex',
                 gap: '8px',
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
+                background: 'var(--surface-card)',
+                backdropFilter: 'var(--glass-blur)',
+                WebkitBackdropFilter: 'var(--glass-blur)',
+                border: '1px solid var(--border-glass)',
                 padding: '6px',
-                borderRadius: '10px',
+                borderRadius: 'var(--radius-lg)',
+                boxShadow: 'var(--shadow-card)',
                 width: 'fit-content',
               }}
             >
@@ -1547,17 +1553,18 @@ export default function ReportsHub() {
                 onClick={() => setAttainmentViewMode('course-attainment')}
                 style={{
                   padding: '8px 18px',
-                  borderRadius: '7px',
-                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  border: attainmentViewMode === 'course-attainment' ? '1px solid var(--border-subtle)' : '1px solid transparent',
                   fontSize: '12.5px',
                   fontWeight: '700',
                   cursor: 'pointer',
-                  background: attainmentViewMode === 'course-attainment' ? '#eef2ff' : 'transparent',
-                  color: attainmentViewMode === 'course-attainment' ? '#4f46e5' : '#64748b',
+                  background: attainmentViewMode === 'course-attainment' ? 'var(--brand-subtle)' : 'transparent',
+                  color: attainmentViewMode === 'course-attainment' ? 'var(--brand-primary)' : 'var(--text-muted)',
                   fontFamily: 'inherit',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 <Calendar size={14} /> Course Attainment
@@ -1568,17 +1575,18 @@ export default function ReportsHub() {
                 onClick={() => setAttainmentViewMode('programme-attainment')}
                 style={{
                   padding: '8px 18px',
-                  borderRadius: '7px',
-                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  border: attainmentViewMode === 'programme-attainment' ? '1px solid var(--border-subtle)' : '1px solid transparent',
                   fontSize: '12.5px',
                   fontWeight: '700',
                   cursor: 'pointer',
-                  background: attainmentViewMode === 'programme-attainment' ? '#eef2ff' : 'transparent',
-                  color: attainmentViewMode === 'programme-attainment' ? '#4f46e5' : '#64748b',
+                  background: attainmentViewMode === 'programme-attainment' ? 'var(--brand-subtle)' : 'transparent',
+                  color: attainmentViewMode === 'programme-attainment' ? 'var(--brand-primary)' : 'var(--text-muted)',
                   fontFamily: 'inherit',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 <Layers size={14} /> Programme Attainment
@@ -1598,7 +1606,7 @@ export default function ReportsHub() {
             <div style={{ display: 'grid', gap: '20px' }}>
               
               {/* Header Info Bar */}
-              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+              <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
                   <h3 style={{ margin: 0, fontSize: '16px', color: '#0f172a', fontWeight: '800' }}>
                     Course Attainment Report — {currentBatchName}
@@ -1613,7 +1621,7 @@ export default function ReportsHub() {
               </div>
 
               {/* TABLE 1: CO to PO/PSO Mapping & Attainment Matrix */}
-              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+              <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                 <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
                     1. Table 1: Combined Mapping of CO to PO / PSO
@@ -1673,7 +1681,7 @@ export default function ReportsHub() {
               </div>
 
               {/* TABLE 2: PO Attainment Values */}
-              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+              <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                 <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
                     2. Table 2: PO & PSO Attainment Values (Direct Attainment)
@@ -1718,7 +1726,7 @@ export default function ReportsHub() {
               </div>
 
               {/* TABLE 3: CO Attainment (Direct + Indirect) */}
-              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+              <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                 <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
                     3. Table 3: CO Attainment Breakdown (Direct + Indirect)
@@ -1775,7 +1783,7 @@ export default function ReportsHub() {
             <div style={{ display: 'grid', gap: '20px' }}>
               
               {/* Batch Report Type Selector Pills */}
-              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px 20px', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+              <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', padding: '16px 20px', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                 <label style={{ display: 'block', fontSize: '11.5px', fontWeight: '800', color: '#64748b', textTransform: 'uppercase', marginBottom: '10px' }}>
                   Select Type of Batch Report ({currentBatchName})
                 </label>
@@ -1812,7 +1820,7 @@ export default function ReportsHub() {
 
               {/* 1. AVERAGE MAPPING */}
               {batchReportType === 'average-mapping' && (
-                <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+                <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                   <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                     <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
                       Average Mapping Strength — {currentBatchName} (All Semesters)
@@ -1860,7 +1868,7 @@ export default function ReportsHub() {
 
               {/* 2. AVERAGE ATTAINMENT DIRECT */}
               {batchReportType === 'average-attainment-direct' && (
-                <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+                <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                   <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                     <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
                       Average Attainment (Direct) — {currentBatchName} (All Semesters)
@@ -1908,7 +1916,7 @@ export default function ReportsHub() {
 
               {/* 3. AVERAGE ATTAINMENT INDIRECT */}
               {batchReportType === 'average-attainment-indirect' && (
-                <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+                <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                   <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                     <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
                       Indirect Attainment Table — {currentBatchName}
@@ -2040,7 +2048,7 @@ export default function ReportsHub() {
 
               {/* 4. OVERALL ATTAINMENT */}
               {batchReportType === 'overall-attainment' && (
-                <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
+                <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-glass)', borderRadius: 'var(--radius-xl)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-webkit-blur)', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.02)' }}>
                   <div style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '14px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                     <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '800', color: '#0f172a' }}>
                       Overall Attainment — {currentBatchName}
@@ -2135,10 +2143,13 @@ export default function ReportsHub() {
               style={{
                 display: 'flex',
                 gap: '8px',
-                background: '#ffffff',
-                border: '1px solid #e2e8f0',
+                background: 'var(--surface-card)',
+                backdropFilter: 'var(--glass-blur)',
+                WebkitBackdropFilter: 'var(--glass-blur)',
+                border: '1px solid var(--border-glass)',
                 padding: '6px',
-                borderRadius: '10px',
+                borderRadius: 'var(--radius-lg)',
+                boxShadow: 'var(--shadow-card)',
                 width: 'fit-content',
               }}
             >
@@ -2147,17 +2158,18 @@ export default function ReportsHub() {
                 onClick={() => setAtrSubTab('course-atr')}
                 style={{
                   padding: '8px 18px',
-                  borderRadius: '7px',
-                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  border: atrSubTab === 'course-atr' ? '1px solid var(--border-subtle)' : '1px solid transparent',
                   fontSize: '12.5px',
                   fontWeight: '700',
                   cursor: 'pointer',
-                  background: atrSubTab === 'course-atr' ? '#eef2ff' : 'transparent',
-                  color: atrSubTab === 'course-atr' ? '#4f46e5' : '#64748b',
+                  background: atrSubTab === 'course-atr' ? 'var(--brand-subtle)' : 'transparent',
+                  color: atrSubTab === 'course-atr' ? 'var(--brand-primary)' : 'var(--text-muted)',
                   fontFamily: 'inherit',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 <FileText size={14} /> 1. Course ATR
@@ -2168,17 +2180,18 @@ export default function ReportsHub() {
                 onClick={() => setAtrSubTab('programme-atr')}
                 style={{
                   padding: '8px 18px',
-                  borderRadius: '7px',
-                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  border: atrSubTab === 'programme-atr' ? '1px solid var(--border-subtle)' : '1px solid transparent',
                   fontSize: '12.5px',
                   fontWeight: '700',
                   cursor: 'pointer',
-                  background: atrSubTab === 'programme-atr' ? '#eef2ff' : 'transparent',
-                  color: atrSubTab === 'programme-atr' ? '#4f46e5' : '#64748b',
+                  background: atrSubTab === 'programme-atr' ? 'var(--brand-subtle)' : 'transparent',
+                  color: atrSubTab === 'programme-atr' ? 'var(--brand-primary)' : 'var(--text-muted)',
                   fontFamily: 'inherit',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 <Layers size={14} /> 2. Programme ATR
@@ -2246,10 +2259,12 @@ export default function ReportsHub() {
               width: 'min(100%, 620px)',
               maxHeight: '90vh',
               overflowY: 'auto',
-              background: '#ffffff',
+              background: 'var(--surface-card)',
               borderRadius: '16px',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-              border: '1px solid #e2e8f0',
+              boxShadow: 'var(--shadow-xl)',
+              border: '1px solid var(--border-glass)',
+              backdropFilter: 'var(--glass-blur)',
+              WebkitBackdropFilter: 'var(--glass-webkit-blur)',
               padding: '24px 28px',
             }}
           >
@@ -2496,9 +2511,9 @@ export default function ReportsHub() {
                     style={{
                       padding: '9px 18px',
                       borderRadius: '8px',
-                      border: '1px solid #cbd5e1',
-                      background: '#ffffff',
-                      color: '#475569',
+                      border: '1px solid var(--border-glass)',
+                      background: 'var(--surface-card)',
+                      color: 'var(--text-secondary)',
                       fontSize: '13px',
                       fontWeight: '700',
                       cursor: 'pointer',
@@ -2603,9 +2618,9 @@ export default function ReportsHub() {
                     style={{
                       padding: '9px 18px',
                       borderRadius: '8px',
-                      border: '1px solid #cbd5e1',
-                      background: '#ffffff',
-                      color: '#475569',
+                      border: '1px solid var(--border-glass)',
+                      background: 'var(--surface-card)',
+                      color: 'var(--text-secondary)',
                       fontSize: '13px',
                       fontWeight: '700',
                       cursor: 'pointer',
